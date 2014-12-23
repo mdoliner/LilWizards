@@ -50,6 +50,10 @@
     return this;
   };
 
+  Coord.prototype.dup = function () {
+    return new Coord([this.x, this.y]);
+  }
+
   Coord.prototype.toCoord = function () {
     return this;
   };
