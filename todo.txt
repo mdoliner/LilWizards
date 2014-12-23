@@ -1,0 +1,4 @@
+Autosizing Canvas
+read: http://www.html5rocks.com/en/tutorials/casestudies/gopherwoord-studios-resizing-html5-games/
+
+-sprite refactoring
