@@ -13,25 +13,25 @@
       this.checkKeys();
       this.game.step();
       this.game.draw(this.ctx);
-    }.bind(this), 1000/60);
+    }.bind(this), 1000/120);
 
     this.bindKeys();
   }
 
   GameView.prototype.bindKeys = function () {
     var boost = .5;
-    var jump = -10;
+    var jump = -7;
 
-    key('up', function(){ this.game.wizard.vel.y = jump }.bind(this));
-    key('d', function(){ this.game.wizard.vel.x = 80 }.bind(this));
-    // key('left', function(){ this.game.wizard.vel.plus([-boost, 0])}.bind(this));
-    // key('right', function(){ this.game.wizard.vel.plus([boost, 0])}.bind(this));
+    key('up', function(){ this.game.wizards[0].jump(jump) }.bind(this));
+    key('w', function(){ this.game.wizards[1].jump(jump) }.bind(this));
   }
 
   GameView.prototype.checkKeys = function () {
-    var boost = .5;
-    if (key.isPressed('left')) { this.game.wizard.vel.plus([-boost, 0]);}
-    if (key.isPressed('right')) { this.game.wizard.vel.plus([boost, 0]);}
+    var boost = 1.0;
+    if (key.isPressed('left')) { this.game.wizards[0].accelX(-boost);}
+    if (key.isPressed('right')) { this.game.wizards[0].accelX(boost);}
+    if (key.isPressed('a')) { this.game.wizards[1].accelX(-boost);}
+    if (key.isPressed('d')) { this.game.wizards[1].accelX(boost);}
   }
 
 })();

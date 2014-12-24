@@ -10,8 +10,8 @@
     this.img = new Image();
     this.img.src = options.img;
 
-    this.friction = new LW.Coord([.85, 1]);
-    this.gravity = new LW.Coord([0, 1]); //HELP ME
+    this.friction = new LW.Coord([.870, 1]);
+    this.gravity = new LW.Coord([0, 0.17]); //HELP ME
 
     this.game = options.game;
 
@@ -38,6 +38,7 @@
         } else {
           this.pos.x -= depthX;
         }
+        this.vel.x = 0;
       }
     }
 
@@ -53,17 +54,15 @@
           this.pos.y -= depthY;
           this.onGround = true;
         }
+        this.vel.y = 0.1;
       }
     }
 
-    if (this.onGround) {
-      this.vel.y = 0
-    } else {
+    if (!this.onGround) {
       this.vel.plus(this.gravity);
-    }
-    // if (this.onGround) {
+    } else {
       this.vel.times(this.friction);
-    // }
+    }
     // // Stop flying for now;
     // this.pos.min([1024-this.img.width, 576-this.img.height]);
     // this.pos.max([0, 0]);
@@ -74,6 +73,21 @@
     var nextPos = currPos.plus(move);
 
     return this.game.isColliding(this);
-  }
+  };
+
+  Wizard.prototype.jump = function (val) {
+    if (this.onGround) {
+      this.vel.y = val;
+    }
+  };
+
+  Wizard.prototype.accelX = function (val) {
+    if (!this.onGround) {
+      val /= 3.5;
+    }
+    if (Math.abs(this.vel.x + val) < 5) {
+      this.vel.x += val;
+    }
+  };
 
 })();
