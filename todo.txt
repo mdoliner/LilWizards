@@ -4,5 +4,4 @@ read: http://www.html5rocks.com/en/tutorials/casestudies/gopherwoord-studios-res
 -sprite refactoring
 
 -speed improvement with collisions / check if they are slow.
--wall jump
--dynamic jumping
+-stop jumping forever

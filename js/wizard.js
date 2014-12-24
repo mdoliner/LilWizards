@@ -17,7 +17,7 @@
     this.game = options.game;
 
 
-    this.collBox = new LW.CollBox(this.pos, [16, 16]);
+    this.collBox = new LW.CollBox(this.pos, [12, 12]);
     this.onGround = false;
     this.wallJumpBuffer = 0;
   };
