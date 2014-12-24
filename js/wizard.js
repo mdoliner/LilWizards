@@ -16,39 +16,54 @@
     this.game = options.game;
 
 
-    this.collBox = new LW.CollBox(this.pos, [33, 33]);
+    this.collBox = new LW.CollBox(this.pos, [16, 16]);
     this.onGround = false;
   };
 
   Wizard.prototype.draw = function (ctx) {
-    ctx.drawImage(this.img, this.pos.x, this.pos.y);
+    ctx.drawImage(this.img, this.pos.x-16, this.pos.y-16);
   };
 
   Wizard.prototype.move = function () {
     this.onGround = false;
-    var collisions = this.game.allCollisions(this);
-    if (collisions.length !== 0 ) {
+
+    this.pos.x += this.vel.x;
+    var collisions = this.game.allCollisions(this.collBox);
+    if (collisions) {
       for (var i = 0; i < collisions.length; i++) {
-        if (collisions[i][0]) {
-          this.vel.y = 0.1;
-        }
-        if (collisions[i][1]) {
-          this.vel.x = -0.1;
-        }
-        if (collisions[i][2]) {
-          this.vel.y = 0;
-          this.onGround = true;
-        }
-        if (collisions[i][3]) {
-          this.vel.x = 0.1;
+        var oB = collisions[i];
+        var depthX = (this.collBox.dim[0] + oB.dim[0]) - Math.abs(this.pos.x - oB.pos.x);
+        if (this.pos.x > oB.pos.x ) {
+          this.pos.x += depthX;
+        } else {
+          this.pos.x -= depthX;
         }
       }
     }
-    this.pos.plus(this.vel);
-    this.vel.plus(this.gravity);
-    if (this.onGround) {
-      this.vel.times(this.friction);
+
+    this.pos.y += this.vel.y;
+    var collisions = this.game.allCollisions(this.collBox);
+    if (collisions) {
+      for (var i = 0; i < collisions.length; i++) {
+        var oB = collisions[i];
+        var depthY = (this.collBox.dim[1] + oB.dim[1]) - Math.abs(this.pos.y - oB.pos.y);
+        if (this.pos.y > oB.pos.y ) {
+          this.pos.y += depthY;
+        } else {
+          this.pos.y -= depthY;
+          this.onGround = true;
+        }
+      }
     }
+
+    if (this.onGround) {
+      this.vel.y = 0
+    } else {
+      this.vel.plus(this.gravity);
+    }
+    // if (this.onGround) {
+      this.vel.times(this.friction);
+    // }
     // // Stop flying for now;
     // this.pos.min([1024-this.img.width, 576-this.img.height]);
     // this.pos.max([0, 0]);

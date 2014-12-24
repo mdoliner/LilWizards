@@ -57,11 +57,11 @@
     return this.tiles.concat(this.wizard);
   }
 
-  Game.prototype.allCollisions = function (obj) {
+  Game.prototype.allCollisions = function (collBox) {
     var collisions = [];
     var solidObjects = this.solidObjects();
     for (var i = 0; i < solidObjects.length; i++) {
-      var totalCollision = obj.collBox.totalCollision(solidObjects[i].collBox);
+      var totalCollision = collBox.totalCollision(solidObjects[i].collBox);
       if (totalCollision !== false) {
         collisions.push(totalCollision);
       }
@@ -74,7 +74,7 @@
       for (var xIndex = 0; xIndex < Game.DIMX / 32; xIndex++) {
         if (level[yIndex][xIndex] === 1) {
           this.tiles.push(new LW.Tile({
-            pos: [xIndex * 32, yIndex * 32],
+            pos: [16 + xIndex * 32, 16 + yIndex * 32],
             img: "./graphics/box.png"
           }));
         }

@@ -8,11 +8,11 @@
     this.img = new Image();
     this.img.src = options.img;
 
-    this.collBox = new LW.CollBox(this.pos, [32, 32]);
+    this.collBox = new LW.CollBox(this.pos, [16, 16]);
   };
 
   Tile.prototype.draw = function (ctx) {
-    ctx.drawImage(this.img, this.pos.x, this.pos.y);
+    ctx.drawImage(this.img, this.pos.x - 16, this.pos.y - 16);
   };
 
 })();
