@@ -20,7 +20,7 @@
 
   GameView.prototype.bindKeys = function () {
     var boost = .5;
-    var jump = -7;
+    var jump = -5;
 
     key('k', function(){ this.game.wizards[0].jump(jump) }.bind(this));
     key('g', function(){ this.game.wizards[1].jump(jump) }.bind(this));
@@ -29,32 +29,38 @@
   GameView.prototype.checkKeys = function () {
     var boost = 1.0;
     if (key.isPressed('up')) {
-      this.game.wizards[0].facing = "up";
+      this.game.wizards[0].faceDir("up");
     }
     if (key.isPressed('left')) {
       this.game.wizards[0].accelX(-boost);
-      this.game.wizards[0].facing = "left";
+      this.game.wizards[0].faceDir("left");
     }
     if (key.isPressed('right')) {
       this.game.wizards[0].accelX(boost);
-      this.game.wizards[0].facing = "right";
+      this.game.wizards[0].faceDir("right");
     }
     if (key.isPressed('down')) {
-      this.game.wizards[0].facing = "down";
+      this.game.wizards[0].faceDir("down");
+    }
+    if (key.isPressed('k')) {
+      this.game.wizards[0].dynamicJump();
     }
     if (key.isPressed('a')) {
       this.game.wizards[1].accelX(-boost);
-      this.game.wizards[1].facing = "left";
+      this.game.wizards[1].faceDir("left");
     }
     if (key.isPressed('d')) {
       this.game.wizards[1].accelX(boost);
-      this.game.wizards[1].facing = "right";
+      this.game.wizards[1].faceDir("right");
     }
     if (key.isPressed('w')) {
-      this.game.wizards[1].facing = "up";
+      this.game.wizards[1].faceDir("up");
     }
     if (key.isPressed('s')) {
-      this.game.wizards[0].facing = "down";
+      this.game.wizards[0].faceDir("down");
+    }
+    if (key.isPressed('g')) {
+      this.game.wizards[1].dynamicJump();
     }
   }
 

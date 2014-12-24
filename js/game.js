@@ -77,7 +77,11 @@
         collisions.push(totalCollision);
       }
     }
-    return collisions;
+    if (collisions.length === 0) {
+      return false;
+    } else {
+      return collisions;
+    }
   };
 
   Game.prototype.parseLevel = function (level) {
