@@ -6,6 +6,7 @@
   var Wizard = LW.Wizard = function (options) {
     this.pos = new LW.Coord(options.pos);
     this.vel = new LW.Coord(options.vel);
+    this.facing = options.facing;
 
     this.img = new Image();
     this.img.src = options.img;
@@ -20,12 +21,16 @@
     this.onGround = false;
   };
 
+  Wizard.MAX_VEL_X = 5;
+
   Wizard.prototype.draw = function (ctx) {
     ctx.drawImage(this.img, this.pos.x-16, this.pos.y-16);
   };
 
   Wizard.prototype.move = function () {
     this.onGround = false;
+    this.onRightWall = false;
+    this.onLeftWall = false;
 
     this.pos.x += this.vel.x;
     var collisions = this.game.allCollisions(this.collBox);
@@ -35,8 +40,12 @@
         var depthX = (this.collBox.dim[0] + oB.dim[0]) - Math.abs(this.pos.x - oB.pos.x);
         if (this.pos.x > oB.pos.x ) {
           this.pos.x += depthX;
+          this.onLeftWall = true;
+          this.vel.y = Math.min(this.vel.y, 1)
         } else {
           this.pos.x -= depthX;
+          this.onRightWall = true;
+          this.vel.y = Math.min(this.vel.y, 1)
         }
         this.vel.x = 0;
       }
@@ -78,6 +87,12 @@
   Wizard.prototype.jump = function (val) {
     if (this.onGround) {
       this.vel.y = val;
+    } else if (this.onLeftWall && this.facing === "left") {
+      this.vel.y = val;
+      this.vel.x = Wizard.MAX_VEL_X;
+    } else if (this.onRightWall && this.facing === "right") {
+      this.vel.y = val;
+      this.vel.x = -Wizard.MAX_VEL_X;
     }
   };
 
@@ -85,7 +100,7 @@
     if (!this.onGround) {
       val /= 3.5;
     }
-    if (Math.abs(this.vel.x + val) < 5) {
+    if (Math.abs(this.vel.x + val) < Wizard.MAX_VEL_X) {
       this.vel.x += val;
     }
   };
