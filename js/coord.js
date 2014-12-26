@@ -53,9 +53,40 @@
     return this;
   };
 
+  Coord.prototype.toAngle = function () {
+    return Math.atan2(this.y, this.x);
+  };
+
+  Coord.prototype.toAngleDeg = function () {
+    return Math.atan2(this.y, this.x) * 180 / Math.PI;
+  };
+
+  Coord.prototype.toScalar = function () {
+    var xSqr = this.x * this.x;
+    var ySqr = this.y * this.y;
+    return Math.sqrt(xSqr + ySqr);
+  };
+
+  Coord.prototype.setAngle = function (newAngle) {
+    var scalar = this.toScalar();
+    this.x = scalar * Math.cos(newAngle);
+    this.y = scalar * Math.sin(newAngle);
+    return this;
+  }
+
+  Coord.prototype.plusAngle = function (angle) {
+    var newAngle = this.toAngle() + angle;
+    return this.setAngle(newAngle);
+  };
+
+  Coord.prototype.plusAngleDeg = function (angle) {
+    var newAngle = this.toAngleDeg() + angle;
+    return this.setAngle(newAngle * Math.PI / 180);
+  };
+
   Coord.prototype.dup = function () {
     return new Coord([this.x, this.y]);
-  }
+  };
 
   Coord.prototype.toCoord = function () {
     return this;

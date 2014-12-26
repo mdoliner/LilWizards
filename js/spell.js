@@ -38,6 +38,7 @@
   };
 
   Spell.prototype.draw = function (ctx) {
+    this.sprite.angle = this.vel.toAngleDeg();
     this.sprite.draw(ctx);
   };
 

@@ -66,7 +66,11 @@
 
   Game.prototype.remove = function (obj) {
     if (obj instanceof LW.Spell) {
-      this.spells.splice(this.spells.indexOf(obj), 1);
+      var index = this.spells.indexOf(obj);
+      if (index < 0) {
+        return;
+      }
+      this.spells.splice(index, 1);
     }
   };
 

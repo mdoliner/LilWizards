@@ -119,7 +119,7 @@
     var key = event.keyCode, k,
         i = index(_downKeys, key);
 
-    // remove key from _downKeys
+    //  key from _downKeys
     if (i >= 0) {
         _downKeys.splice(i, 1);
     }

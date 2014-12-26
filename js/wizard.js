@@ -22,7 +22,9 @@
     this.onGround = false;
     this.wallJumpBuffer = 0;
 
-    this.spell1 = LW.SpellList.Fireball;
+    this.spellList = [LW.SpellList.Fireball, null, null];
+    this.cooldownList = [0, 0, 0];
+    this.globalCooldown = 0;
   };
 
   Wizard.MAX_VEL_X = 5;
@@ -30,6 +32,13 @@
   Wizard.J_GRAVITY = 0.07;
 
   Wizard.prototype.draw = function (ctx) {
+    if (this.facing === "up") {
+      this.sprite.angle = -30;
+    } else if (this.facing === "down") {
+      this.sprite.angle = 30;
+    } else {
+      this.sprite.angle = 0;
+    }
     this.sprite.draw(ctx);
   };
 
@@ -81,6 +90,11 @@
     }
 
     this.gravity.y = Wizard.N_GRAVITY;
+
+    this.globalCooldown -= 1;
+    for (var i = 0; i < this.cooldownList.length; i++) {
+      this.cooldownList[i] -= 1;
+    }
     // // Stop flying for now;
     // this.pos.min([1024-this.img.width, 576-this.img.height]);
     // this.pos.max([0, 0]);
@@ -142,9 +156,11 @@
   Wizard.prototype.faceDir = function (dir) {
     this.facing = dir;
     if (dir === "left") {
+      this.sprite.mirror = true;
       if (this.onRightWall) {this.wallJumpBuffer = 10}
       this.onRightWall = false;
     } else if (dir === "right") {
+      this.sprite.mirror = false;
       if (this.onLeftWall) {this.wallJumpBuffer = 10}
       this.onLeftWall = false;
     }
@@ -171,6 +187,12 @@
   Wizard.prototype.kill = function () {
     this.pos.x = 300;
     this.pos.y = 130;
+  };
+
+  Wizard.prototype.castSpell = function (spellIndex) {
+    if (this.globalCooldown <= 0 && this.cooldownList[spellIndex] <= 0) {
+      this.spellList[spellIndex].bind(this)(spellIndex);
+    }
   };
 
 })();

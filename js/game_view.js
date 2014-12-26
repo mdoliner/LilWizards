@@ -24,15 +24,10 @@
 
     key('k', function(){ this.game.wizards[0].jump(jump) }.bind(this));
     key('g', function(){ this.game.wizards[1].jump(jump) }.bind(this));
-    key('j', function(){ this.game.wizards[0].spell1() }.bind(this));
-    key('f', function(){ this.game.wizards[1].spell1() }.bind(this));
   }
 
   GameView.prototype.checkKeys = function () {
     var boost = 1.0;
-    if (key.isPressed('up')) {
-      this.game.wizards[0].faceDir("up");
-    }
     if (key.isPressed('left')) {
       this.game.wizards[0].accelX(-boost);
       this.game.wizards[0].faceDir("left");
@@ -44,8 +39,14 @@
     if (key.isPressed('down')) {
       this.game.wizards[0].faceDir("down");
     }
+    if (key.isPressed('up')) {
+      this.game.wizards[0].faceDir("up");
+    }
     if (key.isPressed('k')) {
       this.game.wizards[0].dynamicJump();
+    }
+    if (key.isPressed('j')) {
+      this.game.wizards[0].castSpell(0);
     }
     if (key.isPressed('a')) {
       this.game.wizards[1].accelX(-boost);
@@ -63,6 +64,9 @@
     }
     if (key.isPressed('g')) {
       this.game.wizards[1].dynamicJump();
+    }
+    if (key.isPressed('f')) {
+      this.game.wizards[1].castSpell(0);
     }
   }
 
