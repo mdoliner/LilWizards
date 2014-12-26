@@ -25,7 +25,7 @@
 
     this.img = new Image();
     this.img.src = defaults.img;
-    
+    // a new comment
     this.indexX = defaults.indexX;
     this.indexXMax = defaults.indexXMax;
     this.indexY = defaults.indexY;
