@@ -27,14 +27,14 @@
       img: defaults.img
     });
     this.collBox = new LW.CollBox(this.pos, defaults.dim)
+    this.caster = defaults.caster;
+    this.game = defaults.game;
     this.tickEvent = defaults.tickEvent;
     this.wizardColl = defaults.wizardColl;
     this.solidColl = defaults.solidColl;
     this.spellColl = defaults.spellColl;
     this.removeEvent = defaults.removeEvent;
     this.duration = defaults.duration;
-    this.game = defaults.game;
-    this.caster = defaults.caster;
   };
 
   Spell.prototype.draw = function (ctx) {

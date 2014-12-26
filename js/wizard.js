@@ -22,7 +22,7 @@
     this.onGround = false;
     this.wallJumpBuffer = 0;
 
-    this.spellList = [LW.SpellList.Fireball, null, null];
+    this.spellList = [LW.SpellList.Fireball, LW.SpellList.Sword, null];
     this.cooldownList = [0, 0, 0];
     this.globalCooldown = 0;
   };
@@ -63,7 +63,7 @@
       }
     }
 
-    if (this.isOnWall()) {
+    if (this.isOnWall() && (this.facing === "left" || this.facing === "right")) {
       this.vel.y = Math.min(this.vel.y, 1);
     }
 
@@ -95,9 +95,7 @@
     for (var i = 0; i < this.cooldownList.length; i++) {
       this.cooldownList[i] -= 1;
     }
-    // // Stop flying for now;
-    // this.pos.min([1024-this.img.width, 576-this.img.height]);
-    // this.pos.max([0, 0]);
+
   };
 
   Wizard.prototype.isOnWall = function () {

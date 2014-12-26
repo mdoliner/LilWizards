@@ -48,6 +48,11 @@
     if (key.isPressed('j')) {
       this.game.wizards[0].castSpell(0);
     }
+    if (key.isPressed('l')) {
+      this.game.wizards[0].castSpell(1);
+    }
+
+
     if (key.isPressed('a')) {
       this.game.wizards[1].accelX(-boost);
       this.game.wizards[1].faceDir("left");
@@ -67,6 +72,9 @@
     }
     if (key.isPressed('f')) {
       this.game.wizards[1].castSpell(0);
+    }
+    if (key.isPressed('h')) {
+      this.game.wizards[1].castSpell(1);
     }
   }
 
