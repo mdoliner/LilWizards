@@ -20,6 +20,7 @@
       game: this
     }));
     this.tiles = [];
+    this.spells = [];
     this.parseLevel(Game.LEVEL);
   };
 
@@ -50,6 +51,9 @@
     this.wizards.forEach(function (wizard) {
       wizard.move();
     });
+    this.spells.forEach(function (spell) {
+      spell.move();
+    })
   };
 
   Game.prototype.draw = function (ctx) {
@@ -60,21 +64,38 @@
     }
   };
 
+  Game.prototype.remove = function (obj) {
+    if (obj instanceof LW.Spell) {
+      this.spells.splice(this.spells.indexOf(obj), 1);
+    }
+  };
+
   Game.prototype.solidObjects = function () {
     return this.tiles;
   };
 
   Game.prototype.allObjects = function () {
-    return this.tiles.concat(this.wizards);
+    return this.tiles.concat(this.wizards).concat(this.spells);
   }
 
-  Game.prototype.allCollisions = function (collBox) {
+  Game.prototype.solidCollisions = function (collBox) {
+    return this.allCollisions(collBox, this.solidObjects());
+  };
+
+  Game.prototype.spellCollisions = function (collBox) {
+    return this.allCollisions(collBox, this.spells);
+  };
+
+  Game.prototype.wizardCollisions = function (collBox) {
+    return this.allCollisions(collBox, this.wizards);
+  };
+
+  Game.prototype.allCollisions = function (collBox, objArray) {
     var collisions = [];
-    var solidObjects = this.solidObjects();
-    for (var i = 0; i < solidObjects.length; i++) {
-      var totalCollision = collBox.totalCollision(solidObjects[i].collBox);
-      if (totalCollision !== false) {
-        collisions.push(totalCollision);
+    for (var i = 0; i < objArray.length; i++) {
+      var collision = collBox.collision(objArray[i]);
+      if (collision !== false) {
+        collisions.push(collision);
       }
     }
     if (collisions.length === 0) {

@@ -18,10 +18,11 @@
 
     this.game = options.game;
 
-
     this.collBox = new LW.CollBox(this.pos, [12, 12]);
     this.onGround = false;
     this.wallJumpBuffer = 0;
+
+    this.spell1 = LW.SpellList.Fireball;
   };
 
   Wizard.MAX_VEL_X = 5;
@@ -37,10 +38,10 @@
     this.wallJumpBuffer -= 1;
 
     this.pos.x += this.vel.x;
-    var collisions = this.game.allCollisions(this.collBox);
+    var collisions = this.game.solidCollisions(this.collBox);
     if (collisions) {
       for (var i = 0; i < collisions.length; i++) {
-        var oB = collisions[i];
+        var oB = collisions[i].collBox;
         var depthX = (this.collBox.dim[0] + oB.dim[0]) - Math.abs(this.pos.x - oB.pos.x);
         if (this.pos.x > oB.pos.x ) {
           this.pos.x += depthX;
@@ -58,10 +59,10 @@
     }
 
     this.pos.y += this.vel.y;
-    var collisions = this.game.allCollisions(this.collBox);
+    var collisions = this.game.solidCollisions(this.collBox);
     if (collisions) {
       for (var i = 0; i < collisions.length; i++) {
-        var oB = collisions[i];
+        var oB = collisions[i].collBox;
         var depthY = (this.collBox.dim[1] + oB.dim[1]) - Math.abs(this.pos.y - oB.pos.y);
         if (this.pos.y > oB.pos.y ) {
           this.pos.y += depthY;
@@ -88,7 +89,7 @@
   Wizard.prototype.isOnWall = function () {
     if (this.onLeftWall) {
       this.pos.x -= 1;
-      var collisions = this.game.allCollisions(this.collBox);
+      var collisions = this.game.solidCollisions(this.collBox);
       this.pos.x += 1;
       if (collisions) {
         return true;
@@ -96,7 +97,7 @@
     }
     if (this.onRightWall) {
       this.pos.x += 1;
-      var collisions = this.game.allCollisions(this.collBox);
+      var collisions = this.game.solidCollisions(this.collBox);
       this.pos.x -= 1;
       if (collisions) {
         return true;
@@ -153,6 +154,23 @@
     if (this.vel.y < -2) {
       this.gravity.y = Wizard.J_GRAVITY;
     }
+  };
+
+  Wizard.prototype.spellDirection = function () {
+    if (this.facing === "left") {
+      return new LW.Coord([-1, 0]);
+    } else if (this.facing === "right") {
+      return new LW.Coord([1, 0]);
+    } else if (this.facing === "up") {
+      return new LW.Coord([0, -1]);
+    } else if (this.facing === "down") {
+      return new LW.Coord([0,1]);
+    }
+  };
+
+  Wizard.prototype.kill = function () {
+    this.pos.x = 300;
+    this.pos.y = 130;
   };
 
 })();

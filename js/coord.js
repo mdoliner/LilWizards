@@ -4,6 +4,9 @@
   }
 
   var Coord = LW.Coord = function (pos) {
+    if (pos instanceof LW.Coord) {
+      pos = [pos.x, pos.y];
+    }
     this.x = pos[0];
     this.y = pos[1];
   };

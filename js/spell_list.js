@@ -5,16 +5,16 @@
 
   var SpellList = LW.SpellList = {};
 
-  SpellList.fireball = function () {
+  SpellList.Fireball = function () {
     var fireball = new LW.Spell ({
       pos: this.pos,
-      vel: this.spellDirection() * 10,
-      img: "spell_fireball.gif",
+      vel: this.spellDirection().times([10, 10]),
+      img: "graphics/spell_fireball.gif",
       dim: [5,5],
-      collEvent: function(obj) {
-        this.remove();
-      }
-    })
+      game: this.game,
+      caster: this
+    });
+    this.game.spells.push(fireball);
   }
 
 
