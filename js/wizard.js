@@ -8,8 +8,10 @@
     this.vel = new LW.Coord(options.vel);
     this.facing = options.facing;
 
-    this.img = new Image();
-    this.img.src = options.img;
+    this.sprite = new LW.Sprite({
+      img: options.img,
+      parent: this
+    });
 
     this.friction = new LW.Coord([.870, 1]);
     this.gravity = new LW.Coord([0, Wizard.N_GRAVITY]); //HELP ME
@@ -27,7 +29,7 @@
   Wizard.J_GRAVITY = 0.07;
 
   Wizard.prototype.draw = function (ctx) {
-    ctx.drawImage(this.img, this.pos.x-16, this.pos.y-16);
+    this.sprite.draw(ctx);
   };
 
   Wizard.prototype.move = function () {
@@ -114,12 +116,12 @@
   Wizard.prototype.jump = function (val) {
     if (this.onGround) {
       this.vel.y = val;
-    } else if (this.onLeftWall || this.wallJumpBuffer > 0) {
+    } else if ((this.onLeftWall && this.isOnWall()) || this.wallJumpBuffer > 0) {
       this.vel.y = val;
       this.vel.x = Wizard.MAX_VEL_X;
       this.onLeftWall = false;
       this.faceDir("right");
-    } else if (this.onRightWall || this.wallJumpBuffer > 0) {
+    } else if ((this.onRightWall && this.isOnWall()) || this.wallJumpBuffer > 0) {
       this.vel.y = val;
       this.vel.x = -Wizard.MAX_VEL_X;
       this.onRightWall = false;
@@ -138,10 +140,10 @@
 
   Wizard.prototype.faceDir = function (dir) {
     this.facing = dir;
-    if (dir === "left" || this.onGround) {
+    if (dir === "left") {
       if (this.onRightWall) {this.wallJumpBuffer = 10}
       this.onRightWall = false;
-    } else if (dir === "right" || this.onGround) {
+    } else if (dir === "right") {
       if (this.onLeftWall) {this.wallJumpBuffer = 10}
       this.onLeftWall = false;
     }
