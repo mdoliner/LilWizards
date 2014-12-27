@@ -14,7 +14,6 @@
       game: this.game,
       caster: this,
       tickEvent: function () {
-        this.vel.plusAngleDeg(10);
       },
       wizardColl: function (wizard) {
         if (wizard !== this.caster) {
@@ -26,6 +25,7 @@
     this.game.spells.push(fireball);
     this.globalCooldown = 30;
     this.cooldownList[spellIndex] = 30;
+    this.vel.minus(this.spellDirection().times([3,3]));
   }
 
   SpellList.Sword = function (spellIndex) {
@@ -41,11 +41,17 @@
         this.pos.x = this.caster.pos.x;
         this.pos.y = this.caster.pos.y;
         this.vel.plusAngleDeg(3);
-      }
+      },
+      spellColl: function (spell) {
+        spell.caster = this.caster;
+        spell.vel.times([-1.1,-1.1]);
+      },
+      solidColl: function () {}
     });
     this.game.spells.push(sword);
     this.globalCooldown = 30;
     this.cooldownList[spellIndex] = 60;
+    this.vel.plus(this.spellDirection().times([3,3]))
   }
 
 

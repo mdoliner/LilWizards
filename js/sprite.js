@@ -4,7 +4,7 @@
   }
 
   var Sprite = LW.Sprite = function (options) {
-    defaults = {
+    var defaults = {
       parent: null,
       img: "",
       indexX: 0,
@@ -16,8 +16,9 @@
       mirror: false,
       angle: 0,
       sizeX: 100, //percent
-      sizeY: 100 //percent
-    }
+      sizeY: 100, //percent
+      animationReset: function () {}
+    };
     for (var attrname in options) { defaults[attrname] = options[attrname]; }
 
     this.parent = defaults.parent;
@@ -25,7 +26,7 @@
 
     this.img = new Image();
     this.img.src = defaults.img;
-    // a new comment
+
     this.indexX = defaults.indexX;
     this.indexXMax = defaults.indexXMax;
     this.indexY = defaults.indexY;
@@ -36,12 +37,18 @@
     this.angle = defaults.angle;
     this.sizeX = defaults.sizeX; //percent
     this.sizeY = defaults.sizeY; //percent
+    this.animationReset = defaults.animationReset;
   };
 
   Sprite.prototype.animate = function () {
     this.tickCount += 1;
     if (this.tickCount > this.buffer) {
       this.tickCount = 0;
+      this.indexX += 1;
+      if (this.indexX >= this.indexXMax) {
+        this.indexX = 0;
+        this.animationReset(this.parent);
+      }
     }
   };
 

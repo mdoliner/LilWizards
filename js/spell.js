@@ -4,7 +4,7 @@
   }
 
   var Spell = LW.Spell = function (options) {
-    defaults = {
+    var defaults = {
       tickEvent: function () {},
       wizardColl: function (wizard) {
         if (wizard !== this.caster) {

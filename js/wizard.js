@@ -10,7 +10,9 @@
 
     this.sprite = new LW.Sprite({
       img: options.img,
-      parent: this
+      parent: this,
+      indexXMax: options.imgIndexXMax,
+      indexYMax: options.imgIndexYMax
     });
 
     this.friction = new LW.Coord([.870, 1]);
@@ -39,6 +41,7 @@
     } else {
       this.sprite.angle = 0;
     }
+    this.sprite.animate();
     this.sprite.draw(ctx);
   };
 
