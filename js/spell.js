@@ -8,7 +8,7 @@
       tickEvent: function () {},
       wizardColl: function (wizard) {
         if (wizard !== this.caster) {
-          wizard.kill();
+          wizard.kill(this.caster);
         }
       },
       spellColl: null,
@@ -16,7 +16,8 @@
         this.remove();
       },
       removeEvent: function () {},
-      duration: -1
+      duration: -1,
+      imgBaseAngle: 0
     }
     for (var attrname in options) { defaults[attrname] = options[attrname]; }
 
@@ -24,7 +25,8 @@
     this.vel = new LW.Coord(defaults.vel);
     this.sprite = new LW.Sprite({
       parent: this,
-      img: defaults.img
+      img: defaults.img,
+      baseAngle: defaults.imgBaseAngle
     });
     this.collBox = new LW.CollBox(this.pos, defaults.dim)
     this.caster = defaults.caster;
@@ -33,7 +35,7 @@
     this.wizardColl = defaults.wizardColl;
     this.solidColl = defaults.solidColl;
     this.spellColl = defaults.spellColl;
-    this.removeEvent = defaults.removeEvent;
+    this.removeEvent = defaults.removeEvent.bind(this);
     this.duration = defaults.duration;
   };
 

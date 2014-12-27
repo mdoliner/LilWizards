@@ -27,6 +27,7 @@
     this.spellList = [LW.SpellList.Fireball, LW.SpellList.Sword, null];
     this.cooldownList = [0, 0, 0];
     this.globalCooldown = 0;
+    this.kills = 0;
   };
 
   Wizard.MAX_VEL_X = 5;
@@ -185,7 +186,23 @@
     }
   };
 
-  Wizard.prototype.kill = function () {
+  Wizard.prototype.kill = function (killer) {
+    killer.kills += 1;
+    LW.ParticleSplatter(20, function () {
+      var randVel = new LW.Coord([Math.random()*3,Math.random()*3]).plusAngleDeg(Math.random()*360)
+      return {
+        pos: this.pos,
+        vel: randVel,
+        game: this.game,
+        duration: Math.floor(Math.random()*30+30),
+        radius: Math.random()*4+1,
+        color: 'red',
+        tickEvent: function () {
+          this.vel.y += 0.11;
+          this.radius -= 0.01;
+        }
+      };
+    }.bind(this))
     this.pos.x = 300;
     this.pos.y = 130;
   };

@@ -3,29 +3,46 @@ TODO LIST:::
 Autosizing Canvas
 read: http://www.html5rocks.com/en/tutorials/casestudies/gopherwoord-studios-resizing-html5-games/
 
--sprite refactoring
+- sprite refactoring
 
--speed improvement with collisions / check if they are slow.
--stop jumping forever
--particle effects
--sprite animation
+- speed improvement with collisions / check if they are slow.
+- stop jumping forever
+- particle effects
+- sprite animation
+- level zoom
+  - possibly bigger levels
 
--more spells?
+- more spells?
 
--cooldown circles
--hud in general
+- cooldown circles
+- hud in general
 
--on leaving window pauses game
--write readme
+- on leaving window pauses game
+- write readme
+
+- kill count
+
+- kill cam joke mode?
 
 Spells
 =========
--fireball
+- fireball
   - splits on solid impact
--smokebomb
+- smokebomb
   - hides players
--lightning strike
--tentacle monster portal
--sword attack
--teleport (blink)
--ray cannon
+- lightning strike
+- tentacle monster portal
+- sword attack
+- teleport (blink)
+- ray cannon
+  - ~2 second delay
+- crystal ball shards
+- force push (music?, torrent of blood)
+  - maybe add hitting a wall too fast kills you
+- werewolf transformation mode? / level of transformations
+- sheep tosser
+- mines
+- growth into death serum
+- kiss of alignment
+  - you get enemy's kills until wears off or death
+-

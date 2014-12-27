@@ -18,8 +18,21 @@
       wizardColl: function (wizard) {
         if (wizard !== this.caster) {
           this.remove();
-          wizard.kill();
+          wizard.kill(this.caster);
         }
+      },
+      removeEvent: function () {
+        LW.ParticleSplatter(10, function () {
+          var randVel = this.vel.dup().times([-Math.random(),-Math.random()]).plusAngleDeg(Math.random()*120-60)
+          return {
+            pos: this.pos,
+            vel: randVel,
+            game: this.game,
+            duration: Math.floor(Math.random()*20+10),
+            radius: Math.random()*2+1,
+            color: 'yellow'
+          };
+        }.bind(this))
       }
     });
     this.game.spells.push(fireball);
@@ -28,21 +41,26 @@
     this.vel.minus(this.spellDirection().times([3,3]));
   }
 
+
+
+
   SpellList.Sword = function (spellIndex) {
     var sword = new LW.Spell ({
       pos: this.pos,
-      vel: this.spellDirection().times([20,20]),
+      vel: this.spellDirection().times([20,20]).plusAngleDeg(-90),
       img: "graphics/spell_sword.png",
-      dim: [5,5],
+      dim: [22.5,5],
       game: this.game,
       caster: this,
       duration: 20,
+      imgBaseAngle: 225,
       tickEvent: function () {
         this.pos.x = this.caster.pos.x;
         this.pos.y = this.caster.pos.y;
-        this.vel.plusAngleDeg(3);
+        this.vel.plusAngleDeg(9);
       },
       spellColl: function (spell) {
+        if (spell.caster === this.caster) {return;};
         spell.caster = this.caster;
         spell.vel.times([-1.1,-1.1]);
       },

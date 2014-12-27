@@ -15,6 +15,7 @@
       buffer: 5,
       mirror: false,
       angle: 0,
+      baseAngle: 0,
       sizeX: 100, //percent
       sizeY: 100, //percent
       animationReset: function () {}
@@ -35,6 +36,7 @@
     this.buffer = defaults.buffer;
     this.mirror = defaults.mirror;
     this.angle = defaults.angle;
+    this.baseAngle = defaults.baseAngle;
     this.sizeX = defaults.sizeX; //percent
     this.sizeY = defaults.sizeY; //percent
     this.animationReset = defaults.animationReset;
@@ -58,7 +60,7 @@
     if (this.mirror) {
       ctx.scale(-1,1)
     }
-    ctx.rotate(this.angle * Math.PI/180);
+    ctx.rotate((this.angle - this.baseAngle) * Math.PI/180);
     var sWidth = this.img.width / this.indexXMax;
     var sHeight = this.img.height / this.indexYMax;
     ctx.drawImage(this.img,

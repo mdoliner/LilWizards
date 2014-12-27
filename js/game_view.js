@@ -22,8 +22,8 @@
     var boost = .5;
     var jump = -5;
 
-    key('k', function(){ this.game.wizards[0].jump(jump) }.bind(this));
-    key('g', function(){ this.game.wizards[1].jump(jump) }.bind(this));
+    key('p', function(){ this.game.wizards[0].jump(jump) }.bind(this));
+    key('f', function(){ this.game.wizards[1].jump(jump) }.bind(this));
   }
 
   GameView.prototype.checkKeys = function () {
@@ -42,13 +42,13 @@
     if (key.isPressed('up')) {
       this.game.wizards[0].faceDir("up");
     }
-    if (key.isPressed('k')) {
+    if (key.isPressed('p')) {
       this.game.wizards[0].dynamicJump();
     }
-    if (key.isPressed('j')) {
+    if (key.isPressed('o')) {
       this.game.wizards[0].castSpell(0);
     }
-    if (key.isPressed('l')) {
+    if (key.isPressed('i')) {
       this.game.wizards[0].castSpell(1);
     }
 
@@ -67,10 +67,10 @@
     if (key.isPressed('s')) {
       this.game.wizards[1].faceDir("down");
     }
-    if (key.isPressed('g')) {
+    if (key.isPressed('f')) {
       this.game.wizards[1].dynamicJump();
     }
-    if (key.isPressed('f')) {
+    if (key.isPressed('g')) {
       this.game.wizards[1].castSpell(0);
     }
     if (key.isPressed('h')) {

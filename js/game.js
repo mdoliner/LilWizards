@@ -18,7 +18,7 @@
       pos: [300,130],
       vel: [0,0],
       facing: "left",
-      img: "./graphics/wiz.png",
+      img: "./graphics/wiz2.png",
       imgIndexXMax: 1,
       imgIndexYMax: 1,
       game: this
@@ -26,6 +26,7 @@
     this.tiles = [];
     this.spells = [];
     this.parseLevel(Game.LEVEL);
+    this.particles = [];
   };
 
   Game.LEVEL = [[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
@@ -58,6 +59,9 @@
     this.spells.forEach(function (spell) {
       spell.move();
     })
+    this.particles.forEach(function (particle) {
+      particle.move();
+    })
   };
 
   Game.prototype.draw = function (ctx) {
@@ -65,6 +69,10 @@
     var allObjects = this.allObjects();
     for (var i = 0; i < allObjects.length; i++ ) {
       allObjects[i].draw(ctx);
+    }
+    for (var i = 0; i < this.wizards.length; i++) {
+      ctx.fillStyle = "black";
+      ctx.fillText(this.wizards[i].kills, this.wizards[i].pos.x, this.wizards[i].pos.y - 32);
     }
   };
 
@@ -75,6 +83,12 @@
         return;
       }
       this.spells.splice(index, 1);
+    } else if (obj instanceof LW.Particle) {
+      var index = this.particles.indexOf(obj);
+      if (index < 0) {
+        return;
+      }
+      this.particles.splice(index, 1);
     }
   };
 
@@ -83,7 +97,7 @@
   };
 
   Game.prototype.allObjects = function () {
-    return this.tiles.concat(this.wizards).concat(this.spells);
+    return this.tiles.concat(this.wizards).concat(this.spells).concat(this.particles);
   }
 
   Game.prototype.solidCollisions = function (collBox) {
