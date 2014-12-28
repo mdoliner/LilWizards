@@ -36,7 +36,7 @@
       }
     });
     this.game.spells.push(fireball);
-    this.globalCooldown = 10;
+    this.globalCooldown = 30;
     this.cooldownList[spellIndex] = 30;
     this.vel.minus(this.spellDirection().times([3,3]));
   }
@@ -86,19 +86,19 @@
       img: "graphics/spell_candy.png",
       imgSizeX: 10,
       imgSizeY: 10,
-      dim: [4.5, 4.5],
+      dim: [18, 18],
       game: this.game,
       caster: this,
       tickEvent: function () {
         if (this.mineBuffer === undefined) {
-          this.mineBuffer = 60;
+          this.mineBuffer = 30;
         }
         this.mineBuffer -= 1;
         if (this.mineBuffer <= 0) {
           this.sprite.baseAngle += 1;
         } else {
-          this.sprite.sizeX += 0.5;
-          this.sprite.sizeY += 0.5;
+          this.sprite.sizeX += 1;
+          this.sprite.sizeY += 1;
         }
       },
       wizardColl: function (wizard) {
@@ -107,6 +107,7 @@
           wizard.kill(this.caster);
         }
       },
+      solidColl: undefined,
       spellColl: function (spell) {
         spell.remove();
         this.remove();

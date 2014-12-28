@@ -5,11 +5,13 @@
 
   var GameView = LW.GameView = function (ctx) {
     this.game = new LW.Game();
+    this.gamepads = Gamepad();
     this.ctx = ctx;
   }
 
   GameView.prototype.startGame = function () {
     setInterval(function () {
+      console.log(this.gamepads);
       this.checkKeys();
       this.game.step();
       this.game.draw(this.ctx);

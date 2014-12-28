@@ -11,6 +11,8 @@ read: http://www.html5rocks.com/en/tutorials/casestudies/gopherwoord-studios-res
 - level zoom
   - possibly bigger levels
 - one time momentum
+- spell types / ids
+- facing fix
 
 - more spells?
 
