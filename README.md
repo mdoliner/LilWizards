@@ -7,10 +7,10 @@ read: http://www.html5rocks.com/en/tutorials/casestudies/gopherwoord-studios-res
 
 - speed improvement with collisions / check if they are slow.
 - stop jumping forever
-- particle effects
-- sprite animation
+
 - level zoom
   - possibly bigger levels
+- one time momentum
 
 - more spells?
 

@@ -24,7 +24,7 @@
     this.onGround = false;
     this.wallJumpBuffer = 0;
 
-    this.spellList = [LW.SpellList.Fireball, LW.SpellList.Sword, null];
+    this.spellList = [LW.SpellList.Fireball, LW.SpellList.Sword, LW.SpellList.Candy];
     this.cooldownList = [0, 0, 0];
     this.globalCooldown = 0;
     this.kills = 0;
@@ -187,7 +187,11 @@
   };
 
   Wizard.prototype.kill = function (killer) {
-    killer.kills += 1;
+    if (killer === this) {
+      killer.kills -= 1;
+    } else {
+      killer.kills += 1;
+    }
     LW.ParticleSplatter(20, function () {
       var randVel = new LW.Coord([Math.random()*3,Math.random()*3]).plusAngleDeg(Math.random()*360)
       return {

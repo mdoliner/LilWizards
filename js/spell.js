@@ -11,13 +11,15 @@
           wizard.kill(this.caster);
         }
       },
-      spellColl: null,
+      spellColl: function () {},
       solidColl: function (wall) {
         this.remove();
       },
       removeEvent: function () {},
       duration: -1,
-      imgBaseAngle: 0
+      imgBaseAngle: 0,
+      imgSizeX: 100,
+      imgSizeY: 100,
     }
     for (var attrname in options) { defaults[attrname] = options[attrname]; }
 
@@ -26,7 +28,9 @@
     this.sprite = new LW.Sprite({
       parent: this,
       img: defaults.img,
-      baseAngle: defaults.imgBaseAngle
+      baseAngle: defaults.imgBaseAngle,
+      sizeX: defaults.imgSizeX,
+      sizeY: defaults.imgSizeY
     });
     this.collBox = new LW.CollBox(this.pos, defaults.dim)
     this.caster = defaults.caster;

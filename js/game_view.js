@@ -51,6 +51,9 @@
     if (key.isPressed('i')) {
       this.game.wizards[0].castSpell(1);
     }
+    if (key.isPressed('u')) {
+      this.game.wizards[0].castSpell(2);
+    }
 
 
     if (key.isPressed('a')) {
@@ -75,6 +78,9 @@
     }
     if (key.isPressed('h')) {
       this.game.wizards[1].castSpell(1);
+    }
+    if (key.isPressed('j')) {
+      this.game.wizards[1].castSpell(2);
     }
   }
 
