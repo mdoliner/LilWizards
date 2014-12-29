@@ -5,19 +5,23 @@ read: http://www.html5rocks.com/en/tutorials/casestudies/gopherwoord-studios-res
 
 - sprite refactoring
 
-- speed improvement with collisions / check if they are slow.
-- stop jumping forever
-
+IMPORTANT
 - level zoom
   - possibly bigger levels
 - one time momentum
 - spell types / ids
 - facing fix
+- CONTROLLER FIX TTY
+- hold up and down
 
+MEDIUM
 - more spells?
+- speed improvement with collisions / check if they are slow.
 
 - cooldown circles
 - hud in general
+
+- wall jump
 
 - on leaving window pauses game
 - write readme

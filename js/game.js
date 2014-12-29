@@ -23,6 +23,24 @@
       imgIndexYMax: 1,
       game: this
     }));
+    this.wizards.push (new LW.Wizard({
+      pos: [48,48],
+      vel: [0,0],
+      facing: "left",
+      img: "./graphics/wiz.png",
+      imgIndexXMax: 1,
+      imgIndexYMax: 1,
+      game: this
+    }));
+    this.wizards.push (new LW.Wizard({
+      pos: [700,130],
+      vel: [0,0],
+      facing: "left",
+      img: "./graphics/wiz2.png",
+      imgIndexXMax: 1,
+      imgIndexYMax: 1,
+      game: this
+    }));
     this.tiles = [];
     this.spells = [];
     this.parseLevel(Game.LEVEL);

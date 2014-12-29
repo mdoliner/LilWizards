@@ -37,14 +37,14 @@ var Gamepad = (function(self) {
 
   if (self.supported) {
     // Older Firefox
-    window.addEventListener('MozGamepadConnected',
-    onGamepadConnect, false);
-    window.addEventListener('MozGamepadDisconnected',
-    onGamepadDisconnect, false);
+    // window.addEventListener('MozGamepadConnected',
+    // onGamepadConnect, false);
+    // window.addEventListener('MozGamepadDisconnected',
+    // onGamepadDisconnect, false);
 
-    //W3C Specification
-    window.addEventListener('gamepadconnected', onGamepadConnect, false);
-    window.addEventListener('gamepaddisconnected', onGamepadDisconnect, false);
+    // //W3C Specification
+    // window.addEventListener('gamepadconnected', onGamepadConnect, false);
+    // window.addEventListener('gamepaddisconnected', onGamepadDisconnect, false);
 
     // Chrome
     if (navigator.webkitGetGamepads && navigator.webkitGetGamepads()) {
@@ -133,7 +133,7 @@ var Gamepad = (function(self) {
     * @returns {boolean} If the button on the specific gamepad is currently pressed
     */
     self.pressed = function(pad, buttonId) {
-      if (self.gamepads[pad] && BUTTONS[buttonId]) {
+      if (self.gamepads[pad] && (BUTTONS[buttonId] >= 0)) {
         var buttonIndex = BUTTONS[buttonId];
         if (buttonIndex === 4 || buttonIndex === 5) {
           return self.gamepads[pad].buttons[buttonIndex] > self.SHOULDER0_BUTTON_THRESHOLD;

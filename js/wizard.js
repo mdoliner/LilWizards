@@ -28,6 +28,14 @@
     this.cooldownList = [0, 0, 0];
     this.globalCooldown = 0;
     this.kills = 0;
+    this.actions = { // none, tap, hold, release
+      jump: "none",
+      spells: ["none", "none", "none"],
+      left: "none",
+      right: "none",
+      up: "none",
+      down: "none"
+    };
   };
 
   Wizard.MAX_VEL_X = 5;
