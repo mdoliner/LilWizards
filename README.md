@@ -8,11 +8,9 @@ read: http://www.html5rocks.com/en/tutorials/casestudies/gopherwoord-studios-res
 IMPORTANT
 - level zoom
   - possibly bigger levels
-- one time momentum
-- spell types / ids
-- facing fix
+  - shakke da bouty
 - CONTROLLER FIX TTY
-- hold up and down
+- Multiple Input Functionality for spells??????? (holding vs tapping vs releaseing)
 
 MEDIUM
 - more spells?
@@ -20,8 +18,6 @@ MEDIUM
 
 - cooldown circles
 - hud in general
-
-- wall jump
 
 - on leaving window pauses game
 - write readme

@@ -13,8 +13,8 @@
     this.collBox = new LW.CollBox(this.pos, [16, 16]);
   };
 
-  Tile.prototype.draw = function (ctx) {
-    this.sprite.draw(ctx);
+  Tile.prototype.draw = function (ctx, camera) {
+    this.sprite.draw(ctx, camera);
   };
 
 })();

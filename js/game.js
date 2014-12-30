@@ -8,7 +8,7 @@
     this.wizards.push (new LW.Wizard({
       pos: [500,130],
       vel: [0,0],
-      facing: "right",
+      horFacing: "right",
       img: "./graphics/wiz.png",
       imgIndexXMax: 1,
       imgIndexYMax: 1,
@@ -17,16 +17,18 @@
     this.wizards.push (new LW.Wizard({
       pos: [300,130],
       vel: [0,0],
-      facing: "left",
-      img: "./graphics/wiz2.png",
+      horFacing: "left",
+      img: "./graphics/wiz_baby.png",
       imgIndexXMax: 1,
       imgIndexYMax: 1,
+      imgSizeX: 8,
+      imgSizeY: 8,
       game: this
     }));
     this.wizards.push (new LW.Wizard({
       pos: [48,48],
       vel: [0,0],
-      facing: "left",
+      horFacing: "left",
       img: "./graphics/wiz.png",
       imgIndexXMax: 1,
       imgIndexYMax: 1,
@@ -35,7 +37,7 @@
     this.wizards.push (new LW.Wizard({
       pos: [700,130],
       vel: [0,0],
-      facing: "left",
+      horFacing: "left",
       img: "./graphics/wiz2.png",
       imgIndexXMax: 1,
       imgIndexYMax: 1,
@@ -45,6 +47,10 @@
     this.spells = [];
     this.parseLevel(Game.LEVEL);
     this.particles = [];
+    this.camera = new LW.Camera({
+      pos: [512,288],
+      size: 100 //percent
+    });
   };
 
   Game.LEVEL = [[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
@@ -71,6 +77,29 @@
   Game.DIMY = 576;
 
   Game.prototype.step = function () {
+    if (this.camera.move.time <= 0){
+      var avgX = 0
+      var avgY = 0
+      var arrX = []
+      var arrY = []
+      this.wizards.forEach(function (wizard) {
+        avgX += wizard.pos.x / this.wizards.length;
+        avgY += wizard.pos.y / this.wizards.length;
+        arrX.push(Math.abs(wizard.pos.x-this.camera.pos.x));
+        arrY.push(Math.abs(wizard.pos.y-this.camera.pos.y));
+      }.bind(this))
+      arrX = arrX.sort((function(a,b){return a - b}));
+      arrY = arrY.sort((function(a,b){return a - b}));
+      this.camera.moveTo({
+        endPos: [avgX, avgY],
+        endSize: Math.min(Game.DIMX/(Game.DIMX/2-arrX[arrX.length-1])*50, Game.DIMY/(Game.DIMY/2-arrY[arrY.length-1])*50),
+        moveType: "linear",
+        duration: 1
+      })
+    }
+    
+    this.camera.step();
+
     this.wizards.forEach(function (wizard) {
       wizard.move();
     });
@@ -86,11 +115,16 @@
     ctx.clearRect(0,0,1024,576);
     var allObjects = this.allObjects();
     for (var i = 0; i < allObjects.length; i++ ) {
-      allObjects[i].draw(ctx);
+      allObjects[i].draw(ctx, this.camera);
     }
     for (var i = 0; i < this.wizards.length; i++) {
-      ctx.fillStyle = "black";
-      ctx.fillText(this.wizards[i].kills, this.wizards[i].pos.x, this.wizards[i].pos.y - 32);
+      var newPos = this.camera.relativePos(this.wizards[i].pos)
+      ctx.font = "15px Sans-serif"
+      ctx.strokeStyle = "black";
+      ctx.lineWidth = 3
+      ctx.strokeText(this.wizards[i].kills, newPos.x, newPos.y - 32);
+      ctx.fillStyle = "white";
+      ctx.fillText(this.wizards[i].kills, newPos.x, newPos.y - 32);
     }
   };
 

@@ -13,6 +13,8 @@
       dim: [5,5],
       game: this.game,
       caster: this,
+      sType: "projectile",
+      sId: "fireball",
       tickEvent: function () {
       },
       wizardColl: function (wizard) {
@@ -38,7 +40,7 @@
     this.game.spells.push(fireball);
     this.globalCooldown = 30;
     this.cooldownList[spellIndex] = 30;
-    this.vel.minus(this.spellDirection().times([3,3]));
+    this.applyMomentum(this.spellDirection().times([-3,-3]));
   }
 
   // =====================================================================
@@ -57,6 +59,8 @@
       caster: this,
       duration: 20,
       imgBaseAngle: 225,
+      sType: "melee",
+      sId: "sword",
       tickEvent: function () {
         this.pos.x = this.caster.pos.x;
         this.pos.y = this.caster.pos.y;
@@ -64,15 +68,17 @@
       },
       spellColl: function (spell) {
         if (spell.caster === this.caster) {return;};
-        spell.caster = this.caster;
-        spell.vel.times([-1.1,-1.1]);
+        if (spell.sType === "projectile") {
+          spell.caster = this.caster;
+          spell.vel.times([-1.1,-1.1]);
+        }
       },
       solidColl: function () {}
     });
     this.game.spells.push(sword);
     this.globalCooldown = 10;
     this.cooldownList[spellIndex] = 30;
-    this.vel.plus(this.spellDirection().times([3,3]))
+    this.applyMomentum(this.spellDirection().times([3,3]))
   }
 
   // =====================================================================
@@ -89,6 +95,8 @@
       dim: [18, 18],
       game: this.game,
       caster: this,
+      sType: "static",
+      sId: "candy",
       tickEvent: function () {
         if (this.mineBuffer === undefined) {
           this.mineBuffer = 30;
@@ -107,8 +115,9 @@
           wizard.kill(this.caster);
         }
       },
-      solidColl: undefined,
+      solidColl: null,
       spellColl: function (spell) {
+        if (spell.sId === "candy") {return;}
         spell.remove();
         this.remove();
       },

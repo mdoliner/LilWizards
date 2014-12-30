@@ -6,13 +6,16 @@
   var Wizard = LW.Wizard = function (options) {
     this.pos = new LW.Coord(options.pos);
     this.vel = new LW.Coord(options.vel);
-    this.facing = options.facing;
+    this.horFacing = options.horFacing;
+    this.verFacing = null;
 
     this.sprite = new LW.Sprite({
       img: options.img,
       parent: this,
       indexXMax: options.imgIndexXMax,
-      indexYMax: options.imgIndexYMax
+      indexYMax: options.imgIndexYMax,
+      sizeX: options.imgSizeX,
+      sizeY: options.imgSizeY
     });
 
     this.friction = new LW.Coord([.870, 1]);
@@ -22,6 +25,7 @@
 
     this.collBox = new LW.CollBox(this.pos, [12, 12]);
     this.onGround = false;
+    this.boosted = false;
     this.wallJumpBuffer = 0;
 
     this.spellList = [LW.SpellList.Fireball, LW.SpellList.Sword, LW.SpellList.Candy];
@@ -42,16 +46,16 @@
   Wizard.N_GRAVITY = 0.18;
   Wizard.J_GRAVITY = 0.07;
 
-  Wizard.prototype.draw = function (ctx) {
-    if (this.facing === "up") {
+  Wizard.prototype.draw = function (ctx, camera) {
+    if (this.verFacing === "up") {
       this.sprite.angle = -30;
-    } else if (this.facing === "down") {
+    } else if (this.verFacing === "down") {
       this.sprite.angle = 30;
     } else {
       this.sprite.angle = 0;
     }
     this.sprite.animate();
-    this.sprite.draw(ctx);
+    this.sprite.draw(ctx, camera);
   };
 
   Wizard.prototype.move = function () {
@@ -75,8 +79,9 @@
       }
     }
 
-    if (this.isOnWall() && (this.facing === "left" || this.facing === "right")) {
+    if (this.isOnWall() && (this.horFacing === "left" || this.horFacing === "right")) {
       this.vel.y = Math.min(this.vel.y, 1);
+      this.boosted = false;
     }
 
     this.pos.y += this.vel.y;
@@ -89,7 +94,7 @@
           this.pos.y += depthY;
         } else {
           this.pos.y -= depthY;
-          this.onGround = true;
+          this.touchGround();
         }
         this.vel.y = 0.1;
       }
@@ -129,7 +134,19 @@
     }
 
     return false;
-  }
+  };
+
+  Wizard.prototype.touchGround = function () {
+    this.onGround = true;
+    this.boosted = false;
+  };
+
+  Wizard.prototype.applyMomentum = function (vec) {
+    if (!this.boosted) {
+      this.boosted = true;
+      this.vel.plus(vec);
+    }
+  };
 
   Wizard.prototype.isValidMove = function (move) {
     var currPos = this.pos.dup();
@@ -164,15 +181,18 @@
   };
 
   Wizard.prototype.faceDir = function (dir) {
-    this.facing = dir;
     if (dir === "left") {
       this.sprite.mirror = true;
       if (this.onRightWall) {this.wallJumpBuffer = 10}
       this.onRightWall = false;
+      this.horFacing = dir;
     } else if (dir === "right") {
       this.sprite.mirror = false;
       if (this.onLeftWall) {this.wallJumpBuffer = 10}
       this.onLeftWall = false;
+      this.horFacing = dir;
+    } else if (dir === "up" || dir === "down") {
+      this.verFacing = dir;
     }
   };
 
@@ -183,14 +203,14 @@
   };
 
   Wizard.prototype.spellDirection = function () {
-    if (this.facing === "left") {
-      return new LW.Coord([-1, 0]);
-    } else if (this.facing === "right") {
-      return new LW.Coord([1, 0]);
-    } else if (this.facing === "up") {
+    if (this.verFacing === "up") {
       return new LW.Coord([0, -1]);
-    } else if (this.facing === "down") {
+    } else if (this.verFacing === "down") {
       return new LW.Coord([0,1]);
+    } else if (this.horFacing === "right") {
+      return new LW.Coord([1, 0]);
+    } else if (this.horFacing === "left") {
+      return new LW.Coord([-1, 0]);
     }
   };
 

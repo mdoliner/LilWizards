@@ -21,7 +21,11 @@
       imgSizeX: 100,
       imgSizeY: 100,
     }
-    for (var attrname in options) { defaults[attrname] = options[attrname]; }
+    for (var attrname in options) {
+      if (options[attrname] !== undefined) {
+        defaults[attrname] = options[attrname]; 
+      } 
+    }
 
     this.pos = new LW.Coord(defaults.pos);
     this.vel = new LW.Coord(defaults.vel);
@@ -41,11 +45,13 @@
     this.spellColl = defaults.spellColl;
     this.removeEvent = defaults.removeEvent.bind(this);
     this.duration = defaults.duration;
+    this.sType = defaults.sType;
+    this.sId = defaults.sId;
   };
 
-  Spell.prototype.draw = function (ctx) {
+  Spell.prototype.draw = function (ctx, camera) {
     this.sprite.angle = this.vel.toAngleDeg();
-    this.sprite.draw(ctx);
+    this.sprite.draw(ctx, camera);
   };
 
   Spell.prototype.move = function () {

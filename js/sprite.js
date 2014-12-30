@@ -20,7 +20,11 @@
       sizeY: 100, //percent
       animationReset: function () {}
     };
-    for (var attrname in options) { defaults[attrname] = options[attrname]; }
+    for (var attrname in options) {
+      if (options[attrname] !== undefined) {
+        defaults[attrname] = options[attrname]; 
+      } 
+    }
 
     this.parent = defaults.parent;
     this.pos = this.parent.pos;
@@ -54,9 +58,10 @@
     }
   };
 
-  Sprite.prototype.draw = function (ctx) {
+  Sprite.prototype.draw = function (ctx, camera) {
     ctx.save();
-    ctx.translate(this.pos.x, this.pos.y);
+    var drawPos = camera.relativePos(this.pos);
+    ctx.translate(drawPos.x, drawPos.y);
     if (this.mirror) {
       ctx.scale(-1,1)
     }
@@ -68,10 +73,10 @@
       sHeight * this.indexY,
       sWidth,
       sHeight,
-      -sWidth * this.sizeX / 200,
-      -sHeight * this.sizeY / 200,
-      sWidth * this.sizeX / 100,
-      sHeight * this.sizeY / 100
+      -sWidth * this.sizeX * camera.size / 20000,
+      -sHeight * this.sizeY * camera.size / 20000,
+      sWidth * this.sizeX * camera.size / 10000,
+      sHeight * this.sizeY * camera.size / 10000
       );
     ctx.restore();
   };

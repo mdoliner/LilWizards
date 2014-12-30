@@ -14,9 +14,15 @@
     this.tickEvent = options.tickEvent;
   };
 
-  Particle.prototype.draw = function (ctx) {
+  Particle.prototype.draw = function (ctx, camera) {
     ctx.beginPath();
-    ctx.rect(this.pos.x, this.pos.y, this.radius, this.radius);
+    var newPos = camera.relativePos(this.pos);
+    ctx.rect(
+      newPos.x, 
+      newPos.y, 
+      this.radius * camera.size / 100, 
+      this.radius * camera.size / 100
+    );
     ctx.fillStyle = this.color;
     ctx.fill();
   };

@@ -17,108 +17,6 @@
       this.game.draw(this.ctx);
     }.bind(this), 1000/120);
 
-    // this.bindKeys();
-  };
-
-  GameView.prototype.bindKeys = function () {
-    var boost = .5;
-    var jump = -5;
-
-    key('p', function(){ this.game.wizards[0].jump(jump) }.bind(this));
-    key('f', function(){ this.game.wizards[1].jump(jump) }.bind(this));
-  };
-
-  GameView.prototype.checkKeys = function () {
-    var boost = 1.0;
-    if (key.isPressed('left')) {
-      this.game.wizards[0].accelX(-boost);
-      this.game.wizards[0].faceDir("left");
-    }
-    if (key.isPressed('right')) {
-      this.game.wizards[0].accelX(boost);
-      this.game.wizards[0].faceDir("right");
-    }
-    if (key.isPressed('down')) {
-      this.game.wizards[0].faceDir("down");
-    }
-    if (key.isPressed('up')) {
-      this.game.wizards[0].faceDir("up");
-    }
-    if (key.isPressed('p')) {
-      this.game.wizards[0].dynamicJump();
-    }
-    if (key.isPressed('o')) {
-      this.game.wizards[0].castSpell(0);
-    }
-    if (key.isPressed('i')) {
-      this.game.wizards[0].castSpell(1);
-    }
-    if (key.isPressed('u')) {
-      this.game.wizards[0].castSpell(2);
-    }
-
-
-    if (key.isPressed('a')) {
-      this.game.wizards[1].accelX(-boost);
-      this.game.wizards[1].faceDir("left");
-    }
-    if (key.isPressed('d')) {
-      this.game.wizards[1].accelX(boost);
-      this.game.wizards[1].faceDir("right");
-    }
-    if (key.isPressed('w')) {
-      this.game.wizards[1].faceDir("up");
-    }
-    if (key.isPressed('s')) {
-      this.game.wizards[1].faceDir("down");
-    }
-    if (key.isPressed('f')) {
-      this.game.wizards[1].dynamicJump();
-    }
-    if (key.isPressed('g')) {
-      this.game.wizards[1].castSpell(0);
-    }
-    if (key.isPressed('h')) {
-      this.game.wizards[1].castSpell(1);
-    }
-    if (key.isPressed('j')) {
-      this.game.wizards[1].castSpell(2);
-    }
-  };
-
-  GameView.prototype.checkControllers = function () {
-    var gamepads = Gamepad.gamepads;
-    for (var i = 0; i < gamepads.length; i++) {
-      var leftX = Gamepad.moved(i, "LEFT_X")
-      if (Gamepad.pressed(i, "PAD_LEFT") || leftX < 0) {
-        this.game.wizards[i].accelX(leftX || -1);
-        this.game.wizards[i].faceDir("left");
-      }
-      if (Gamepad.pressed(i, "PAD_RIGHT") || leftX > 0) {
-        this.game.wizards[i].accelX(leftX || 1);
-        this.game.wizards[i].faceDir("right");
-      }
-      var leftY = Gamepad.moved(i, "LEFT_Y")
-      if (Gamepad.pressed(i, "PAD_UP") || leftY < -0.5) {
-        this.game.wizards[i].faceDir("up");
-      }
-      if (Gamepad.pressed(i, "PAD_DOWN") || leftY > 0.5) {
-        this.game.wizards[i].faceDir("down");
-      }
-      if (Gamepad.pressed(i, "FACE_1")) {
-        this.game.wizards[i].jump(-5);
-        this.game.wizards[i].dynamicJump();
-      }
-      if (Gamepad.pressed(i, "FACE_2")) {
-        this.game.wizards[i].castSpell(0);
-      }
-      if (Gamepad.pressed(i, "FACE_3")) {
-        this.game.wizards[i].castSpell(1);
-      }
-      if (Gamepad.pressed(i, "FACE_4")) {
-        this.game.wizards[i].castSpell(2);
-      }
-    }
   };
 
   GameView.prototype.wizardActions = function () {
@@ -130,6 +28,16 @@
       }
       if (wizard.actions["jump"] === "hold") {
         wizard.dynamicJump();
+      }
+      if (wizard.actions["up"] === "tap") {
+        wizard.faceDir("up");
+      } else if (wizard.actions["up"] === "release") {
+        wizard.verFacing = null;
+      }
+      if (wizard.actions["down"] === "tap") {
+        wizard.faceDir("down");
+      } else if (wizard.actions["down"] === "release") {
+        wizard.verFacing = null;
       }
       for (var spellIndex = 0; spellIndex < wizard.actions["spells"].length; spellIndex ++) {
         if (wizard.actions["spells"][spellIndex] === "tap") {
@@ -153,10 +61,14 @@
       }
       var leftY = Gamepad.moved(i, "LEFT_Y")
       if (Gamepad.pressed(i, "PAD_UP") || leftY < -0.5) {
-        this.game.wizards[i].faceDir("up");
+        this.game.wizards[i].actions["up"] = this.cyclePress(this.game.wizards[i].actions["up"]);
+      } else {
+        this.game.wizards[i].actions["up"] = this.cycleRelease(this.game.wizards[i].actions["up"]);
       }
       if (Gamepad.pressed(i, "PAD_DOWN") || leftY > 0.5) {
-        this.game.wizards[i].faceDir("down");
+        this.game.wizards[i].actions["down"] = this.cyclePress(this.game.wizards[i].actions["down"]);
+      } else {
+        this.game.wizards[i].actions["down"] = this.cycleRelease(this.game.wizards[i].actions["down"]);
       }
       if (Gamepad.pressed(i, "FACE_1")) {
         this.game.wizards[i].actions["jump"] = this.cyclePress(this.game.wizards[i].actions["jump"]);
@@ -225,10 +137,14 @@
         wizard.faceDir("right");
       }
       if (key.isPressed(buttons['down'])) {
-        wizard.faceDir("down");
+        wizard.actions["down"] = this.cyclePress(wizard.actions["down"]);
+      } else {
+        wizard.actions["down"] = this.cycleRelease(wizard.actions["down"]);
       }
       if (key.isPressed(buttons['up'])) {
-        wizard.faceDir("up");
+        wizard.actions["up"] = this.cyclePress(wizard.actions["up"]);
+      } else {
+        wizard.actions["up"] = this.cycleRelease(wizard.actions["up"]);
       }
       if (key.isPressed(buttons["jump"])) {
         wizard.actions["jump"] = this.cyclePress(wizard.actions["jump"]);
