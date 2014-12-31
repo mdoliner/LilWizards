@@ -15,12 +15,7 @@
       this.wizardActions();
       this.game.step();
       this.game.draw(this.ctx);
-<<<<<<< HEAD
-    }.bind(this), 1000/60);
-=======
     }.bind(this), 1000/120);
-
->>>>>>> da635038487ba3c742994e92a106e2a88d3f1211
   };
 
   GameView.prototype.wizardActions = function () {

@@ -78,28 +78,7 @@
 
   Game.prototype.step = function () {
     if (this.camera.move.time <= 0){
-<<<<<<< HEAD
       // this.adjustCamera();
-=======
-      var avgX = 0
-      var avgY = 0
-      var arrX = []
-      var arrY = []
-      this.wizards.forEach(function (wizard) {
-        avgX += wizard.pos.x / this.wizards.length;
-        avgY += wizard.pos.y / this.wizards.length;
-        arrX.push(Math.abs(wizard.pos.x-this.camera.pos.x));
-        arrY.push(Math.abs(wizard.pos.y-this.camera.pos.y));
-      }.bind(this))
-      arrX = arrX.sort((function(a,b){return a - b}));
-      arrY = arrY.sort((function(a,b){return a - b}));
-      this.camera.moveTo({
-        endPos: [avgX, avgY],
-        endSize: Math.min(Game.DIMX/(Game.DIMX/2-arrX[arrX.length-1])*50, Game.DIMY/(Game.DIMY/2-arrY[arrY.length-1])*50),
-        moveType: "linear",
-        duration: 1
-      })
->>>>>>> da635038487ba3c742994e92a106e2a88d3f1211
     }
     
     this.camera.step();
@@ -115,7 +94,6 @@
     })
   };
 
-<<<<<<< HEAD
   Game.prototype.adjustCamera = function () {
     var avgX = 0
     var avgY = 0
@@ -137,8 +115,6 @@
     })
   };
 
-=======
->>>>>>> da635038487ba3c742994e92a106e2a88d3f1211
   Game.prototype.draw = function (ctx) {
     ctx.clearRect(0,0,1024,576);
     var allObjects = this.allObjects();

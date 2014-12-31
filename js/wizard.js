@@ -28,11 +28,7 @@
     this.boosted = false;
     this.wallJumpBuffer = 0;
 
-<<<<<<< HEAD
     this.spellList = [LW.SpellList.Fireball, LW.SpellList.Sword, LW.SpellList.FanOfKnives];
-=======
-    this.spellList = [LW.SpellList.Fireball, LW.SpellList.Sword, LW.SpellList.Candy];
->>>>>>> da635038487ba3c742994e92a106e2a88d3f1211
     this.cooldownList = [0, 0, 0];
     this.globalCooldown = 0;
     this.kills = 0;
@@ -239,13 +235,9 @@
         }
       };
     }.bind(this))
-<<<<<<< HEAD
 
-    ////////////
     this.game.camera.startShake({power: 3, direction: 'x', duration: 20})
-    ////////////
-=======
->>>>>>> da635038487ba3c742994e92a106e2a88d3f1211
+
     this.pos.x = 300;
     this.pos.y = 130;
   };
