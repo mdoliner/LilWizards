@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Lil' Wizards</title>
+    <style media="screen">
+      canvas {
+        border: 2px solid black;
+        background-image: url('graphics/bg-forest.png');
+        background-size: 1024px 576px;
+        background-repeat: no-repeat;
+      }
+    </style>
+    <script src="js/keymaster.js"></script>
+    <script src="js/coord.js"></script>
+    <script src="js/collision_box.js"></script>
+    <script src="js/tile.js"></script>
+    <script src="js/game_view.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/camera.js"></script>
+    <script src="js/wizard.js"></script>
+    <script src="js/sprite.js"></script>
+    <script src="js/spell.js"></script>
+    <script src="js/spell_list.js"></script>
+    <script src="js/particle.js"></script>
+    <script src="js/gamepad.js"></script>
+  </head>
+  <body>
+    <canvas id="game-canvas" width="1024" height="576">
+    </canvas>
+
+    <script>
+      var canvas = document.getElementById("game-canvas");
+      var ctx = canvas.getContext('2d');
+      var gameView = new LW.GameView(ctx);
+      gameView.startGame();
+    </script>
+
+  </body>
+</html>
