@@ -6,7 +6,11 @@
   var SpellList = LW.SpellList = {};
 
   SpellList.Fireball = function (spellIndex) {
+<<<<<<< HEAD
     var spell = new LW.Spell ({
+=======
+    var fireball = new LW.Spell ({
+>>>>>>> da635038487ba3c742994e92a106e2a88d3f1211
       pos: this.pos,
       vel: this.spellDirection().times([6, 6]),
       img: "graphics/spell_fireball.gif",
@@ -37,11 +41,18 @@
         }.bind(this))
       }
     });
+<<<<<<< HEAD
     this.game.spells.push(spell);
     this.globalCooldown = 30;
     this.cooldownList[spellIndex] = 30;
     this.applyMomentum(this.spellDirection().times([-3,-3]));
     return spell;
+=======
+    this.game.spells.push(fireball);
+    this.globalCooldown = 30;
+    this.cooldownList[spellIndex] = 30;
+    this.applyMomentum(this.spellDirection().times([-3,-3]));
+>>>>>>> da635038487ba3c742994e92a106e2a88d3f1211
   }
 
   // =====================================================================
@@ -51,7 +62,11 @@
 
 
   SpellList.Sword = function (spellIndex) {
+<<<<<<< HEAD
     var spell = new LW.Spell ({
+=======
+    var sword = new LW.Spell ({
+>>>>>>> da635038487ba3c742994e92a106e2a88d3f1211
       pos: this.pos,
       vel: this.spellDirection().times([20,20]).plusAngleDeg(-90),
       img: "graphics/spell_sword.png",
@@ -74,6 +89,7 @@
           spell.vel.times([-1.1,-1.1]);
         }
       },
+<<<<<<< HEAD
       solidColl: null
     });
     this.game.spells.push(spell);
@@ -82,6 +98,14 @@
     this.applyMomentum(this.spellDirection().times([3,3]))
     return spell;
 
+=======
+      solidColl: function () {}
+    });
+    this.game.spells.push(sword);
+    this.globalCooldown = 10;
+    this.cooldownList[spellIndex] = 30;
+    this.applyMomentum(this.spellDirection().times([3,3]))
+>>>>>>> da635038487ba3c742994e92a106e2a88d3f1211
   }
 
   // =====================================================================
@@ -89,7 +113,11 @@
   // =====================================================================
 
   SpellList.Candy = function (spellIndex) {
+<<<<<<< HEAD
     var spell = new LW.Spell ({
+=======
+    var candy = new LW.Spell ({
+>>>>>>> da635038487ba3c742994e92a106e2a88d3f1211
       pos: this.pos,
       vel: [0,0],
       img: "graphics/spell_candy.png",
@@ -100,7 +128,10 @@
       caster: this,
       sType: "static",
       sId: "candy",
+<<<<<<< HEAD
 
+=======
+>>>>>>> da635038487ba3c742994e92a106e2a88d3f1211
       tickEvent: function () {
         if (this.mineBuffer === undefined) {
           this.mineBuffer = 30;
@@ -113,21 +144,30 @@
           this.sprite.sizeY += 1;
         }
       },
+<<<<<<< HEAD
 
+=======
+>>>>>>> da635038487ba3c742994e92a106e2a88d3f1211
       wizardColl: function (wizard) {
         if (this.mineBuffer <= 0) {
           this.remove();
           wizard.kill(this.caster);
         }
       },
+<<<<<<< HEAD
 
+=======
+>>>>>>> da635038487ba3c742994e92a106e2a88d3f1211
       solidColl: null,
       spellColl: function (spell) {
         if (spell.sId === "candy") {return;}
         spell.remove();
         this.remove();
       },
+<<<<<<< HEAD
 
+=======
+>>>>>>> da635038487ba3c742994e92a106e2a88d3f1211
       removeEvent: function () {
         LW.ParticleSplatter(40, function () {
           var randVel = new LW.Coord([Math.random()*5,Math.random()*5]).plusAngleDeg(Math.random()*360);
@@ -142,6 +182,7 @@
           };
         }.bind(this))
       }
+<<<<<<< HEAD
 
     });
     this.game.spells.push(spell);
@@ -198,6 +239,12 @@
     this.globalCooldown = 30;
     this.cooldownList[spellIndex] = 60;
     return spell;
+=======
+    });
+    this.game.spells.push(candy);
+    this.globalCooldown = 0;
+    this.cooldownList[spellIndex] = 45;
+>>>>>>> da635038487ba3c742994e92a106e2a88d3f1211
   }
 
 })();
