@@ -84,6 +84,13 @@
     return this.setAngle(newAngle * Math.PI / 180);
   };
 
+  Coord.prototype.plusUpAngleDeg = function (angle) {
+    if (this.x > 0) {
+      angle *= -1;
+    }
+    return this.plusAngleDeg(angle);
+  }
+
   Coord.prototype.dup = function () {
     return new Coord([this.x, this.y]);
   };

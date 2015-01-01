@@ -81,7 +81,10 @@
   };
 
   Camera.prototype.startShake = function (options) {
-    while (this.shake.time > 0) { this.shakeScreen();}
+    if (this.shake.time > 0) { 
+      this.pos.minus(this.shake.modCoord);
+      this.size -= this.shake.modSize;
+    }
     this.shake.modCoord = new LW.Coord([0,0]);
     this.shake.modSize = 0;
     this.shake.power = options.power || 5;
