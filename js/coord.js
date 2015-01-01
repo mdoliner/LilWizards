@@ -53,6 +53,13 @@
     return this;
   };
 
+  Coord.prototype.abs = function () {
+    var newCoord = this.dup();
+    newCoord.x = Math.abs(newCoord.x);
+    newCoord.y = Math.abs(newCoord.y);
+    return newCoord;
+  }
+
   Coord.prototype.toAngle = function () {
     return Math.atan2(this.y, this.x);
   };
@@ -66,6 +73,10 @@
     var ySqr = this.y * this.y;
     return Math.sqrt(xSqr + ySqr);
   };
+
+  Coord.prototype.toUnitVector = function () {
+    return this.dup().divided(this.toScalar());
+  }
 
   Coord.prototype.setAngle = function (newAngle) {
     var scalar = this.toScalar();
@@ -89,7 +100,7 @@
       angle *= -1;
     }
     return this.plusAngleDeg(angle);
-  }
+  };
 
   Coord.prototype.dup = function () {
     return new Coord([this.x, this.y]);
@@ -101,6 +112,10 @@
 
   Array.prototype.toCoord = function () {
     return new Coord(this);
+  };
+
+  Number.prototype.toCoord = function () {
+    return new Coord([this, this]);
   };
 
 })();

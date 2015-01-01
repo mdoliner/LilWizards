@@ -28,7 +28,7 @@
     this.boosted = false;
     this.wallJumpBuffer = 0;
 
-    this.spellList = [LW.SpellList.Crash, LW.SpellList.Sword, LW.SpellList.FanOfKnives];
+    this.spellList = [LW.SpellList.Crash, LW.SpellList.RayCannon, LW.SpellList.FanOfKnives];
     this.cooldownList = [0, 0, 0];
     this.globalCooldown = 0;
     this.kills = 0;
@@ -67,7 +67,7 @@
     if (collisions) {
       for (var i = 0; i < collisions.length; i++) {
         var oB = collisions[i].collBox;
-        var depthX = (this.collBox.dim[0] + oB.dim[0]) - Math.abs(this.pos.x - oB.pos.x);
+        var depthX = (this.collBox.dim.x + oB.dim.x) - Math.abs(this.pos.x - oB.pos.x);
         if (this.pos.x > oB.pos.x ) {
           this.pos.x += depthX;
           this.onLeftWall = true;
@@ -89,7 +89,7 @@
     if (collisions) {
       for (var i = 0; i < collisions.length; i++) {
         var oB = collisions[i].collBox;
-        var depthY = (this.collBox.dim[1] + oB.dim[1]) - Math.abs(this.pos.y - oB.pos.y);
+        var depthY = (this.collBox.dim.y + oB.dim.y) - Math.abs(this.pos.y - oB.pos.y);
         if (this.pos.y > oB.pos.y ) {
           this.pos.y += depthY;
         } else {
