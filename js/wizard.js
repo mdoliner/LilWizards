@@ -23,14 +23,14 @@
 
     this.game = options.game;
 
-    this.collBox = new LW.CollBox(this.pos, [12, 12]);
+    this.collBox = new LW.CollBox(this, [12, 12]);
     this.onGround = false;
     this.boosted = false;
     this.wallJumpBuffer = 0;
     this.wallHangOveride = false;
     this.deadTimer = -1;
 
-    this.spellList = [ LW.SpellList.Crash, LW.SpellList.FanOfKnives, LW.SpellList.RayCannon];
+    this.spellList = options.spellList || [ LW.SpellList.ForcePush, LW.SpellList.Candy, LW.SpellList.Fireball];
     this.cooldownList = [0, 0, 0];
     this.globalCooldown = 0;
     this.kills = 0;
@@ -44,6 +44,15 @@
     };
   };
 
+  Wizard.TOTAL_SPELL_LIST = [
+    LW.SpellList.Crash, 
+    LW.SpellList.FanOfKnives, 
+    LW.SpellList.RayCannon,
+    LW.SpellList.Fireball,
+    LW.SpellList.Candy,
+    LW.SpellList.Sword,
+    LW.SpellList.ForcePush
+  ];
   Wizard.MAX_VEL_X = 5;
   Wizard.N_GRAVITY = 0.18;
   Wizard.J_GRAVITY = 0.07;
@@ -75,44 +84,33 @@
   Wizard.prototype.move = function () {
     this.onGround = false;
     this.wallJumpBuffer -= 1;
-
-    this.pos.x += this.vel.x;
-    var collisions = this.game.solidCollisions(this.collBox);
-    if (collisions) {
-      for (var i = 0; i < collisions.length; i++) {
-        var oB = collisions[i].collBox;
-        var depthX = (this.collBox.dim.x + oB.dim.x) - Math.abs(this.pos.x - oB.pos.x);
-        if (this.pos.x > oB.pos.x ) {
-          this.pos.x += depthX;
-          this.onLeftWall = true;
-        } else {
-          this.pos.x -= depthX;
-          this.onRightWall = true;
-        }
-        this.vel.x = 0;
+    var that = this;
+    
+    this.collBox.collHor(this.vel.x,{
+      isCollision: function () {
+        that.vel.x = 0;
+      },
+      leftCollision: function () {
+        that.onLeftWall = true;
+      },
+      rightCollision: function () {
+        that.onRightWall = true;
       }
-    }
+    })
 
     if (this.isOnWall() && (this.horFacing === "left" || this.horFacing === "right") && !this.wallHangOveride) {
       this.vel.y = Math.min(this.vel.y, 1);
       this.boosted = false;
     }
 
-    this.pos.y += this.vel.y;
-    var collisions = this.game.solidCollisions(this.collBox);
-    if (collisions) {
-      for (var i = 0; i < collisions.length; i++) {
-        var oB = collisions[i].collBox;
-        var depthY = (this.collBox.dim.y + oB.dim.y) - Math.abs(this.pos.y - oB.pos.y);
-        if (this.pos.y > oB.pos.y ) {
-          this.pos.y += depthY;
-        } else {
-          this.pos.y -= depthY;
-          this.touchGround();
-        }
-        this.vel.y = 0.1;
+    this.collBox.collVer(this.vel.y,{
+      isCollision: function () {
+        that.vel.y = 0.1;
+      },
+      bottomCollision: function () {
+        that.touchGround();
       }
-    }
+    })
 
     if (!this.onGround) {
       this.vel.plus(this.gravity);
@@ -269,7 +267,16 @@
   Wizard.prototype.revive = function () {
     this.pos.setTo(this.game.getSpawnPointPos(this));
     this.vel.setTo(0);
+    this.verFacing = null;
     this.game.playSE('revive.ogg');
+    this.cooldownList = [0, 0, 0];
+    this.globalCooldown = 0;
+
+    // var listdup = Wizard.TOTAL_SPELL_LIST.slice(0);
+    // while (listdup.length > 3) {
+    //   listdup.splice(Math.floor(Math.random()*listdup.length),1)
+    // }
+    // this.spellList = listdup;
 
     LW.ParticleSplatter(20, function () {
       var randVel = new LW.Coord([Math.random()*3,Math.random()*3]).plusAngleDeg(Math.random()*360)

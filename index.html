@@ -21,10 +21,10 @@
     <script src="js/game_view.js"></script>
     <script src="js/game.js"></script>
     <script src="js/camera.js"></script>
-    <script src="js/wizard.js"></script>
     <script src="js/sprite.js"></script>
     <script src="js/spell.js"></script>
     <script src="js/spell_list.js"></script>
+    <script src="js/wizard.js"></script>
     <script src="js/particle.js"></script>
     <script src="js/gamepad.js"></script>
     <script src="js/sound_library.js"></script>
@@ -37,8 +37,8 @@
 
     <script>
       var bgm = document.getElementById("bgm");
-      // bgm.src = "audio/BGM/acapella.mp3";
-      // bgm.play();
+      bgm.src = "audio/BGM/battle.mp3";
+      bgm.play();
       var sound_library = new LW.SoundLibrary();
       var canvas = document.getElementById("game-canvas");
       var ctx = canvas.getContext('2d');

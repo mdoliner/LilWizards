@@ -10,7 +10,7 @@
       parent: this
     });
 
-    this.collBox = new LW.CollBox(this.pos, [16, 16]);
+    this.collBox = new LW.CollBox(this, [16, 16]);
   };
 
   Tile.prototype.draw = function (ctx, camera) {

@@ -24,6 +24,7 @@
         }
       },
       removeEvent: function () {
+        this.game.playSE('fire2.ogg');
         LW.ParticleSplatter(10, function () {
           var randVel = this.vel.dup().times([-Math.random(),-Math.random()]).plusAngleDeg(Math.random()*120-60)
           return {
@@ -37,6 +38,7 @@
         }.bind(this))
       }
     });
+    this.game.playSE('fire.ogg');
     this.game.spells.push(spell);
     this.globalCooldown = 30;
     this.cooldownList[spellIndex] = 30;
@@ -53,7 +55,7 @@
   SpellList.Sword = function (spellIndex) {
     var spell = new LW.Spell ({
       pos: this.pos,
-      vel: this.spellDirection().times([20,20]).plusAngleDeg(90),
+      vel: this.spellDirection().times(30).plusAngleDeg(90),
       img: "graphics/spell_sword.png",
       dim: [22.5,5],
       game: this.game,
@@ -66,6 +68,7 @@
         this.pos.x = this.caster.pos.x;
         this.pos.y = this.caster.pos.y;
         this.vel.plusAngleDeg(-9);
+        this.collBox.dim.setTo(this.vel).max(5);
       },
       spellColl: function (spell) {
         if (spell.caster === this.caster) {return;};
@@ -76,10 +79,11 @@
       },
       solidColl: null
     });
+    this.game.playSE('sword.ogg');
     this.game.spells.push(spell);
     this.globalCooldown = 10;
     this.cooldownList[spellIndex] = 30;
-    this.applyMomentum(this.spellDirection().times([3,3]))
+    this.applyMomentum(this.spellDirection().times(4))
     return spell;
   }
 
@@ -101,14 +105,14 @@
       sId: "candy",
       tickEvent: function () {
         if (this.mineBuffer === undefined) {
-          this.mineBuffer = 30;
+          this.mineBuffer = 120;
         }
         this.mineBuffer -= 1;
         if (this.mineBuffer <= 0) {
           this.sprite.baseAngle += 1;
         } else {
-          this.sprite.sizeX += 1;
-          this.sprite.sizeY += 1;
+          this.sprite.sizeX += 0.25;
+          this.sprite.sizeY += 0.25;
         }
       },
       wizardColl: function (wizard) {
@@ -119,11 +123,14 @@
       },
       solidColl: null,
       spellColl: function (spell) {
-        if (spell.sId === "candy") {return;}
-        spell.remove();
+        if (spell.sId === "candy" || spell.sId === "forcePush") {return;}
+        if (spell.sType !== "ray") {
+          spell.remove();
+        }
         this.remove();
       },
       removeEvent: function () {
+        this.game.playSE('candy_explode.ogg');
         LW.ParticleSplatter(40, function () {
           var randVel = new LW.Coord([Math.random()*5,Math.random()*5]).plusAngleDeg(Math.random()*360);
           var color = ['orange', 'yellow', 'grey', 'black'][Math.floor(Math.random()*3 + 0.5)];
@@ -139,6 +146,7 @@
       }
 
     });
+    this.game.playSE('candy_make.ogg');
     this.game.spells.push(spell);
     this.globalCooldown = 0;
     this.cooldownList[spellIndex] = 45;
@@ -228,8 +236,8 @@
       sId: "crash",
       tickEvent: function () {
         if (this.impact) {
-          this.collBox.dim.x += 2
-          this.collBox.dim.y += 1
+          this.collBox.dim.x += 2;
+          this.collBox.dim.y += 0.4;
           spell.sprite.sizeY += 40;
         } else {
           this.caster.vel.y = 10;
@@ -349,6 +357,66 @@
     spell.sprite.sizeY = 1;
     this.game.spells.push(spell);
     this.globalCooldown = 60;
+    this.cooldownList[spellIndex] = 180;
+    return spell;
+  };
+
+  // =====================================================================
+  // =====================================================================
+  // =====================================================================
+
+  SpellList.ForcePush = function (spellIndex) {
+    var spell = new LW.Spell ({
+      pos: this.pos,
+      vel: this.spellDirection().times(10),
+      img: "graphics/spell_push.gif",
+      dim: [8,8],
+      game: this.game,
+      caster: this,
+      duration: 20,
+      sType: "ray",
+      sId: "forcePush",
+      tickEvent: function () {
+        this.sprite.sizeY += 1.79;
+        this.collBox.dim.plus(this.vel.dup().plusAngleDeg(90).abs().times(0.2));
+      },
+      initialize: function () {
+        this.game.playSE('wind.ogg');
+        this.sprite.sizeX = 33;
+        this.sprite.sizeY = 7.16;
+      },
+      spellColl: function (spell) {
+        if (spell.sType === "projectile") {
+          spell.vel.setAngle(this.vel.toAngle()).times(1.1);
+          spell.caster = this.caster;
+        }
+        if (spell.sType === "static") {
+          spell.vel.setTo(this.vel);
+          if (!spell.hitByForcePush) {
+            spell.hitByForcePush = true
+            var oldFunc = spell.tickEvent.bind(spell);
+            spell.tickEvent = function () {
+              spell.vel.divided(1.2);
+              oldFunc();
+            }
+          }
+        }
+      },
+      solidColl: null,
+      wizardColl: function (wizard) {
+        if (wizard === this.caster) {return;}
+        if ((wizard.onGround && this.vel.y > 0) || 
+          (this.vel.x < 0 && wizard.collBox.collHor(-2)) || 
+          (this.vel.x > 0 && wizard.collBox.collHor(2)) ||
+          (this.vel.y < 0 && wizard.collBox.collVer(-2))) {
+          wizard.kill(this.caster);
+        } else {
+          wizard.vel.setTo(this.vel).times(1.8).setAngle(wizard.pos.dup().minus(this.pos).toAngle());
+        }
+      }
+    });
+    this.game.spells.push(spell);
+    this.globalCooldown = 30;
     this.cooldownList[spellIndex] = 180;
     return spell;
   };

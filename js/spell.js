@@ -36,7 +36,7 @@
       sizeX: defaults.imgSizeX,
       sizeY: defaults.imgSizeY
     });
-    this.collBox = new LW.CollBox(this.pos, defaults.dim)
+    this.collBox = new LW.CollBox(this, defaults.dim)
     this.caster = defaults.caster;
     this.game = defaults.game;
     this.tickEvent = defaults.tickEvent;
@@ -47,6 +47,7 @@
     this.duration = defaults.duration;
     this.sType = defaults.sType;
     this.sId = defaults.sId;
+    defaults.initialize && defaults.initialize.bind(this)();
   };
 
   Spell.prototype.draw = function (ctx, camera) {
@@ -55,7 +56,7 @@
   };
 
   Spell.prototype.move = function () {
-    this.tickEvent();
+    this.tickEvent && this.tickEvent();
     this.pos.plus(this.vel);
 
     if (this.wizardColl) {
@@ -90,7 +91,7 @@
   };
 
   Spell.prototype.remove = function () {
-    this.removeEvent();
+    this.removeEvent && this.removeEvent();
     this.game.remove(this);
   };
 

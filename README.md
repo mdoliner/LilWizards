@@ -19,6 +19,7 @@ IMPORTANT
 
 MEDIUM
 - more spells?
+- ForcePush with Static Spell interaction.
 - speed improvement with collisions / check if they are slow.
 
 - cooldown circles
