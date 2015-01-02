@@ -368,12 +368,12 @@
   SpellList.ForcePush = function (spellIndex) {
     var spell = new LW.Spell ({
       pos: this.pos,
-      vel: this.spellDirection().times(10),
+      vel: this.spellDirection().times(6.7),
       img: "graphics/spell_push.gif",
       dim: [8,8],
       game: this.game,
       caster: this,
-      duration: 20,
+      duration: 30,
       sType: "ray",
       sId: "forcePush",
       tickEvent: function () {
@@ -411,7 +411,25 @@
           (this.vel.y < 0 && wizard.collBox.collVer(-2))) {
           wizard.kill(this.caster);
         } else {
-          wizard.vel.setTo(this.vel).times(1.8).setAngle(wizard.pos.dup().minus(this.pos).toAngle());
+          wizard.vel.setTo(this.vel).times(2.7);//.setAngle(wizard.pos.dup().minus(this.pos).toAngle());
+          var makeWizardWind = function () {
+            LW.ParticleSplatter(2, function () {
+              var randVel = new LW.Coord([Math.random()*2+2,0])
+              console.log(randVel);
+              randVel.setAngle(wizard.vel.toAngle()).times(-1).plusAngleDeg(Math.random()*60-30);
+              console.log(randVel);
+              return {
+                pos: wizard.pos,
+                vel: randVel,
+                game: this.game,
+                duration: Math.floor(Math.random()*20+10),
+                radius: Math.random()*2+2,
+                color: "orange"
+              };
+            }.bind(this));
+            if (wizard.vel.toScalar() > 7) {setTimeout(makeWizardWind, 1000/120);}
+          }.bind(this);
+          makeWizardWind();
         }
       }
     });
