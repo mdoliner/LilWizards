@@ -39,6 +39,13 @@
     return this;
   };
 
+  Coord.prototype.setTo = function (pos) {
+    var newCoord = pos.toCoord();
+    this.x = newCoord.x;
+    this.y = newCoord.y;
+    return this;
+  }
+
   Coord.prototype.max = function (pos) {
     var newCoord = pos.toCoord();
     this.x = Math.max(this.x, newCoord.x);

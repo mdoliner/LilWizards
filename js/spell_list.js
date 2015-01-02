@@ -234,6 +234,7 @@
           this.pos.x = this.caster.pos.x;
           this.pos.y = this.caster.pos.y;
           if (this.caster.onGround) {
+            this.caster.wallHangOveride = false;
             this.impact = true;
             this.game.camera.startShake({power: 4, direction: 'y', duration: 15})
             this.duration = 15;
@@ -263,6 +264,7 @@
     });
     spell.sprite.sizeY = 100;
     spell.sprite.sizeX = 50;
+    this.wallHangOveride = true;
     this.game.spells.push(spell);
     this.globalCooldown = 30;
     this.cooldownList[spellIndex] = 70;
@@ -304,6 +306,7 @@
                 color: 'blue',
                 tickEvent: function () {
                   if (spell.isFired && !this.velChanged) {
+                    // sets velocity to go twice lazer's pos over the course of its duration.
                     this.vel.setAngle(spell.vel.toAngle()).plus(spell.pos.dup().minus(this.pos).divided(this.duration/2));
                     this.velChanged = true;
                   }

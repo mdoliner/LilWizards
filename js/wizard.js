@@ -27,8 +27,9 @@
     this.onGround = false;
     this.boosted = false;
     this.wallJumpBuffer = 0;
+    this.wallHangOveride = false;
 
-    this.spellList = [LW.SpellList.FanOfKnives, LW.SpellList.Crash, LW.SpellList.RayCannon];
+    this.spellList = [ LW.SpellList.Crash, LW.SpellList.FanOfKnives, LW.SpellList.RayCannon];
     this.cooldownList = [0, 0, 0];
     this.globalCooldown = 0;
     this.kills = 0;
@@ -79,7 +80,7 @@
       }
     }
 
-    if (this.isOnWall() && (this.horFacing === "left" || this.horFacing === "right")) {
+    if (this.isOnWall() && (this.horFacing === "left" || this.horFacing === "right") && !this.wallHangOveride) {
       this.vel.y = Math.min(this.vel.y, 1);
       this.boosted = false;
     }
@@ -238,9 +239,21 @@
 
     this.game.camera.startShake({power: 3, direction: 'x', duration: 20})
 
-    this.pos.x = 300;
-    this.pos.y = 130;
+    this.pos.setTo(this.game.getSpawnPointPos(this));
+    this.vel.setTo(0);
+
+
+    this.removeActiveSpells();
   };
+
+  Wizard.prototype.removeActiveSpells = function () {
+    for (var i = this.game.spells.length - 1; i >= 0; i--) {
+      var spell = this.game.spells[i];
+      if (spell.caster === this && "ray melee".indexOf(spell.sType) >= 0) {
+        this.game.spells.splice(i, 1);
+      }
+    };
+  }
 
   Wizard.prototype.castSpell = function (spellIndex) {
     if (this.globalCooldown <= 0 && this.cooldownList[spellIndex] <= 0) {
