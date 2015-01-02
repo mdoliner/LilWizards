@@ -5,12 +5,18 @@ read: http://www.html5rocks.com/en/tutorials/casestudies/gopherwoord-studios-res
 
 - sprite refactoring
 
+Questions:
+- HP?
+- Respawn Points
+- Hud.
+
 IMPORTANT
 - level zoom
   - possibly bigger levels
-  - shakke da bouty
 - CONTROLLER FIX TTY
-- Multiple Input Functionality for spells??????? (holding vs tapping vs releaseing)
+- Fix Crash On Wall
+- Possibly Input problem (shuriken + running + jumping??? and shuriken letting go)
+
 
 MEDIUM
 - more spells?
@@ -47,4 +53,3 @@ Spells
 - growth into death serum
 - kiss of alignment
   - you get enemy's kills until wears off or death
--

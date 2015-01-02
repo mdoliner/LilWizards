@@ -14,7 +14,9 @@
   	};
     this.shake = {
       time: -1,
-      direction: ''
+      direction: '',
+      modCoord: new LW.Coord([0,0]),
+      modSize: 0
     };
   };
 
@@ -81,7 +83,7 @@
   };
 
   Camera.prototype.startShake = function (options) {
-    if (this.shake.time > 0) { 
+    if (this.shake.modCoord.toScalar() > 0 || this.shake.modeSize > 0) { 
       this.pos.minus(this.shake.modCoord);
       this.size -= this.shake.modSize;
     }

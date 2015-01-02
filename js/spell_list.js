@@ -154,7 +154,7 @@
       pos: this.pos,
       vel: this.spellDirection().times([15,15]).plusAngleDeg(-45),
       img: "graphics/spell_shuriken.gif",
-      dim: [5,5],
+      dim: [2,2],
       game: this.game,
       caster: this,
       duration: -1,
@@ -167,6 +167,7 @@
         } else if (this.caster.actions["spells"][spellIndex] === "release" || 
                   (this.caster.actions["spells"][spellIndex] === "none" && !this.isFired) ) {
           this.vel.divided([3,3]);
+          this.collBox.dim.plus(3);
           this.isFired = true;
           this.sType = "projectile"
           this.solidColl = function () {
@@ -234,9 +235,10 @@
           this.pos.y = this.caster.pos.y;
           if (this.caster.onGround) {
             this.impact = true;
-            this.game.camera.startShake({power: 4, direction: 'x', duration: 15})
+            this.game.camera.startShake({power: 4, direction: 'y', duration: 15})
             this.duration = 15;
             this.caster.vel.x = 0;
+            this.caster.applyMomentum([0,-15]);
             this.vel.y = 0.1;
             LW.ParticleSplatter(40, function () {
               var randVel = new LW.Coord([-Math.random()*4,0]).plusAngleDeg(Math.floor(Math.random()*2)*180);
@@ -263,7 +265,7 @@
     spell.sprite.sizeX = 50;
     this.game.spells.push(spell);
     this.globalCooldown = 30;
-    this.cooldownList[spellIndex] = 60;
+    this.cooldownList[spellIndex] = 70;
     return spell;
   };
 
@@ -327,6 +329,7 @@
               wizard.kill(this.caster);
             }
           };
+          this.caster.applyMomentum(spellDir.times(-1));
         }
       },
       spellColl: null,

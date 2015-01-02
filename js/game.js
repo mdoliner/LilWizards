@@ -29,9 +29,11 @@
       pos: [48,48],
       vel: [0,0],
       horFacing: "left",
-      img: "./graphics/wiz.png",
-      imgIndexXMax: 1,
+      img: "./graphics/wiz_baby_ani.png",
+      imgIndexXMax: 4,
       imgIndexYMax: 1,
+      imgSizeX: 7.62,
+      imgSizeY: 8,
       game: this
     }));
     this.wizards.push (new LW.Wizard({

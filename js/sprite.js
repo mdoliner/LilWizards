@@ -12,7 +12,7 @@
       indexY: 0,
       indexYMax: 1,
       tickCount: 0,
-      buffer: 5,
+      buffer: 10,
       mirror: false,
       angle: 0,
       baseAngle: 0,

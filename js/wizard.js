@@ -28,7 +28,7 @@
     this.boosted = false;
     this.wallJumpBuffer = 0;
 
-    this.spellList = [LW.SpellList.Crash, LW.SpellList.RayCannon, LW.SpellList.FanOfKnives];
+    this.spellList = [LW.SpellList.FanOfKnives, LW.SpellList.Crash, LW.SpellList.RayCannon];
     this.cooldownList = [0, 0, 0];
     this.globalCooldown = 0;
     this.kills = 0;
