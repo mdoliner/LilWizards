@@ -14,9 +14,8 @@ IMPORTANT
 - level zoom
   - possibly bigger levels
 - CONTROLLER FIX TTY
-- Fix Crash On Wall
 - Possibly Input problem (shuriken + running + jumping??? and shuriken letting go)
-
+- Menu EWWWWWWW
 
 MEDIUM
 - more spells?
@@ -27,8 +26,6 @@ MEDIUM
 
 - on leaving window pauses game
 - write readme
-
-- kill count
 
 - kill cam joke mode?
 

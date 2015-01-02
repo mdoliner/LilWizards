@@ -189,6 +189,7 @@
       spellColl: null,
       solidColl: null,
       removeEvent: function () {
+        this.game.playSE('metal_ping.ogg');
         LW.ParticleSplatter(5, function () {
           var randVel = this.vel.dup().times([-Math.random(),-Math.random()]).plusAngleDeg(Math.random()*120-60)
           return {
@@ -202,6 +203,7 @@
         }.bind(this))
       }
     });
+    this.game.playSE('swing.ogg');
     this.game.spells.push(spell);
     this.globalCooldown = 30;
     this.cooldownList[spellIndex] = 60;
@@ -241,6 +243,7 @@
             this.caster.vel.x = 0;
             this.caster.applyMomentum([0,-15]);
             this.vel.y = 0.1;
+            this.game.playSE('explode.ogg');
             LW.ParticleSplatter(40, function () {
               var randVel = new LW.Coord([-Math.random()*4,0]).plusAngleDeg(Math.floor(Math.random()*2)*180);
               var color = ['red', 'yellow', 'white'][Math.floor(Math.random()*3)];
@@ -264,6 +267,7 @@
     });
     spell.sprite.sizeY = 100;
     spell.sprite.sizeX = 50;
+    this.game.playSE('fire.ogg')
     this.wallHangOveride = true;
     this.game.spells.push(spell);
     this.globalCooldown = 30;
@@ -311,10 +315,11 @@
                     this.velChanged = true;
                   }
                 }
-              };
+              };            
             }.bind(this))
         } else {
           this.isFired = true;
+          this.game.playSE('thunder.ogg')
           spell.sprite.sizeX = 100;
           spell.sprite.sizeY = 100;
           var collisions = this.game.solidCollisions(this.collBox);
@@ -339,6 +344,7 @@
       solidColl: null,
       wizardColl: null
     });
+    this.game.playSE('darkness.ogg');
     spell.sprite.sizeX = 1;
     spell.sprite.sizeY = 1;
     this.game.spells.push(spell);

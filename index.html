@@ -9,7 +9,11 @@
         background-size: 1024px 576px;
         background-repeat: no-repeat;
       }
+      audio {
+        display: none;
+      }
     </style>
+    <script src="js/jquery-2.1.3.js"></script>
     <script src="js/keymaster.js"></script>
     <script src="js/coord.js"></script>
     <script src="js/collision_box.js"></script>
@@ -23,15 +27,23 @@
     <script src="js/spell_list.js"></script>
     <script src="js/particle.js"></script>
     <script src="js/gamepad.js"></script>
+    <script src="js/sound_library.js"></script>
   </head>
   <body>
-    <canvas id="game-canvas" width="1024" height="576">
-    </canvas>
+    <canvas id="game-canvas" width="1024" height="576"></canvas>
+    <div class="audio-tags">
+      <audio id="bgm" loop></audio>
+    </div>
 
     <script>
+      var bgm = document.getElementById("bgm");
+      // bgm.src = "audio/BGM/acapella.mp3";
+      // bgm.play();
+      var sound_library = new LW.SoundLibrary();
       var canvas = document.getElementById("game-canvas");
       var ctx = canvas.getContext('2d');
       var gameView = new LW.GameView(ctx);
+      gameView.game.audio = sound_library;
       gameView.startGame();
     </script>
 

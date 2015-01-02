@@ -87,7 +87,7 @@
     this.camera.step();
 
     this.wizards.forEach(function (wizard) {
-      wizard.move();
+      wizard.step();
     });
     this.spells.forEach(function (spell) {
       spell.move();
@@ -95,6 +95,10 @@
     this.particles.forEach(function (particle) {
       particle.move();
     })
+  };
+
+  Game.prototype.playSE = function (src) {
+    this.audio.playSE(src);
   };
 
   Game.prototype.adjustCamera = function () {

@@ -28,6 +28,7 @@
     this.boosted = false;
     this.wallJumpBuffer = 0;
     this.wallHangOveride = false;
+    this.deadTimer = -1;
 
     this.spellList = [ LW.SpellList.Crash, LW.SpellList.FanOfKnives, LW.SpellList.RayCannon];
     this.cooldownList = [0, 0, 0];
@@ -48,6 +49,7 @@
   Wizard.J_GRAVITY = 0.07;
 
   Wizard.prototype.draw = function (ctx, camera) {
+    if (this.isDead()) {return;}
     if (this.verFacing === "up") {
       this.sprite.angle = -30;
     } else if (this.verFacing === "down") {
@@ -57,6 +59,17 @@
     }
     this.sprite.animate();
     this.sprite.draw(ctx, camera);
+  };
+
+  Wizard.prototype.step = function () {
+    if (this.isDead()) {
+      this.deadTimer -= 1;
+      if (this.deadTimer < 0) {
+        this.revive();
+      }
+    } else {
+      this.move();
+    }
   };
 
   Wizard.prototype.move = function () {
@@ -169,7 +182,10 @@
       this.vel.x = -Wizard.MAX_VEL_X;
       this.onRightWall = false;
       this.faceDir("left");
+    } else {
+      return;
     }
+    this.game.playSE('jump.ogg');
   };
 
   Wizard.prototype.accelX = function (val) {
@@ -238,13 +254,35 @@
     }.bind(this))
 
     this.game.camera.startShake({power: 3, direction: 'x', duration: 20})
+    this.game.playSE('death.ogg');
 
-    this.pos.setTo(this.game.getSpawnPointPos(this));
-    this.vel.setTo(0);
-
+    this.deadTimer = 120;
+    this.pos.setTo(-1000);
 
     this.removeActiveSpells();
   };
+
+  Wizard.prototype.isDead = function () {
+    return this.deadTimer >= 0;
+  }
+
+  Wizard.prototype.revive = function () {
+    this.pos.setTo(this.game.getSpawnPointPos(this));
+    this.vel.setTo(0);
+    this.game.playSE('revive.ogg');
+
+    LW.ParticleSplatter(20, function () {
+      var randVel = new LW.Coord([Math.random()*3,Math.random()*3]).plusAngleDeg(Math.random()*360)
+      return {
+        pos: this.pos,
+        vel: randVel,
+        game: this.game,
+        duration: Math.floor(Math.random()*30+30),
+        radius: Math.random()*4+1,
+        color: 'white'
+      };
+    }.bind(this))
+  }
 
   Wizard.prototype.removeActiveSpells = function () {
     for (var i = this.game.spells.length - 1; i >= 0; i--) {

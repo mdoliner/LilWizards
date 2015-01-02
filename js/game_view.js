@@ -22,6 +22,7 @@
     var wizards = this.game.wizards;
     for (var i = 0; i < wizards.length; i++) {
       var wizard = wizards[i];
+      if (wizard.isDead()) {continue;}
       if (wizard.actions["jump"] === "tap") {
         wizard.jump(-5);
       }
