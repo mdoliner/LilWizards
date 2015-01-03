@@ -6,6 +6,9 @@
   var GameView = LW.GameView = function (ctx) {
     this.game = new LW.Game();
     this.ctx = ctx;
+    this.MS = Date.now();
+    this.fps = 120;
+    this.updateFPS = 0;
   };
 
   GameView.prototype.startGame = function () {
@@ -15,8 +18,30 @@
       this.wizardActions();
       this.game.step();
       this.game.draw(this.ctx);
+      this.getFPS(this.ctx);
     }.bind(this), 1000/120);
   };
+
+  GameView.prototype.getFPS = function (ctx) {
+    var nowMS = Date.now();
+    if (this.updateFPS <= 0) {
+      this.fps += ((1000 / (nowMS - this.MS)) - this.fps) / 20;
+      $('div.fps-counter').html('FPS: '+Math.round(this.fps))
+      this.updateFPS = 30;
+    } else {
+      this.updateFPS -= 1;
+    }
+    this.MS = nowMS;
+    var displayFPS = Math.round(this.fps);
+
+    // ctx.font = "15px Sans-serif";
+    // ctx.strokeStyle = "white";
+    // ctx.lineWidth = 3;
+    // ctx.strokeText(displayFPS,16,16);
+    // ctx.fillStyle = "green";
+    // ctx.fillText(displayFPS,16,16);
+
+  }
 
   GameView.prototype.wizardActions = function () {
     var wizards = this.game.wizards;

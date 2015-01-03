@@ -15,7 +15,28 @@
       indexXMax: options.imgIndexXMax,
       indexYMax: options.imgIndexYMax,
       sizeX: options.imgSizeX,
-      sizeY: options.imgSizeY
+      sizeY: options.imgSizeY,
+      animationReset: function () {
+        if (this.verFacing === "up") {
+          if (this.sprite.indexYMax >= 4) {
+            this.sprite.indexY = 2
+          } else {
+            this.sprite.angle = -30;
+          }
+        } else if (this.verFacing === "down") {
+          if (this.sprite.indexYMax >= 4) {
+            this.sprite.indexY = 3
+          } else {
+            this.sprite.angle = 30;
+          }
+        } else {
+          if (this.indexYMax >= 4) {
+            this.sprite.indexY = 0
+          } else {
+            this.sprite.angle = 0;
+          }
+        }
+      }.bind(this)
     });
 
     this.friction = new LW.Coord([.870, 1]);
@@ -51,7 +72,8 @@
     LW.SpellList.Fireball,
     LW.SpellList.Candy,
     LW.SpellList.Sword,
-    LW.SpellList.ForcePush
+    LW.SpellList.ForcePush,
+    LW.SpellList.Teleport
   ];
   Wizard.MAX_VEL_X = 5;
   Wizard.N_GRAVITY = 0.18;
@@ -59,13 +81,13 @@
 
   Wizard.prototype.draw = function (ctx, camera) {
     if (this.isDead()) {return;}
-    if (this.verFacing === "up") {
-      this.sprite.angle = -30;
-    } else if (this.verFacing === "down") {
-      this.sprite.angle = 30;
-    } else {
-      this.sprite.angle = 0;
-    }
+    // if (this.verFacing === "up") {
+    //   this.sprite.angle = -30;
+    // } else if (this.verFacing === "down") {
+    //   this.sprite.angle = 30;
+    // } else {
+    //   this.sprite.angle = 0;
+    // }
     this.sprite.animate();
     this.sprite.draw(ctx, camera);
   };
@@ -170,6 +192,8 @@
   Wizard.prototype.jump = function (val) {
     if (this.onGround) {
       this.vel.y = val;
+      this.game.playSE('jump_ground.ogg');
+      return;
     } else if ((this.onLeftWall && this.isOnWall()) || this.wallJumpBuffer > 0) {
       this.vel.y = val;
       this.vel.x = Wizard.MAX_VEL_X;
@@ -189,6 +213,11 @@
   Wizard.prototype.accelX = function (val) {
     if (!this.onGround) {
       val /= 3.5;
+    } else {
+      if (this.sprite.indexYMax >= 2 && this.sprite.indexY !== 1) {
+        this.sprite.indexY = 1;
+        this.sprite.indexX = 0;
+      }
     }
     if (Math.abs(this.vel.x + val) < Wizard.MAX_VEL_X) {
       this.vel.x += val;
@@ -209,6 +238,7 @@
     } else if (dir === "up" || dir === "down") {
       this.verFacing = dir;
     }
+    this.sprite.animationReset();
   };
 
   Wizard.prototype.dynamicJump = function () {
@@ -242,10 +272,10 @@
         vel: randVel,
         game: this.game,
         duration: Math.floor(Math.random()*30+30),
-        radius: Math.random()*4+1,
+        radius: Math.random()*5+3,
         color: 'red',
         tickEvent: function () {
-          this.vel.y += 0.11;
+          this.vel.y += 0.05;
           this.radius -= 0.01;
         }
       };
@@ -254,7 +284,7 @@
     this.game.camera.startShake({power: 3, direction: 'x', duration: 20})
     this.game.playSE('death.ogg');
 
-    this.deadTimer = 120;
+    this.deadTimer = 70 + Math.random() * 80;
     this.pos.setTo(-1000);
 
     this.removeActiveSpells();

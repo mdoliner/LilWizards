@@ -15,36 +15,52 @@
     </style>
     <script src="js/jquery-2.1.3.js"></script>
     <script src="js/keymaster.js"></script>
+
     <script src="js/coord.js"></script>
     <script src="js/collision_box.js"></script>
+
+    <script src="js/spell_list/spell_list.js"></script>
+    <script src="js/spell_list/spell_fireball.js"></script>
+    <script src="js/spell_list/spell_sword.js"></script>
+    <script src="js/spell_list/spell_candy.js"></script>
+    <script src="js/spell_list/spell_crash.js"></script>
+    <script src="js/spell_list/spell_fan_of_knives.js"></script>
+    <script src="js/spell_list/spell_ray_cannon.js"></script>
+    <script src="js/spell_list/spell_force_push.js"></script>
+    <script src="js/spell_list/spell_teleport.js"></script>
+
     <script src="js/tile.js"></script>
     <script src="js/game_view.js"></script>
     <script src="js/game.js"></script>
     <script src="js/camera.js"></script>
     <script src="js/sprite.js"></script>
     <script src="js/spell.js"></script>
-    <script src="js/spell_list.js"></script>
     <script src="js/wizard.js"></script>
     <script src="js/particle.js"></script>
     <script src="js/gamepad.js"></script>
     <script src="js/sound_library.js"></script>
+
+    
   </head>
   <body>
     <canvas id="game-canvas" width="1024" height="576"></canvas>
+    <div class="fps-counter"></div>
     <div class="audio-tags">
       <audio id="bgm" loop></audio>
     </div>
 
     <script>
-      var bgm = document.getElementById("bgm");
-      bgm.src = "audio/BGM/battle.mp3";
-      bgm.play();
-      var sound_library = new LW.SoundLibrary();
-      var canvas = document.getElementById("game-canvas");
-      var ctx = canvas.getContext('2d');
-      var gameView = new LW.GameView(ctx);
+    var bgm = document.getElementById("bgm");
+    bgm.src = "audio/BGM/battle.mp3";
+    var sound_library = new LW.SoundLibrary();
+    var canvas = document.getElementById("game-canvas");
+    var ctx = canvas.getContext('2d');
+    var gameView = new LW.GameView(ctx);
+    $(function() { 
+      // bgm.play();
       gameView.game.audio = sound_library;
       gameView.startGame();
+    })
     </script>
 
   </body>

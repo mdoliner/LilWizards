@@ -6,6 +6,30 @@
   var Game = LW.Game = function () {
     this.wizards = [];
     this.wizards.push (new LW.Wizard({
+      pos: [300,130],
+      vel: [0,0],
+      horFacing: "left",
+      img: "./graphics/wiz_baby_ani_2.png",
+      imgIndexXMax: 4,
+      imgIndexYMax: 4,
+      imgSizeX: 7.62,
+      imgSizeY: 8,
+      game: this,
+      spellList: [LW.SpellList.Teleport, LW.SpellList.Candy, LW.SpellList.FanOfKnives]
+    }));
+    this.wizards.push (new LW.Wizard({
+      pos: [64,64],
+      vel: [0,0],
+      horFacing: "left",
+      img: "./graphics/wiz_baby_ani_2.png",
+      imgIndexXMax: 4,
+      imgIndexYMax: 4,
+      imgSizeX: 7.62,
+      imgSizeY: 8,
+      game: this,
+      spellList: [LW.SpellList.RayCannon, LW.SpellList.Fireball, LW.SpellList.Candy]
+    }));
+    this.wizards.push (new LW.Wizard({
       pos: [500,130],
       vel: [0,0],
       horFacing: "right",
@@ -13,34 +37,10 @@
       imgIndexXMax: 1,
       imgIndexYMax: 1,
       game: this,
-      spellList: [LW.SpellList.Fireball, LW.SpellList.ForcePush, LW.SpellList.Sword]
+      spellList: [LW.SpellList.Fireball, LW.SpellList.Teleport, LW.SpellList.Sword]
     }));
     this.wizards.push (new LW.Wizard({
-      pos: [-300,130],
-      vel: [0,0],
-      horFacing: "left",
-      img: "./graphics/wiz_baby.png",
-      imgIndexXMax: 1,
-      imgIndexYMax: 1,
-      imgSizeX: 8,
-      imgSizeY: 8,
-      game: this,
-      spellList: [LW.SpellList.ForcePush, LW.SpellList.FanOfKnives, LW.SpellList.Fireball]
-    }));
-    this.wizards.push (new LW.Wizard({
-      pos: [64,64],
-      vel: [0,0],
-      horFacing: "left",
-      img: "./graphics/wiz_baby_ani.png",
-      imgIndexXMax: 4,
-      imgIndexYMax: 1,
-      imgSizeX: 7.62,
-      imgSizeY: 8,
-      game: this,
-      spellList: [LW.SpellList.ForcePush, LW.SpellList.Fireball, LW.SpellList.Crash]
-    }));
-    this.wizards.push (new LW.Wizard({
-      pos: [-700,130],
+      pos: [700,130],
       vel: [0,0],
       horFacing: "left",
       img: "./graphics/wiz2.png",

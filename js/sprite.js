@@ -53,7 +53,7 @@
       this.indexX += 1;
       if (this.indexX >= this.indexXMax) {
         this.indexX = 0;
-        this.animationReset(this.parent);
+        this.animationReset();
       }
     }
   };
