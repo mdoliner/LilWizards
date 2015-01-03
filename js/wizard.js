@@ -8,6 +8,9 @@
     this.vel = new LW.Coord(options.vel);
     this.horFacing = options.horFacing;
     this.verFacing = null;
+    this.maxVelX = 5;
+    this.nGravity = 0.18;
+    this.jGravity = 0.07;
 
     this.sprite = new LW.Sprite({
       img: options.img,
@@ -40,7 +43,7 @@
     });
 
     this.friction = new LW.Coord([.870, 1]);
-    this.gravity = new LW.Coord([0, Wizard.N_GRAVITY]); //HELP ME
+    this.gravity = new LW.Coord([0, this.nGravity]); //HELP ME
 
     this.game = options.game;
 
@@ -66,8 +69,8 @@
   };
 
   Wizard.TOTAL_SPELL_LIST = [
-    LW.SpellList.Crash, 
-    LW.SpellList.FanOfKnives, 
+    LW.SpellList.Crash,
+    LW.SpellList.FanOfKnives,
     LW.SpellList.RayCannon,
     LW.SpellList.Fireball,
     LW.SpellList.Candy,
@@ -75,9 +78,6 @@
     LW.SpellList.ForcePush,
     LW.SpellList.Teleport
   ];
-  Wizard.MAX_VEL_X = 5;
-  Wizard.N_GRAVITY = 0.18;
-  Wizard.J_GRAVITY = 0.07;
 
   Wizard.prototype.draw = function (ctx, camera) {
     if (this.isDead()) {return;}
@@ -107,7 +107,7 @@
     this.onGround = false;
     this.wallJumpBuffer -= 1;
     var that = this;
-    
+
     this.collBox.collHor(this.vel.x,{
       isCollision: function () {
         that.vel.x = 0;
@@ -140,7 +140,7 @@
       this.vel.times(this.friction);
     }
 
-    this.gravity.y = Wizard.N_GRAVITY;
+    this.gravity.y = this.nGravity;
 
     this.globalCooldown -= 1;
     for (var i = 0; i < this.cooldownList.length; i++) {
@@ -196,12 +196,12 @@
       return;
     } else if ((this.onLeftWall && this.isOnWall()) || this.wallJumpBuffer > 0) {
       this.vel.y = val;
-      this.vel.x = Wizard.MAX_VEL_X;
+      this.vel.x = this.maxVelX;
       this.onLeftWall = false;
       this.faceDir("right");
     } else if ((this.onRightWall && this.isOnWall()) || this.wallJumpBuffer > 0) {
       this.vel.y = val;
-      this.vel.x = -Wizard.MAX_VEL_X;
+      this.vel.x = -this.maxVelX;
       this.onRightWall = false;
       this.faceDir("left");
     } else {
@@ -219,7 +219,7 @@
         this.sprite.indexX = 0;
       }
     }
-    if (Math.abs(this.vel.x + val) < Wizard.MAX_VEL_X) {
+    if (Math.abs(this.vel.x + val) < this.maxVelX) {
       this.vel.x += val;
     }
   };
@@ -243,7 +243,7 @@
 
   Wizard.prototype.dynamicJump = function () {
     if (this.vel.y < -2) {
-      this.gravity.y = Wizard.J_GRAVITY;
+      this.gravity.y = this.jGravity;
     }
   };
 

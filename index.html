@@ -28,6 +28,7 @@
     <script src="js/spell_list/spell_ray_cannon.js"></script>
     <script src="js/spell_list/spell_force_push.js"></script>
     <script src="js/spell_list/spell_teleport.js"></script>
+    <script src="js/spell_list/spell_berserk.js"></script>
 
     <script src="js/tile.js"></script>
     <script src="js/game_view.js"></script>
@@ -40,7 +41,7 @@
     <script src="js/gamepad.js"></script>
     <script src="js/sound_library.js"></script>
 
-    
+
   </head>
   <body>
     <canvas id="game-canvas" width="1024" height="576"></canvas>
@@ -56,7 +57,7 @@
     var canvas = document.getElementById("game-canvas");
     var ctx = canvas.getContext('2d');
     var gameView = new LW.GameView(ctx);
-    $(function() { 
+    $(function() {
       // bgm.play();
       gameView.game.audio = sound_library;
       gameView.startGame();

@@ -15,7 +15,7 @@
       imgSizeX: 7.62,
       imgSizeY: 8,
       game: this,
-      spellList: [LW.SpellList.Teleport, LW.SpellList.Candy, LW.SpellList.FanOfKnives]
+      spellList: [LW.SpellList.Berserk, LW.SpellList.Fireball, LW.SpellList.RayCannon]
     }));
     this.wizards.push (new LW.Wizard({
       pos: [64,64],
@@ -87,7 +87,7 @@
     if (this.camera.move.time <= 0){
       // this.adjustCamera();
     }
-    
+
     this.camera.step();
 
     this.wizards.forEach(function (wizard) {
