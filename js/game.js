@@ -27,7 +27,7 @@
       imgSizeX: 7.62,
       imgSizeY: 8,
       game: this,
-      spellList: [LW.SpellList.RayCannon, LW.SpellList.Fireball, LW.SpellList.Candy]
+      spellList: [LW.SpellList.RayCannon, LW.SpellList.Teleport, LW.SpellList.Wave]
     }));
     this.wizards.push (new LW.Wizard({
       pos: [500,130],
