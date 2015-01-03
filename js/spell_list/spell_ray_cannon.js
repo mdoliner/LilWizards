@@ -72,8 +72,8 @@
     spell.sprite.sizeX = 1;
     spell.sprite.sizeY = 1;
     this.game.spells.push(spell);
-    this.globalCooldown = 30;
-    this.cooldownList[spellIndex] = 180;
+    this.globalCooldown = 0;
+    this.cooldownList[spellIndex] = 120;
     return spell;
   };
 
