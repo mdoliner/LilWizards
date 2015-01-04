@@ -15,7 +15,7 @@
       imgSizeX: 7.62,
       imgSizeY: 8,
       game: this,
-      spellList: [LW.SpellList.Berserk, LW.SpellList.Fireball, LW.SpellList.RayCannon]
+      spellList: [LW.SpellList.Fireball, LW.SpellList.Wave, LW.SpellList.Sword]
     }));
     this.wizards.push (new LW.Wizard({
       pos: [64,64],
@@ -27,17 +27,17 @@
       imgSizeX: 7.62,
       imgSizeY: 8,
       game: this,
-      spellList: [LW.SpellList.RayCannon, LW.SpellList.Teleport, LW.SpellList.Wave]
+      spellList: [LW.SpellList.Wave, LW.SpellList.Sword, LW.SpellList.ForcePush]
     }));
     this.wizards.push (new LW.Wizard({
-      pos: [500,130],
+      pos: [-500,130],
       vel: [0,0],
       horFacing: "right",
       img: "./graphics/wiz.png",
       imgIndexXMax: 1,
       imgIndexYMax: 1,
       game: this,
-      spellList: [LW.SpellList.Fireball, LW.SpellList.Teleport, LW.SpellList.Sword]
+      spellList: [LW.SpellList.Fireball, LW.SpellList.Wave, LW.SpellList.Sword]
     }));
     this.wizards.push (new LW.Wizard({
       pos: [700,130],
@@ -47,7 +47,7 @@
       imgIndexXMax: 1,
       imgIndexYMax: 1,
       game: this,
-      spellList: [LW.SpellList.ForcePush, LW.SpellList.FanOfKnives, LW.SpellList.Fireball]
+      spellList: [LW.SpellList.Fireball, LW.SpellList.RayCannon, LW.SpellList.ForcePush]
     }));
     this.tiles = [];
     this.spawnPoints = [];
@@ -131,6 +131,11 @@
     var allObjects = this.allObjects();
     for (var i = 0; i < allObjects.length; i++ ) {
       allObjects[i].draw(ctx, this.camera);
+      if (allObjects[i] instanceof LW.Wizard) {
+        allObjects[i].collBox.draw(ctx, this.camera, "white")
+      } else if (allObjects[i] instanceof LW.Spell) {
+        allObjects[i].collBox.draw(ctx, this.camera, "red")
+      }
     }
     for (var i = 0; i < this.wizards.length; i++) {
       var newPos = this.camera.relativePos(this.wizards[i].pos)
@@ -182,10 +187,8 @@
   Game.prototype.allCollisions = function (collBox, objArray) {
     var collisions = [];
     for (var i = 0; i < objArray.length; i++) {
+      if (collBox === objArray[i].collBox) {continue;}
       var collision = collBox.collision(objArray[i]);
-      if (collBox === objArray[i].collBox) {
-        continue;
-      }
       if (collision !== false) {
         collisions.push(collision);
       }

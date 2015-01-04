@@ -8,7 +8,7 @@
       pos: this.pos,
       vel: this.spellDirection().times(30).plusAngleDeg(90),
       img: "graphics/spell_sword.png",
-      dim: [22.5,5],
+      dim: [25,4],
       game: this.game,
       caster: this,
       duration: 20,
@@ -23,13 +23,19 @@
         this.pos.x = this.caster.pos.x;
         this.pos.y = this.caster.pos.y;
         this.vel.plusAngleDeg(-9);
-        this.collBox.dim.setTo(this.vel).max(5);
+        // this.collBox.dim.setTo(this.vel).max(5);
+        this.collBox.angle = this.vel.toAngleDeg();
       },
       spellColl: function (spell) {
         if (spell.caster === this.caster) {return;};
         if (spell.sType === "projectile") {
           spell.caster = this.caster;
           spell.vel.times([-1.1,-1.1]);
+        }
+      },
+      wizardColl: function (wizard) {
+        if (wizard !== this.caster) {
+          wizard.kill(this.caster);
         }
       },
       solidColl: null

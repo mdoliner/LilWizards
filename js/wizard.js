@@ -108,7 +108,7 @@
     this.wallJumpBuffer -= 1;
     var that = this;
 
-    this.collBox.collHor(this.vel.x,{
+    this.collBox.removeCollision("x",this.vel.x,{
       isCollision: function () {
         that.vel.x = 0;
       },
@@ -125,7 +125,7 @@
       this.boosted = false;
     }
 
-    this.collBox.collVer(this.vel.y,{
+    this.collBox.removeCollision("y",this.vel.y,{
       isCollision: function () {
         that.vel.y = 0.1;
       },

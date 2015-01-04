@@ -9,7 +9,7 @@
       vel: [0,0],
       img: "graphics/spell_wave.png",
       imgBaseAngle: 270,
-      dim: [15,15],
+      dim: [15,5],
       game: this.game,
       caster: this,
       duration: 60,

@@ -78,14 +78,14 @@
   LW.SpellList.FireballSplit = function (spellIndex, dir, pos) {
     var spell = new LW.Spell ({
       pos: pos,
-      vel: dir.times([4.5, 4.5]),
+      vel: dir.times([3.5, 3.5]),
       img: "graphics/spell_fireball.gif",
       dim: [2.5,2.5],
       game: this.game,
       caster: this,
       sType: "projectile",
       sId: "fireballSplit",
-      duration: 35,
+      duration: 24,
       initialize: function () {
         this.sprite.sizeX = 50;
         this.sprite.sizeY = 50;

@@ -65,7 +65,13 @@
     newCoord.x = Math.abs(newCoord.x);
     newCoord.y = Math.abs(newCoord.y);
     return newCoord;
-  }
+  };
+
+  Coord.prototype.makeAbs = function () {
+    this.x = Math.abs(this.x);
+    this.y = Math.abs(this.y);
+    return this;
+  };
 
   Coord.prototype.toAngle = function () {
     return Math.atan2(this.y, this.x);

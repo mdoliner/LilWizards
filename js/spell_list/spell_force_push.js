@@ -16,7 +16,7 @@
       sId: "forcePush",
       tickEvent: function () {
         this.sprite.sizeY += 1.79;
-        this.collBox.dim.plus(this.vel.dup().plusAngleDeg(90).abs().times(0.2));
+        this.collBox.dim.plus(this.vel.dup().plusAngleDeg(90).abs().times(0.22));
       },
       initialize: function () {
         this.game.playSE('wind.ogg');
@@ -44,9 +44,9 @@
       wizardColl: function (wizard) {
         if (wizard === this.caster) {return;}
         if ((wizard.onGround && this.vel.y > 0) || 
-          (this.vel.x < 0 && wizard.collBox.collHor(-2)) || 
-          (this.vel.x > 0 && wizard.collBox.collHor(2)) ||
-          (this.vel.y < 0 && wizard.collBox.collVer(-2))) {
+          (this.vel.x < 0 && wizard.collBox.removeCollision("x",-2)) || 
+          (this.vel.x > 0 && wizard.collBox.removeCollision("x", 2)) ||
+          (this.vel.y < 0 && wizard.collBox.removeCollision("y",-2))) {
           wizard.kill(this.caster);
         } else {
           wizard.vel.setTo(this.vel).times(2.7);//.setAngle(wizard.pos.dup().minus(this.pos).toAngle());
