@@ -266,6 +266,20 @@
         this.sprite.indexY = 1;
         this.sprite.indexX = 0;
       }
+      if (Math.abs(this.vel.x + val) < this.maxVelX - 1 && Math.abs(val) > 0.7) {
+        LW.ParticleSplatter(1, function () {
+          var randVel = this.vel.dup().times([-0.2,0]).plusUpAngleDeg(Math.random()*30+15)
+          var newPos = this.pos.dup().plus([0,16])
+          return {
+            pos: newPos,
+            vel: randVel,
+            game: this.game,
+            duration: Math.floor(Math.random()*20+20),
+            radius: Math.random()*2+1,
+            color: 'whitesmoke'
+          };
+        }.bind(this))
+      }
     }
     if (Math.abs(this.vel.x + val) < this.maxVelX) {
       this.vel.x += val;

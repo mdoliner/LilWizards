@@ -15,7 +15,7 @@
       imgSizeX: 7.62,
       imgSizeY: 8,
       game: this,
-      spellList: [LW.SpellList.Sword, LW.SpellList.Teleport, LW.SpellList.Crash]
+      spellList: [LW.SpellList.Sword, LW.SpellList.Wave, LW.SpellList.RayCannon]
     }));
     this.wizards.push (new LW.Wizard({
       pos: [64,64],
@@ -27,7 +27,7 @@
       imgSizeX: 7.62,
       imgSizeY: 8,
       game: this,
-      spellList: [LW.SpellList.Candy, LW.SpellList.ForcePush, LW.SpellList.Crash]
+      spellList: [LW.SpellList.RayCannon, LW.SpellList.Crash, LW.SpellList.ForcePush]
     }));
     this.wizards.push (new LW.Wizard({
       pos: [-500,130],
