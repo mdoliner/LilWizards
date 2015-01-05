@@ -14,6 +14,8 @@ IMPORTANT
 - FPS Boosts, DO:
 	- Change Canvas States Less.
 	- Make Pesudo Canvas Elements for Each Important Sprite (ie wizards) for pre-rendering;
+	- Bunch tiles to reduce collision checks. ------ WILL SAVE LIKE 4-5 fps!!!!
+	- Possibly: Never redraw boxes.
 - level zoom
   - possibly bigger levels
 - CONTROLLER FIX TTY
