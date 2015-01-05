@@ -28,11 +28,11 @@
         } else if (this.steroidTime === 0) {
           this.remove();
         } else {
-          this.caster.globalCooldown -= 1;
+          this.caster.globalCooldown -= 2;
           for (i in this.caster.cooldownList) {
-            this.caster.cooldownList[i] -= 1;
+            this.caster.cooldownList[i] -= 2;
           }
-          LW.ParticleSplatter(Math.floor(20 - this.steroidTime/30), function () {
+          LW.ParticleSplatter(2, function () {
             var randVel = (new LW.Coord([1,1])).times(Math.random()).plusAngleDeg(Math.random()*360);
             return {
               pos: this.pos.dup().plus(Math.floor(5 - this.steroidTime/120) * .1),

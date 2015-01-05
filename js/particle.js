@@ -9,6 +9,7 @@
 
     this.game = options.game;
     this.duration = options.duration;
+    this.maxDuration = this.duration;
     this.radius = options.radius;
     this.color = options.color;
     this.tickEvent = options.tickEvent;
@@ -16,15 +17,19 @@
 
   Particle.prototype.draw = function (ctx, camera) {
     ctx.beginPath();
+    ctx.globalAlpha = Math.min(1,this.duration*2/this.maxDuration);
     var newPos = camera.relativePos(this.pos);
+    newPos.drawRound();
+    var roundRadius = (this.radius * camera.size / 100 + 0.5) | 0;
     ctx.rect(
       newPos.x, 
       newPos.y, 
-      this.radius * camera.size / 100, 
-      this.radius * camera.size / 100
+      roundRadius, 
+      roundRadius
     );
     ctx.fillStyle = this.color;
     ctx.fill();
+    ctx.globalAlpha = 1;
   };
 
   Particle.prototype.move = function () {

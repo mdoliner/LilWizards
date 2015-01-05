@@ -73,6 +73,19 @@
     return this;
   };
 
+  Coord.prototype.randomBetween = function (pos) {
+    var newCoord = pos.toCoord().dup();
+    newCoord.x = Math.random()*Math.abs(this.x - newCoord.x) + Math.min(newCoord.x, this.x);
+    newCoord.y = Math.random()*Math.abs(this.y - newCoord.y) + Math.min(newCoord.y, this.y);
+    return newCoord;
+  };
+
+  Coord.prototype.randomBetweenLine = function (pos) {
+    var newCoord = pos.toCoord().dup();
+    var between = newCoord.dup().minus(this);
+    return newCoord.minus(between.times(Math.random()));
+  };
+
   Coord.prototype.toAngle = function () {
     return Math.atan2(this.y, this.x);
   };
@@ -118,6 +131,12 @@
   Coord.prototype.dup = function () {
     return new Coord([this.x, this.y]);
   };
+
+  Coord.prototype.drawRound = function () {
+    this.x = (this.x + 0.5) | 0;
+    this.y = (this.y + 0.5) | 0;
+    return this;
+  }
 
   Coord.prototype.toCoord = function () {
     return this;

@@ -5,6 +5,7 @@
 
   LW.SpellList.Crash = function (spellIndex) {
     if (this.onGround) {
+      this.game.playSE('fail.ogg');
       LW.ParticleSplatter(10, function () {
         var randVel = new LW.Coord([-Math.random()*4,0]).plusAngleDeg(Math.floor(Math.random()*2)*180);
         return {
@@ -33,9 +34,9 @@
       sId: "crash",
       tickEvent: function () {
         if (this.impact) {
-          this.collBox.dim.x += 2;
-          this.collBox.dim.y += 0.4;
-          spell.sprite.sizeY += 40;
+          this.collBox.dim.x += 3;
+          this.collBox.dim.y += 0.2;
+          spell.sprite.sizeY += 60;
         } else {
           this.caster.vel.y = 10;
           this.pos.x = this.caster.pos.x;

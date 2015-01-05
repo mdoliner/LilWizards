@@ -15,7 +15,7 @@
       imgSizeX: 7.62,
       imgSizeY: 8,
       game: this,
-      spellList: [LW.SpellList.Fireball, LW.SpellList.Wave, LW.SpellList.Sword]
+      spellList: [LW.SpellList.Sword, LW.SpellList.Teleport, LW.SpellList.Crash]
     }));
     this.wizards.push (new LW.Wizard({
       pos: [64,64],
@@ -27,7 +27,7 @@
       imgSizeX: 7.62,
       imgSizeY: 8,
       game: this,
-      spellList: [LW.SpellList.Wave, LW.SpellList.Sword, LW.SpellList.ForcePush]
+      spellList: [LW.SpellList.Candy, LW.SpellList.ForcePush, LW.SpellList.Crash]
     }));
     this.wizards.push (new LW.Wizard({
       pos: [-500,130],
@@ -58,6 +58,8 @@
       pos: [512,288],
       size: 100 //percent
     });
+
+    this.background = new LW.Sprite({ pos: [512,288], img: "./graphics/bg_bookcase.jpg", background: true })
   };
 
   Game.LEVEL = [[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
@@ -66,15 +68,15 @@
                 [1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,1,1],
                 [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,1],
                 [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,1],
-                [1,0,0,1,1,1,1,1,1,1,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                [1,0,0,0,1,1,1,1,1,1,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
                 [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
                 [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,1,1,0,0,1,1,1],
                 [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,1],
                 [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
                 [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-                [1,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,1],
+                [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
                 [1,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,2,1],
-                [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
+                [1,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,1,1],
                 [1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,1,1],
                 [1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,1,1],
                 [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
@@ -126,25 +128,37 @@
     })
   };
 
-  Game.prototype.draw = function (ctx) {
-    ctx.clearRect(0,0,1024,576);
+  Game.prototype.draw = function (fgctx, bgctx) {
     var allObjects = this.allObjects();
-    for (var i = 0; i < allObjects.length; i++ ) {
-      allObjects[i].draw(ctx, this.camera);
-      if (allObjects[i] instanceof LW.Wizard) {
-        allObjects[i].collBox.draw(ctx, this.camera, "white")
-      } else if (allObjects[i] instanceof LW.Spell) {
-        allObjects[i].collBox.draw(ctx, this.camera, "red")
+    var fgObjects = this.fgObjects();
+    fgctx.clearRect(0,0,1024,576);
+    for (var i = 0; i < fgObjects.length; i++ ) {
+      fgObjects[i].draw(fgctx, this.camera);
+
+      // COLLISION BOX DEBUG CODE:
+      // if (allObjects[i] instanceof LW.Wizard) {
+      //   allObjects[i].collBox.draw(ctx, this.camera, "white")
+      // } else if (allObjects[i] instanceof LW.Spell) {
+      //   allObjects[i].collBox.draw(ctx, this.camera, "red")
+      // }
+    }
+    if (this.camera.hasMoved) {
+      var bgObjects = this.bgObjects();
+      this.camera.hasMoved = false;
+      bgctx.clearRect(0,0,1024,576);
+      this.background.draw(bgctx, this.camera);
+      for (var i = 0; i < bgObjects.length; i++ ) {
+        bgObjects[i].draw(bgctx, this.camera);
       }
     }
     for (var i = 0; i < this.wizards.length; i++) {
       var newPos = this.camera.relativePos(this.wizards[i].pos)
-      ctx.font = "15px Sans-serif"
-      ctx.strokeStyle = "black";
-      ctx.lineWidth = 3
-      ctx.strokeText(this.wizards[i].kills, newPos.x, newPos.y - 32);
-      ctx.fillStyle = "white";
-      ctx.fillText(this.wizards[i].kills, newPos.x, newPos.y - 32);
+      fgctx.font = "15px Sans-serif"
+      fgctx.strokeStyle = "black";
+      fgctx.lineWidth = 3
+      fgctx.strokeText(this.wizards[i].kills, newPos.x, newPos.y - 32);
+      fgctx.fillStyle = "white";
+      fgctx.fillText(this.wizards[i].kills, newPos.x, newPos.y - 32);
     }
   };
 
@@ -170,7 +184,15 @@
 
   Game.prototype.allObjects = function () {
     return this.tiles.concat(this.spawnPoints).concat(this.wizards).concat(this.spells).concat(this.particles);
-  }
+  };
+
+  Game.prototype.fgObjects = function () {
+    return this.wizards.concat(this.spells).concat(this.particles);
+  };
+
+  Game.prototype.bgObjects = function () {
+    return this.tiles.concat(this.spawnPoints);
+  };
 
   Game.prototype.solidCollisions = function (collBox) {
     return this.allCollisions(collBox, this.solidObjects());
@@ -206,7 +228,7 @@
         if (level[yIndex][xIndex] === 1) {
           this.tiles.push(new LW.Tile({
             pos: [16 + xIndex * 32, 16 + yIndex * 32],
-            img: "./graphics/box.png"
+            img: "./graphics/box_stone.png"
           }));
         }
         if (level[yIndex][xIndex] === 2) {

@@ -3,26 +3,31 @@
     window.LW = {};
   }
 
-  var GameView = LW.GameView = function (ctx) {
+  var GameView = LW.GameView = function (bgctx, fgctx) {
     this.game = new LW.Game();
-    this.ctx = ctx;
+    this.fgctx = fgctx;
+    this.bgctx = bgctx;
     this.MS = Date.now();
     this.fps = 120;
     this.updateFPS = 0;
   };
 
   GameView.prototype.startGame = function () {
-    setInterval(function () {
+    var gameStep = function () {
       this.checkControllerActions();
       this.checkKeyActions();
       this.wizardActions();
       this.game.step();
-      this.game.draw(this.ctx);
-      this.getFPS(this.ctx);
-    }.bind(this), 1000/120);
+      this.getFPS();;
+    }.bind(this)
+    setInterval(gameStep, 1000/120);
+
+    setInterval(function () {
+      this.game.draw(this.fgctx, this.bgctx);
+    }.bind(this), 1000/60)
   };
 
-  GameView.prototype.getFPS = function (ctx) {
+  GameView.prototype.getFPS = function () {
     var nowMS = Date.now();
     if (this.updateFPS <= 0) {
       this.fps += ((1000 / (nowMS - this.MS)) - this.fps) / 20;

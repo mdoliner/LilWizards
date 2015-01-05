@@ -3,14 +3,30 @@
   <head>
     <title>Lil' Wizards</title>
     <style media="screen">
+      body {
+        background-color: black;
+        color: white;
+      }
       canvas {
-        border: 2px solid black;
-        background-image: url('graphics/bg-forest.png');
-        background-size: 1024px 576px;
-        background-repeat: no-repeat;
+        position: absolute;
       }
       audio {
         display: none;
+      }
+      div.fps-counter {
+        position: absolute;
+        top: 600px;
+      }
+      div.game {
+        position: relative;
+        display: block;
+        border: 2px dashed yellow;
+        width: 1024px;
+        height: 576px;
+        /*background-image: url('graphics/bg-greystage.jpg');*/
+        background-size: 1024px 576px;
+        background-repeat: no-repeat;
+        margin: 10px auto;
       }
     </style>
     <script src="js/jquery-2.1.3.js"></script>
@@ -32,11 +48,11 @@
     <script src="js/spell_list/spell_wave.js"></script>
     <script src="js/spell_list/spell_uzi.js"></script>
 
+    <script src="js/sprite.js"></script>
     <script src="js/tile.js"></script>
     <script src="js/game_view.js"></script>
     <script src="js/game.js"></script>
     <script src="js/camera.js"></script>
-    <script src="js/sprite.js"></script>
     <script src="js/spell.js"></script>
     <script src="js/wizard.js"></script>
     <script src="js/particle.js"></script>
@@ -46,23 +62,31 @@
 
   </head>
   <body>
-    <canvas id="game-canvas" width="1024" height="576"></canvas>
+    <div class="game">
+        <canvas id="game-bg-canvas" width="1024" height="576"></canvas>
+        <canvas id="game-fg-canvas" width="1024" height="576"></canvas>
+    </div>
     <div class="fps-counter"></div>
     <div class="audio-tags">
       <audio id="bgm" loop></audio>
     </div>
 
     <script>
+    // shim layer with setTimeout fallback
     var bgm = document.getElementById("bgm");
     bgm.src = "audio/BGM/battle.mp3";
     var sound_library = new LW.SoundLibrary();
-    var canvas = document.getElementById("game-canvas");
-    var ctx = canvas.getContext('2d');
-    var gameView = new LW.GameView(ctx);
+    var fgcanvas = document.getElementById("game-fg-canvas");
+    var fgctx = fgcanvas.getContext('2d');
+    console.log(fgctx)
+    var bgcanvas = document.getElementById("game-bg-canvas");
+    var bgctx = bgcanvas.getContext('2d');
+    var gameView = new LW.GameView(bgctx, fgctx);
+    gameView.game.audio = sound_library;
+    gameView.startGame();
+    // -- start the draw
     $(function() {
       // bgm.play();
-      gameView.game.audio = sound_library;
-      gameView.startGame();
     })
     </script>
 

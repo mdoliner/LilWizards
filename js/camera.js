@@ -6,6 +6,7 @@
   var Camera = LW.Camera = function (options) {
   	this.pos = new LW.Coord(options.pos);
   	this.size = options.size;
+    this.hasMoved = true;
   	this.move = {
   		endPos: null,
   		moveType: "ease",
@@ -34,6 +35,7 @@
 
   Camera.prototype.hardMove = function () {
     if (this.move.time <= 0) {return;}
+    this.hasMoved = true;
     var posVel, sizeVel;
     if (this.move.moveType === "ease") {
       var time = this.move.duration - this.move.time;
@@ -57,6 +59,7 @@
 
   Camera.prototype.shakeScreen = function () {
     if (this.shake.time <= 0) {return;}
+    this.hasMoved = true;
     this.shake.direction.split('').forEach(function (direction) {
       if (direction === "s") {
         this.size -= this.shake.modSize + this.shake.power;

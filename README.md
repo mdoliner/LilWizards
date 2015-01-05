@@ -11,6 +11,9 @@ Questions:
 - Hud.
 
 IMPORTANT
+- FPS Boosts, DO:
+	- Change Canvas States Less.
+	- Make Pesudo Canvas Elements for Each Important Sprite (ie wizards) for pre-rendering;
 - level zoom
   - possibly bigger levels
 - CONTROLLER FIX TTY

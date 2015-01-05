@@ -11,6 +11,7 @@
     this.maxVelX = 5;
     this.nGravity = 0.18;
     this.jGravity = 0.07;
+    this.terminalVel = 7;
 
     this.sprite = new LW.Sprite({
       img: options.img,
@@ -76,7 +77,8 @@
     LW.SpellList.Candy,
     LW.SpellList.Sword,
     LW.SpellList.ForcePush,
-    LW.SpellList.Teleport
+    LW.SpellList.Teleport,
+    LW.SpellList.Wave
   ];
 
   Wizard.prototype.draw = function (ctx, camera) {
@@ -135,7 +137,9 @@
     })
 
     if (!this.onGround) {
-      this.vel.plus(this.gravity);
+      if (this.vel.y < this.terminalVel) {
+        this.vel.plus(this.gravity);
+      }
     } else {
       this.vel.times(this.friction);
     }
@@ -171,6 +175,24 @@
   };
 
   Wizard.prototype.touchGround = function () {
+    if (this.vel.y > 5) {
+      this.game.playSE('land.ogg');
+      funct = function (isRight) {
+        var randVel = (new LW.Coord([1,0])).times(Math.random()*0.5 + 0.5);
+        if (isRight) { randVel.times(-1); }
+        var randPos = this.pos.dup().plus([8,0]).randomBetween(this.pos.dup().minus([8,0])).plus([0,16]);
+        return {
+          pos: randPos,
+          vel: randVel,
+          game: this.game,
+          duration: Math.floor(Math.random()*20+20),
+          radius: Math.random()*2+3,
+          color: 'whitesmoke'
+        };
+      }
+      LW.ParticleSplatter(3, funct.bind(this, false))
+      LW.ParticleSplatter(3, funct.bind(this, true))
+    }
     this.onGround = true;
     this.boosted = false;
   };
@@ -193,21 +215,47 @@
     if (this.onGround) {
       this.vel.y = val;
       this.game.playSE('jump_ground.ogg');
+      LW.ParticleSplatter(5, function () {
+        var randVel = this.vel.dup().plusAngleDeg(Math.random()*40-20).times(Math.random()/3);
+        var randPos = this.pos.dup().plus([8,0]).randomBetween(this.pos.dup().minus([8,0])).plus([0,16]);
+        return {
+          pos: randPos,
+          vel: randVel,
+          game: this.game,
+          duration: Math.floor(Math.random()*20+20),
+          radius: Math.random()*2+3,
+          color: 'whitesmoke'
+        };
+      }.bind(this))
       return;
     } else if ((this.onLeftWall && this.isOnWall()) || this.wallJumpBuffer > 0) {
       this.vel.y = val;
       this.vel.x = this.maxVelX;
       this.onLeftWall = false;
       this.faceDir("right");
+      var offset = [-8,0];
     } else if ((this.onRightWall && this.isOnWall()) || this.wallJumpBuffer > 0) {
       this.vel.y = val;
       this.vel.x = -this.maxVelX;
       this.onRightWall = false;
       this.faceDir("left");
+      var offset = [8,0];
     } else {
       return;
     }
     this.game.playSE('jump.ogg');
+    LW.ParticleSplatter(5, function () {
+      var randVel = this.vel.dup().plusAngleDeg(Math.random()*40-20).times(Math.random()/3);
+      var randPos = this.pos.dup().plus([0,8]).randomBetween(this.pos.dup().minus([0,8])).plus(offset);
+      return {
+        pos: randPos,
+        vel: randVel,
+        game: this.game,
+        duration: Math.floor(Math.random()*20+20),
+        radius: Math.random()*2+3,
+        color: 'whitesmoke'
+      };
+    }.bind(this))
   };
 
   Wizard.prototype.accelX = function (val) {
