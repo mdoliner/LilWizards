@@ -75,6 +75,7 @@
     // shim layer with setTimeout fallback
     var bgm = document.getElementById("bgm");
     bgm.src = "audio/BGM/battle.mp3";
+    bgm.volume = 0.2;
     var sound_library = new LW.SoundLibrary();
     var fgcanvas = document.getElementById("game-fg-canvas");
     var fgctx = fgcanvas.getContext('2d');
@@ -86,7 +87,7 @@
     gameView.startGame();
     // -- start the draw
     $(function() {
-      // bgm.play();
+      bgm.play();
     })
     </script>
 

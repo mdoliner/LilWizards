@@ -176,8 +176,8 @@
 
   Wizard.prototype.touchGround = function () {
     if (this.vel.y > 5) {
-      this.game.playSE('land.ogg');
-      funct = function (isRight) {
+      this.game.playSE('land.ogg', 1);
+      var funct = function (isRight) {
         var randVel = (new LW.Coord([1,0])).times(Math.random()*0.5 + 0.5);
         if (isRight) { randVel.times(-1); }
         var randPos = this.pos.dup().plus([8,0]).randomBetween(this.pos.dup().minus([8,0])).plus([0,16]);

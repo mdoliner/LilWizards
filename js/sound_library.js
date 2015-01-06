@@ -14,9 +14,10 @@
     this.currentIndex = 0;
   };
 
-  SoundLibrary.prototype.playSE = function (src) {
+  SoundLibrary.prototype.playSE = function (src, volume) {
     var $audio = this.audioTags[this.currentIndex]
     $audio.attr('src',"audio/SE/"+src);
+    $audio.attr('volume', volume)
     $audio[0].play();
     this.currentIndex = (this.currentIndex + 1) % this.audioTags.length
   }
