@@ -30,7 +30,7 @@
       spellList: [LW.SpellList.RayCannon, LW.SpellList.Crash, LW.SpellList.ForcePush]
     }));
     this.wizards.push (new LW.Wizard({
-      pos: [-500,130],
+      pos: [500,130],
       vel: [0,0],
       horFacing: "right",
       img: "./graphics/wiz.png",
@@ -62,6 +62,11 @@
     this.background = new LW.Sprite({ pos: [512,288], img: "./graphics/bg_bookcase.jpg", background: true })
   };
 
+  var R = "right";
+  var L = "rightEnd";
+  var D = "down";
+  var U = "up";
+
   Game.LEVEL = [[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
                 [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
                 [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,1],
@@ -84,6 +89,7 @@
 
   Game.DIMX = 1024;
   Game.DIMY = 576;
+  Game.MAX_ZOOM = 125;
 
   Game.prototype.step = function () {
     if (this.camera.move.time <= 0){
@@ -107,26 +113,27 @@
     this.audio.playSE(src);
   };
 
+
   Game.prototype.adjustCamera = function () {
-    var avgX = 0
-    var avgY = 0
-    var arrX = []
-    var arrY = []
+    var arrX = [];
+    var arrY = [];
     this.wizards.forEach(function (wizard) {
-      avgX += wizard.pos.x / this.wizards.length;
-      avgY += wizard.pos.y / this.wizards.length;
-      arrX.push(Math.abs(wizard.pos.x-this.camera.pos.x));
-      arrY.push(Math.abs(wizard.pos.y-this.camera.pos.y));
+      arrX.push(wizard.pos.x);
+      arrY.push(wizard.pos.y);
     }.bind(this))
-    arrX = arrX.sort((function(a,b){return a - b}));
-    arrY = arrY.sort((function(a,b){return a - b}));
+    var arrX = arrX.sort((function(a,b){return a - b}));
+    var arrY = arrY.sort((function(a,b){return a - b}));
+    var avgX = (arrX[0] + arrX[arrX.length - 1]) / 2;
+    var avgY = (arrY[0] + arrY[arrY.length - 1]) / 2;
+    var magX = Game.DIMX/(Math.abs(avgX - arrX[arrX.length - 1]) * 3) * 100;
+    var magY = Game.DIMY/(Math.abs(avgY - arrY[arrY.length - 1]) * 3) * 100;
     this.camera.moveTo({
       endPos: [avgX, avgY],
-      endSize: Math.min(Game.DIMX/(Game.DIMX/2-arrX[arrX.length-1])*50, Game.DIMY/(Game.DIMY/2-arrY[arrY.length-1])*50),
+      endSize: Math.min(magX, magY, Game.MAX_ZOOM),
       moveType: "linear",
-      duration: 1
-    })
-  };
+      duration: 20
+    });
+  }
 
   Game.prototype.draw = function (fgctx, bgctx) {
     var allObjects = this.allObjects();
