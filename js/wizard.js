@@ -58,6 +58,7 @@
     this.spellList = options.spellList || [ LW.SpellList.ForcePush, LW.SpellList.Candy, LW.SpellList.Fireball];
     this.cooldownList = [0, 0, 0];
     this.globalCooldown = 0;
+    this.ailments = [];
     this.kills = 0;
     this.actions = { // none, tap, hold, release
       jump: "none",
@@ -102,7 +103,24 @@
       }
     } else {
       this.move();
+      this.ailments.forEach(function (ailment) {
+        ailment.step();
+      });
     }
+  };
+
+  Wizard.prototype.remove = function (obj) {
+    if (obj instanceof LW.Ailment) {
+      var index = this.ailments.indexOf(obj);
+      if (index < 0) {
+        return;
+      }
+      this.ailments.splice(index, 1);
+    }
+  };
+
+  Wizard.prototype.addAilment = function (ailment) {
+    this.ailments.push(ailment);
   };
 
   Wizard.prototype.move = function () {

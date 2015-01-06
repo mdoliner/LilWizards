@@ -48,12 +48,14 @@
     <script src="js/spell_list/spell_wave.js"></script>
     <script src="js/spell_list/spell_uzi.js"></script>
 
+
     <script src="js/sprite.js"></script>
     <script src="js/tile.js"></script>
     <script src="js/game_view.js"></script>
     <script src="js/game.js"></script>
     <script src="js/camera.js"></script>
     <script src="js/spell.js"></script>
+    <script src="js/ailment.js"></script>
     <script src="js/wizard.js"></script>
     <script src="js/particle.js"></script>
     <script src="js/gamepad.js"></script>
@@ -79,7 +81,6 @@
     var sound_library = new LW.SoundLibrary();
     var fgcanvas = document.getElementById("game-fg-canvas");
     var fgctx = fgcanvas.getContext('2d');
-    console.log(fgctx)
     var bgcanvas = document.getElementById("game-bg-canvas");
     var bgctx = bgcanvas.getContext('2d');
     var gameView = new LW.GameView(bgctx, fgctx);
@@ -87,7 +88,7 @@
     gameView.startGame();
     // -- start the draw
     $(function() {
-      bgm.play();
+      // bgm.play();
     })
     </script>
 
