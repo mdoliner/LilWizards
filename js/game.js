@@ -15,7 +15,7 @@
       imgSizeX: 7.62,
       imgSizeY: 8,
       game: this,
-      spellList: [LW.SpellList.Sword, LW.SpellList.Wave, LW.SpellList.RayCannon]
+      spellList: [LW.SpellList.Confusion, LW.SpellList.Wave, LW.SpellList.RayCannon]
     }));
     this.wizards.push (new LW.Wizard({
       pos: [64,64],

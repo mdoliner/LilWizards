@@ -79,7 +79,8 @@
     LW.SpellList.Sword,
     LW.SpellList.ForcePush,
     LW.SpellList.Teleport,
-    LW.SpellList.Wave
+    LW.SpellList.Wave,
+    LW.SpellList.Confusion
   ];
 
   Wizard.prototype.draw = function (ctx, camera) {
