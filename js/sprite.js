@@ -20,6 +20,7 @@
       sizeX: 100, //percent
       sizeY: 100, //percent
       background: false,
+      opacity: 1,
       animationReset: function () {}
     };
     for (var attrname in options) {
@@ -49,7 +50,8 @@
     this.baseAngle = defaults.baseAngle;
     this.sizeX = defaults.sizeX; //percent
     this.sizeY = defaults.sizeY; //percent
-    this.background = defaults.background
+    this.background = defaults.background;
+    this.opacity = defaults.opacity;
     this.animationReset = defaults.animationReset;
   };
 
@@ -77,6 +79,7 @@
       ctx.scale(-1,1)
     }
     ctx.rotate((this.angle - this.baseAngle) * Math.PI/180);
+    ctx.globalAlpha = this.opacity;
     // Perform special rounding for speed boost and pixel clairty
     var sWidth = (this.img.width / this.indexXMax + 0.5) | 0;
     var sHeight = (this.img.height / this.indexYMax + 0.5) | 0;
@@ -93,6 +96,7 @@
       relHeight * 2
       );
     ctx.restore();
+    ctx.globalAlpha = 1;
   };
 
 })();

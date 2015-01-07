@@ -368,6 +368,7 @@
     this.pos.setTo(-1000);
 
     this.removeActiveSpells();
+    this.removeAilments();
   };
 
   Wizard.prototype.isDead = function () {
@@ -399,7 +400,7 @@
         color: 'white'
       };
     }.bind(this))
-  }
+  };
 
   Wizard.prototype.removeActiveSpells = function () {
     for (var i = this.game.spells.length - 1; i >= 0; i--) {
@@ -408,7 +409,13 @@
         this.game.spells.splice(i, 1);
       }
     };
-  }
+  };
+
+  Wizard.prototype.removeAilments = function () {
+    for (var i = this.ailments.length - 1; i >= 0; i--) {
+      this.ailments[i].remove();
+    };
+  };
 
   Wizard.prototype.castSpell = function (spellIndex) {
     if (this.globalCooldown <= 0 && this.cooldownList[spellIndex] <= 0) {
