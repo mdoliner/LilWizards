@@ -22,6 +22,6 @@
     this.currentIndex = (this.currentIndex + 1) % this.audioTags.length
   }
 
-  SoundLibrary.MAXTAGS = 20;
+  SoundLibrary.MAXTAGS = 40;
 
 })();

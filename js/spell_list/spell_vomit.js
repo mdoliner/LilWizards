@@ -23,7 +23,7 @@
         this.collBox.dim.plus(1);
       },
       initialize: function () {
-        this.game.playSE('wind.ogg');
+        this.game.playSE('vomit.ogg');
         this.inflicted = [];
         this.sprite.sizeX = 5.8;
         this.sprite.sizeY = 4.6;
@@ -34,12 +34,20 @@
       wizardColl: function (wizard) {
         if (wizard !== this.caster && this.inflicted.indexOf(wizard) < 0) {
           wizard.addAilment(new LW.Ailment({
-            duration: 300,
+            duration: 400,
             victim: wizard,
             wizard: this.caster,
             tickEvent: greenSparks,
+            initialize: function () {
+              this.modAccelX = this.victim.accelXModifier * 0.75;
+              this.victim.accelXModifier -= this.modAccelX;
+              this.modJump = this.victim.jumpModifier * 0.75;
+              this.victim.jumpModifier -= this.modJump;
+            },
             removeEvent: function () {
-              this.victim.kill(this.wizard);
+              this.victim.jumpModifier += this.modJump;
+              this.victim.accelXModifier += this.modAccelX;
+            //   this.victim.kill(this.wizard);
             }
           }));
           this.inflicted.push(wizard)

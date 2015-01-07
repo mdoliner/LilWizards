@@ -15,7 +15,7 @@
       imgSizeX: 7.62,
       imgSizeY: 8,
       game: this,
-      spellList: [LW.SpellList.Vomit, LW.SpellList.Confusion, LW.SpellList.RayCannon]
+      spellList: [LW.SpellList.Vomit, LW.SpellList.ToxicDarts, LW.SpellList.RayCannon]
     }));
     this.wizards.push (new LW.Wizard({
       pos: [64,64],
@@ -27,7 +27,7 @@
       imgSizeX: 7.62,
       imgSizeY: 8,
       game: this,
-      spellList: [LW.SpellList.Vomit, LW.SpellList.Confusion, LW.SpellList.ForcePush]
+      spellList: [LW.SpellList.Vomit, LW.SpellList.ToxicDarts, LW.SpellList.ForcePush]
     }));
     this.wizards.push (new LW.Wizard({
       pos: [500,130],
@@ -128,9 +128,10 @@
     var avgY = (arrY[0] + arrY[arrY.length - 1]) / 2;
     var magX = Game.DIMX/(Math.abs(avgX - arrX[arrX.length - 1]) * 3) * 100;
     var magY = Game.DIMY/(Math.abs(avgY - arrY[arrY.length - 1]) * 3) * 100;
+    var mag = Math.min(magX, magY, Game.MAX_ZOOM);
     this.camera.moveTo({
       endPos: [avgX, avgY],
-      endSize: Math.min(magX, magY, Game.MAX_ZOOM),
+      endSize: mag,
       moveType: "linear",
       duration: 20
     });

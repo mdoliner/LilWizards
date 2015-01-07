@@ -12,6 +12,8 @@
     this.nGravity = 0.18;
     this.jGravity = 0.07;
     this.terminalVel = 7;
+    this.accelXModifier = 1.0;
+    this.jumpModifier = 1.0;
 
     this.sprite = new LW.Sprite({
       img: options.img,
@@ -231,6 +233,7 @@
   };
 
   Wizard.prototype.jump = function (val) {
+    val *= this.jumpModifier;
     if (this.onGround) {
       this.vel.y = val;
       this.game.playSE('jump_ground.ogg');
@@ -278,6 +281,7 @@
   };
 
   Wizard.prototype.accelX = function (val) {
+    val *= this.accelXModifier;
     if (!this.onGround) {
       val /= 3.5;
     } else {

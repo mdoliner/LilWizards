@@ -128,6 +128,13 @@
     return this.plusAngleDeg(angle);
   };
 
+  Coord.prototype.plusRightAngleDeg = function (angle) {
+    if (this.y > 0) {
+      angle *= -1;
+    }
+    return this.plusAngleDeg(angle);
+  };
+
   Coord.prototype.dup = function () {
     return new Coord([this.x, this.y]);
   };
