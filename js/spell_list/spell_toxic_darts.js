@@ -6,11 +6,11 @@
   LW.SpellList.ToxicDarts = function (spellIndex) {
     var dir = this.spellDirection();
     if (dir.x !== 0) {
-      dir.plusUpAngleDeg(30);
-      var angleChange = LW.Coord.prototype.plusUpAngleDeg.bind(dir, -15);
+      dir.plusUpAngleDeg(20);
+      var angleChange = LW.Coord.prototype.plusUpAngleDeg.bind(dir, -10);
     } else {
-      dir.plusRightAngleDeg(30);
-      var angleChange = LW.Coord.prototype.plusRightAngleDeg.bind(dir, -15);
+      dir.plusRightAngleDeg(20);
+      var angleChange = LW.Coord.prototype.plusRightAngleDeg.bind(dir, -10);
     }
     LW.SpellList.ToxicDartShot.bind(this)(spellIndex, dir.dup());
     var nextDart = function () {
@@ -104,11 +104,11 @@
         pos: pos,
         vel: [Math.random()-0.5,0],
         game: this.game || this.victim.game,
-        duration: Math.floor(Math.random()*20+10),
+        duration: Math.floor(Math.random()*5+5),
         radius: Math.random()*2+1,
         color: 'darkorchid',
         tickEvent: function () {
-          this.vel.y += 0.04;
+          this.vel.y += 0.12;
         }
       };
     }.bind(this))
@@ -121,7 +121,7 @@
         pos: pos,
         vel: [0,0],
         game: this.game || this.victim.game,
-        duration: Math.floor(Math.random()*20+10),
+        duration: Math.floor(Math.random()*5+2),
         radius: Math.random()*2+1,
         color: 'darkorchid'
       };
