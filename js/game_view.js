@@ -54,7 +54,7 @@
       var wizard = wizards[i];
       if (wizard.isDead()) {continue;}
       if (wizard.actions["jump"] === "tap") {
-        wizard.jump(-5);
+        wizard.jump(LW.Wizard.BASEJUMP);
       }
       if (wizard.actions["jump"] === "hold") {
         wizard.dynamicJump();
@@ -79,14 +79,15 @@
 
   GameView.prototype.checkControllerActions = function () {
     var gamepads = Gamepad.gamepads;
+    var boost = LW.Wizard.BASEBOOST;
     for (var i = 0; i < gamepads.length; i++) {
       var leftX = Gamepad.moved(i, "LEFT_X")
       if (Gamepad.pressed(i, "PAD_LEFT") || leftX < 0) {
-        this.game.wizards[i].accelX(leftX || -1);
+        this.game.wizards[i].accelX(leftX * boost || -boost);
         this.game.wizards[i].faceDir("left");
       }
       if (Gamepad.pressed(i, "PAD_RIGHT") || leftX > 0) {
-        this.game.wizards[i].accelX(leftX || 1);
+        this.game.wizards[i].accelX(leftX * boost || boost);
         this.game.wizards[i].faceDir("right");
       }
       var leftY = Gamepad.moved(i, "LEFT_Y")
@@ -154,7 +155,7 @@
     }];
 
   GameView.prototype.checkKeyActions = function () {
-    var boost = 1.0;
+    var boost = LW.Wizard.BASEBOOST;
     for (var i = 0; i < 2; i++) {
       var wizard = this.game.wizards[i + Gamepad.gamepads.length];
       var buttons = controlScheme[i];

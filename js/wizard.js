@@ -10,7 +10,7 @@
     this.verFacing = null;
     this.maxVelX = 5;
     this.nGravity = 0.18;
-    this.jGravity = 0.07;
+    this.jGravity = 0.09;
     this.terminalVel = 7;
     this.accelXModifier = 1.0;
     this.jumpModifier = 1.0;
@@ -72,6 +72,13 @@
     };
   };
 
+  Wizard.BASEBOOST = 0.3;
+  Wizard.BASEJUMP = -3;
+  Wizard.BASEJUMPBOOST = -0.3;
+  Wizard.BASEJUMPTIME = 20;
+  Wizard.AIRCONTROL = .65;
+  Wizard.BASEWALLJUMPX = 3.0;
+
   Wizard.TOTAL_SPELL_LIST = [
     LW.SpellList.Crash,
     LW.SpellList.FanOfKnives,
@@ -131,6 +138,7 @@
   Wizard.prototype.move = function () {
     this.onGround = false;
     this.wallJumpBuffer -= 1;
+    this.dynamicJumpTimer -= 1;
     var that = this;
 
     this.collBox.removeCollision("x",this.vel.x,{
@@ -236,6 +244,7 @@
 
   Wizard.prototype.jump = function (val) {
     val *= this.jumpModifier;
+    this.dynamicJumpTimer = Wizard.BASEJUMPTIME;
     if (this.onGround) {
       this.vel.y = val;
       this.game.playSE('jump_ground.ogg');
@@ -254,17 +263,18 @@
       return;
     } else if ((this.onLeftWall && this.isOnWall()) || this.wallJumpBuffer > 0) {
       this.vel.y = val;
-      this.vel.x = this.maxVelX;
+      this.vel.x = Wizard.BASEWALLJUMPX;
       this.onLeftWall = false;
       this.faceDir("right");
       var offset = [-8,0];
     } else if ((this.onRightWall && this.isOnWall()) || this.wallJumpBuffer > 0) {
       this.vel.y = val;
-      this.vel.x = -this.maxVelX;
+      this.vel.x = -Wizard.BASEWALLJUMPX;
       this.onRightWall = false;
       this.faceDir("left");
       var offset = [8,0];
     } else {
+      this.dynamicJumpTimer = 0;
       return;
     }
     this.game.playSE('jump.ogg');
@@ -285,13 +295,13 @@
   Wizard.prototype.accelX = function (val) {
     val *= this.accelXModifier;
     if (!this.onGround) {
-      val /= 3.5;
+      val *= Wizard.AIRCONTROL;
     } else {
       if (this.sprite.indexYMax >= 2 && this.sprite.indexY !== 1) {
         this.sprite.indexY = 1;
         this.sprite.indexX = 0;
       }
-      if (Math.abs(this.vel.x + val) < this.maxVelX - 1 && Math.abs(val) > 0.7) {
+      if (Math.abs(this.vel.x + val) < this.maxVelX - 1 && Math.abs(val) > Wizard.BASEBOOST * 0.7) {
         LW.ParticleSplatter(1, function () {
           var randVel = this.vel.dup().times([-0.2,0]).plusUpAngleDeg(Math.random()*30+15)
           var newPos = this.pos.dup().plus([0,16])
@@ -308,6 +318,9 @@
     }
     if (Math.abs(this.vel.x + val) < this.maxVelX) {
       this.vel.x += val;
+      if (this.onGround && Math.abs(this.vel.x + val) > Math.abs(this.vel.x)) {
+        this.vel.x /= this.friction.x
+      }
     }
   };
 
@@ -331,6 +344,9 @@
   Wizard.prototype.dynamicJump = function () {
     if (this.vel.y < -2) {
       this.gravity.y = this.jGravity;
+      if (this.dynamicJumpTimer > 0) {
+        this.vel.y += Wizard.BASEJUMPBOOST * (this.dynamicJumpTimer / Wizard.BASEJUMPTIME);
+      }
     }
   };
 
