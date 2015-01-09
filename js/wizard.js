@@ -118,6 +118,10 @@
       this.ailments.forEach(function (ailment) {
         ailment.step();
       });
+      this.globalCooldown -= 1;
+      for (var i = 0; i < this.cooldownList.length; i++) {
+        this.cooldownList[i] -= 1;
+      }
     }
   };
 
@@ -140,20 +144,23 @@
     this.wallJumpBuffer -= 1;
     this.dynamicJumpTimer -= 1;
     var that = this;
+    var onAdjWall = false;
 
     this.collBox.removeCollision("x",this.vel.x,{
       isCollision: function () {
         that.vel.x = 0;
+        onAdjWall = true;
       },
       leftCollision: function () {
         that.onLeftWall = true;
       },
       rightCollision: function () {
         that.onRightWall = true;
+
       }
     })
 
-    if (this.isOnWall() && (this.horFacing === "left" || this.horFacing === "right") && !this.wallHangOveride) {
+    if (!this.wallHangOveride && onAdjWall && this.isOnWall()) {
       this.vel.y = Math.min(this.vel.y, 1);
       this.boosted = false;
     }
@@ -176,12 +183,6 @@
     }
 
     this.gravity.y = this.nGravity;
-
-    this.globalCooldown -= 1;
-    for (var i = 0; i < this.cooldownList.length; i++) {
-      this.cooldownList[i] -= 1;
-    }
-
   };
 
   Wizard.prototype.isOnWall = function () {
@@ -208,21 +209,8 @@
   Wizard.prototype.touchGround = function () {
     if (this.vel.y > 5) {
       this.game.playSE('land.ogg', 1);
-      var funct = function (isRight) {
-        var randVel = (new LW.Coord([1,0])).times(Math.random()*0.5 + 0.5);
-        if (isRight) { randVel.times(-1); }
-        var randPos = this.pos.dup().plus([8,0]).randomBetween(this.pos.dup().minus([8,0])).plus([0,16]);
-        return {
-          pos: randPos,
-          vel: randVel,
-          game: this.game,
-          duration: Math.floor(Math.random()*20+20),
-          radius: Math.random()*2+3,
-          color: 'whitesmoke'
-        };
-      }
-      LW.ParticleSplatter(3, funct.bind(this, false))
-      LW.ParticleSplatter(3, funct.bind(this, true))
+      LW.ParticleSplatter(3, landParticleGen.bind(this, false))
+      LW.ParticleSplatter(3, landParticleGen.bind(this, true))
     }
     this.onGround = true;
     this.boosted = false;
@@ -248,18 +236,7 @@
     if (this.onGround) {
       this.vel.y = val;
       this.game.playSE('jump_ground.ogg');
-      LW.ParticleSplatter(5, function () {
-        var randVel = this.vel.dup().plusAngleDeg(Math.random()*40-20).times(Math.random()/3);
-        var randPos = this.pos.dup().plus([8,0]).randomBetween(this.pos.dup().minus([8,0])).plus([0,16]);
-        return {
-          pos: randPos,
-          vel: randVel,
-          game: this.game,
-          duration: Math.floor(Math.random()*20+20),
-          radius: Math.random()*2+3,
-          color: 'whitesmoke'
-        };
-      }.bind(this))
+      LW.ParticleSplatter(5, jumpOffGroundGen.bind(this))
       return;
     } else if ((this.onLeftWall && this.isOnWall()) || this.wallJumpBuffer > 0) {
       this.vel.y = val;
@@ -278,18 +255,7 @@
       return;
     }
     this.game.playSE('jump.ogg');
-    LW.ParticleSplatter(5, function () {
-      var randVel = this.vel.dup().plusAngleDeg(Math.random()*40-20).times(Math.random()/3);
-      var randPos = this.pos.dup().plus([0,8]).randomBetween(this.pos.dup().minus([0,8])).plus(offset);
-      return {
-        pos: randPos,
-        vel: randVel,
-        game: this.game,
-        duration: Math.floor(Math.random()*20+20),
-        radius: Math.random()*2+3,
-        color: 'whitesmoke'
-      };
-    }.bind(this))
+    LW.ParticleSplatter(5, jumpOffWallGen.bind(this, offset))
   };
 
   Wizard.prototype.accelX = function (val) {
@@ -302,21 +268,10 @@
         this.sprite.indexX = 0;
       }
       if (Math.abs(this.vel.x + val) < this.maxVelX - 1 && Math.abs(val) > Wizard.BASEBOOST * 0.7) {
-        LW.ParticleSplatter(1, function () {
-          var randVel = this.vel.dup().times([-0.2,0]).plusUpAngleDeg(Math.random()*30+15)
-          var newPos = this.pos.dup().plus([0,16])
-          return {
-            pos: newPos,
-            vel: randVel,
-            game: this.game,
-            duration: Math.floor(Math.random()*20+20),
-            radius: Math.random()*2+1,
-            color: 'whitesmoke'
-          };
-        }.bind(this))
+        LW.ParticleSplatter(1,slideParticles.bind(this));
       }
     }
-    if (Math.abs(this.vel.x + val) < this.maxVelX) {
+    if (Math.abs(this.vel.x + val) < this.maxVelX || Math.abs(this.vel.x + val) < Math.abs(this.vel.x)) {
       this.vel.x += val;
       if (this.onGround && Math.abs(this.vel.x + val) > Math.abs(this.vel.x)) {
         this.vel.x /= this.friction.x
@@ -355,12 +310,18 @@
       return new LW.Coord([0, -1]);
     } else if (this.verFacing === "down") {
       return new LW.Coord([0,1]);
-    } else if (this.horFacing === "right") {
+    } else {
+      return this.horSpellDirection()
+    }
+  };
+
+  Wizard.prototype.horSpellDirection = function () {
+    if (this.horFacing === "right") {
       return new LW.Coord([1, 0]);
     } else if (this.horFacing === "left") {
       return new LW.Coord([-1, 0]);
     }
-  };
+  }
 
   Wizard.prototype.kill = function (killer) {
     if (killer === this) {
@@ -368,21 +329,7 @@
     } else {
       killer.kills += 1;
     }
-    LW.ParticleSplatter(20, function () {
-      var randVel = new LW.Coord([Math.random()*3,Math.random()*3]).plusAngleDeg(Math.random()*360)
-      return {
-        pos: this.pos,
-        vel: randVel,
-        game: this.game,
-        duration: Math.floor(Math.random()*30+30),
-        radius: Math.random()*5+3,
-        color: 'red',
-        tickEvent: function () {
-          this.vel.y += 0.05;
-          this.radius -= 0.01;
-        }
-      };
-    }.bind(this))
+    LW.ParticleSplatter(20, deathParticles.bind(this))
 
     this.game.camera.startShake({power: 3, direction: 'x', duration: 20})
     this.game.playSE('death.ogg');
@@ -444,6 +391,79 @@
     if (this.globalCooldown <= 0 && this.cooldownList[spellIndex] <= 0) {
       this.spellList[spellIndex].bind(this)(spellIndex);
     }
+  };
+
+  var slideParticles = function () {
+    var randVel = this.vel.dup().times([-0.2,0]).plusUpAngleDeg(Math.random()*30+15)
+    var newPos = this.pos.dup().plus([0,16])
+    return {
+      pos: newPos,
+      vel: randVel,
+      game: this.game,
+      duration: Math.floor(Math.random()*20+20),
+      radius: Math.random()*2+1,
+      color: 'whitesmoke'
+    };
+  };
+
+  var landParticleGen = function (isRight) {
+    var randVel = (new LW.Coord([1,0])).times(Math.random()*0.5 + 0.5);
+    if (isRight) { randVel.times(-1); }
+    var randPos = this.pos.dup().plus([8,0]).randomBetween(this.pos.dup().minus([8,0])).plus([0,16]);
+    var angle = 1.5 - randVel.toScalar();
+    return {
+      pos: randPos,
+      vel: randVel,
+      game: this.game,
+      duration: Math.floor(Math.random()*20+20),
+      radius: Math.random()*2+3,
+      color: 'whitesmoke',
+      tickEvent: function () {
+        this.vel.plusUpAngleDeg(angle)
+      }
+    };
+  };
+
+  var jumpOffGroundGen = function () {
+    var randVel = this.vel.dup().plusAngleDeg(Math.random()*40-20).times(Math.random()/3);
+    var randPos = this.pos.dup().plus([8,0]).randomBetween(this.pos.dup().minus([8,0])).plus([0,16]);
+    return {
+      pos: randPos,
+      vel: randVel,
+      game: this.game,
+      duration: Math.floor(Math.random()*20+20),
+      radius: Math.random()*2+3,
+      color: 'whitesmoke'
+    };
+  };
+
+  var jumpOffWallGen = function (offset) {
+    var randVel = this.vel.dup().plusAngleDeg(Math.random()*40-20).times(Math.random()/3);
+    var randPos = this.pos.dup().plus([0,8]).randomBetween(this.pos.dup().minus([0,8])).plus(offset);
+    return {
+      pos: randPos,
+      vel: randVel,
+      game: this.game,
+      duration: Math.floor(Math.random()*20+20),
+      radius: Math.random()*2+3,
+      color: 'whitesmoke'
+    };
+  };
+
+  var deathParticles = function () {
+    var randVel = new LW.Coord([Math.random()*3,Math.random()*3]).plusAngleDeg(Math.random()*360)
+    return {
+      pos: this.pos,
+      vel: randVel,
+      game: this.game,
+      duration: Math.floor(Math.random()*30+30),
+      radius: Math.random()*5+3,
+      color: 'crimson',
+      tickEvent: function () {
+        this.vel.y += 0.05;
+        this.radius -= 0.01;
+      }
+    };
   };
 
 })();
