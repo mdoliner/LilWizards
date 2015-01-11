@@ -15,7 +15,7 @@
       imgSizeX: 7.62,
       imgSizeY: 8,
       game: this,
-      spellList: [LW.SpellList.Vomit, LW.SpellList.Updraft, LW.SpellList.RayCannon]
+      spellList: [LW.SpellList.Lollipop, LW.SpellList.Updraft, LW.SpellList.RayCannon]
     }));
     this.wizards.push (new LW.Wizard({
       pos: [64,64],
@@ -27,17 +27,17 @@
       imgSizeX: 7.62,
       imgSizeY: 8,
       game: this,
-      spellList: [LW.SpellList.Updraft, LW.SpellList.Sword, LW.SpellList.ToxicDarts]
+      spellList: [LW.SpellList.Updraft, LW.SpellList.Sword, LW.SpellList.Fireball]
     }));
     this.wizards.push (new LW.Wizard({
-      pos: [-500,130],
+      pos: [500,130],
       vel: [0,0],
       horFacing: "right",
       img: "./graphics/wiz.png",
       imgIndexXMax: 1,
       imgIndexYMax: 1,
       game: this,
-      spellList: [LW.SpellList.Fireball, LW.SpellList.Wave, LW.SpellList.Sword]
+      spellList: [LW.SpellList.Lollipop, LW.SpellList.Wave, LW.SpellList.Sword]
     }));
     this.wizards.push (new LW.Wizard({
       pos: [-700,130],

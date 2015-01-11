@@ -35,7 +35,7 @@
               duration: 20,
               radius: Math.random()*5+1,
               color: 'orange'
-            };            
+            };
           }.bind(this))
         }
         if (this.delayTime <= 0) {
