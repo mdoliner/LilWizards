@@ -15,7 +15,7 @@
       imgSizeX: 7.62,
       imgSizeY: 8,
       game: this,
-      spellList: [LW.SpellList.Vomit, LW.SpellList.Updraft, LW.SpellList.RayCannon]
+      spellList: [LW.SpellList.WreckingBall, LW.SpellList.Wave, LW.SpellList.Updraft]
     }));
     this.wizards.push (new LW.Wizard({
       pos: [64,64],
@@ -27,7 +27,7 @@
       imgSizeX: 7.62,
       imgSizeY: 8,
       game: this,
-      spellList: [LW.SpellList.Updraft, LW.SpellList.Sword, LW.SpellList.ToxicDarts]
+      spellList: [LW.SpellList.Teleport, LW.SpellList.Fireball, LW.SpellList.RayCannon]
     }));
     this.wizards.push (new LW.Wizard({
       pos: [-500,130],
@@ -40,14 +40,14 @@
       spellList: [LW.SpellList.Fireball, LW.SpellList.Wave, LW.SpellList.Sword]
     }));
     this.wizards.push (new LW.Wizard({
-      pos: [-700,130],
+      pos: [700,130],
       vel: [0,0],
       horFacing: "left",
       img: "./graphics/wiz2.png",
       imgIndexXMax: 1,
       imgIndexYMax: 1,
       game: this,
-      spellList: [LW.SpellList.Fireball, LW.SpellList.RayCannon, LW.SpellList.ForcePush]
+      spellList: [LW.SpellList.Crash, LW.SpellList.Updraft, LW.SpellList.RayCannon]
     }));
     this.tiles = [];
     this.spawnPoints = [];
