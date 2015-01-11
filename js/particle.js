@@ -43,6 +43,23 @@
     this.duration -= 1;
   };
 
+  var colorMap = {
+    "red": [0, 100, 50],
+    "green": [120, 100, 50],
+    "blue": [240, 100, 50],
+    "white": [0, 100, 100],
+    "black": [0, 100, 0],
+    "orange": [33, 100, 50],
+    "yellow": [60, 100, 50],
+    "purple": [280, 100, 50],
+    "grey": [0, 0, 50],
+    "lightgray": [0, 0, 25]
+  }
+
+  Particle.prototype.parseColor = function () {
+
+  };
+
   LW.ParticleSplatter = function (amount, genFunc) {
     for (var i = 0; i < amount; i++) {
       var options = genFunc();
