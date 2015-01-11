@@ -53,7 +53,7 @@
     this.spawnPoints = [];
     this.spells = [];
     this.parseLevel(Game.LEVEL);
-    this.particles = [];
+    this.particles = new LW.ParticleLibrary;
     this.camera = new LW.Camera({
       pos: [512,288],
       size: 100 //percent
@@ -98,15 +98,13 @@
 
     this.camera.step();
 
-    for (var i = this.wizards.length - 1; i >= 0; i--) {
+    for (var i = 0; i < this.wizards.length; i++) {
       this.wizards[i].step();
     };
-    for (var i = this.spells.length - 1; i >= 0; i--) {
+    for (var i = 0; i < this.spells.length; i++) {
       this.spells[i].move();
     };
-    for (var i = this.particles.length - 1; i >= 0; i--) {
-      this.particles[i].move();
-    };
+    this.particles.move();
   };
 
   Game.prototype.playSE = function (src, volume) {
@@ -151,6 +149,7 @@
       //   allObjects[i].collBox.draw(ctx, this.camera, "red")
       // }
     }
+    this.particles.draw(fgctx, this.camera)
     if (this.camera.hasMoved) {
       var bgObjects = this.bgObjects();
       this.camera.hasMoved = false;
@@ -183,7 +182,7 @@
       if (index < 0) {
         return;
       }
-      this.particles.splice(index, 1);
+      this.particles.spliceOne(index);
     }
   };
 
@@ -192,7 +191,7 @@
   };
 
   Game.prototype.allObjects = function () {
-    return this.tiles.concat(this.spawnPoints).concat(this.wizards).concat(this.spells).concat(this.particles);
+    return this.tiles.concat(this.spawnPoints).concat(this.wizards).concat(this.spells);
   };
 
   Game.prototype.fgObjects = function () {
@@ -286,6 +285,19 @@
       collisions = this.wizardCollisions(randomSpawn.collBox)
     }
     return randomSpawn.pos;
+  };
+
+
+  var ParticleTest = function () {
+    var randVel = new LW.Coord([Math.random()*3,Math.random()*3]).plusAngleDeg(Math.random()*360)
+    return {
+      pos: [512,256],
+      vel: randVel,
+      game: this,
+      duration: 120,
+      radius: Math.random()*5+3,
+      color: 'white'
+    };
   };
 
 

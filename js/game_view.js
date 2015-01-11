@@ -8,7 +8,24 @@
     this.fgctx = fgctx;
     this.bgctx = bgctx;
     this.MS = Date.now();
-    this.fps = 120;
+    this.fps = {
+      startTime : 0,
+      frameNumber : 0,
+      element: $('div.fps-counter'),
+      getFPS : function(){
+        this.frameNumber++;
+        var d = new Date().getTime(),
+          currentTime = ( d - this.startTime ) / 1000,
+          result = Math.floor( ( this.frameNumber / currentTime ) );
+
+        if( currentTime > 1 ){
+          this.startTime = new Date().getTime();
+          this.frameNumber = 0;
+        }
+        return result;
+
+      } 
+    };
     this.updateFPS = 0;
   };
 
@@ -18,7 +35,7 @@
       this.checkKeyActions();
       this.wizardActions();
       this.game.step();
-      this.getFPS();;
+      this.fps.element.html("FPS: "+this.fps.getFPS())
     }.bind(this)
     setInterval(gameStep, 1000/120);
 
@@ -26,27 +43,6 @@
       this.game.draw(this.fgctx, this.bgctx);
     }.bind(this), 1000/60)
   };
-
-  GameView.prototype.getFPS = function () {
-    var nowMS = Date.now();
-    if (this.updateFPS <= 0) {
-      this.fps += ((1000 / (nowMS - this.MS)) - this.fps) / 20;
-      $('div.fps-counter').html('FPS: '+Math.round(this.fps))
-      this.updateFPS = 30;
-    } else {
-      this.updateFPS -= 1;
-    }
-    this.MS = nowMS;
-    var displayFPS = Math.round(this.fps);
-
-    // ctx.font = "15px Sans-serif";
-    // ctx.strokeStyle = "white";
-    // ctx.lineWidth = 3;
-    // ctx.strokeText(displayFPS,16,16);
-    // ctx.fillStyle = "green";
-    // ctx.fillText(displayFPS,16,16);
-
-  }
 
   GameView.prototype.wizardActions = function () {
     var wizards = this.game.wizards;

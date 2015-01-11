@@ -69,11 +69,53 @@
     "deepskyblue": [195, 100, 50],
     "dodgerblue": [210, 100, 56],
     "whitesmoke": [0, 0, 96],
-    "floralwhite": [40, 100, 97]
+    "floralwhite": [40, 100, 97],
+    "crimson": [348, 83, 47]
   }
 
   Particle.prototype.parseColor = function () {
     return "hsla("+this.color.hue+","+this.color.sat+"%,"+this.color.light+"%,"+this.color.alpha+")";
+  };
+
+
+  var Library = LW.ParticleLibrary = function () {
+    this.particles = new Array(Library.MAXPARTICLES);
+    this.length = 0;
+  };
+
+  Library.MAXPARTICLES = 10000;
+
+  Library.prototype.push = function (particle) {
+    this.particles[this.length] = particle;
+    this.length++;
+  };
+
+  Library.prototype.spliceOne = function (index) {
+    if (!this.length) { return }
+    while (index < this.length) {
+      this.particles[index] = this.particles[index+1];
+      index++;
+    }
+    this.length--;
+  };
+
+  Library.prototype.indexOf = function (particle) {
+    for (var i = 0; i < this.length; i++) {
+      if (this.particles[i] === particle) {return i}
+    }
+    return -1;
+  };
+
+  Library.prototype.move = function () {
+    for (var i = 0; i < this.length; i++) {
+      this.particles[i].move();
+    };
+  };
+
+  Library.prototype.draw = function (ctx, camera) {
+    for (var i = 0; i < this.length; i++) {
+      this.particles[i].draw(ctx, camera);
+    };
   };
 
   LW.ParticleSplatter = function (amount, genFunc) {
