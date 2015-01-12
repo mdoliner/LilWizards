@@ -32,7 +32,7 @@
       pos: this.pos,
       vel: dir.times(5),
       img: "graphics/spell_dart.gif",
-      dim: [6,2],
+      dim: [5,5],
       game: this.game,
       caster: this,
       imgBaseAngle: 235,
@@ -45,7 +45,7 @@
       },
       tickEvent: function () {
         PurpleSit.bind(this)();
-        this.collBox.angle = this.vel.toAngleDeg();
+        // this.collBox.angle = this.vel.toAngleDeg();
       },
       wizardColl: function (wizard) {
         if (wizard !== this.caster) {
@@ -92,7 +92,7 @@
         game: this.game,
         duration: Math.floor(Math.random()*20+10),
         radius: Math.random()*2+1,
-        color: 'darkorchid'
+        color: 'purple'
       };
     }.bind(this))
   };
@@ -104,9 +104,9 @@
         pos: pos,
         vel: [Math.random()-0.5,0],
         game: this.game || this.victim.game,
-        duration: Math.floor(Math.random()*5+5),
+        duration: Math.floor(Math.random()*5+10),
         radius: Math.random()*2+1,
-        color: 'darkorchid',
+        color: 'purple',
         tickEvent: function () {
           this.vel.y += 0.12;
         }
@@ -121,9 +121,9 @@
         pos: pos,
         vel: [0,0],
         game: this.game || this.victim.game,
-        duration: Math.floor(Math.random()*5+2),
+        duration: Math.floor(Math.random()*5+10),
         radius: Math.random()*2+1,
-        color: 'darkorchid'
+        color: 'purple'
       };
     }.bind(this))
   };

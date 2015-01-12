@@ -8,7 +8,7 @@
       pos: this.pos,
       vel: this.spellDirection().times(13),
       img: "graphics/spell_teleport.png",
-      dim: [5,5],
+      dim: [12,12],
       game: this.game,
       caster: this,
       sType: "ray",
@@ -36,7 +36,7 @@
               }
             }.bind(this));
           }
-          var times = 15;
+          var times = 5;
           this.remove();
           var funct = function() {
             LW.ParticleSplatter(3, function () {

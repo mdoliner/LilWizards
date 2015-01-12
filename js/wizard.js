@@ -460,6 +460,7 @@
       duration: Math.floor(Math.random()*30+30),
       radius: Math.random()*5+3,
       color: 'crimson',
+      drawType: 'radial',
       tickEvent: function () {
         this.vel.y += 0.05;
         this.radius -= 0.01;

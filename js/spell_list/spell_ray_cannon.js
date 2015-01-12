@@ -20,8 +20,8 @@
         } else if (this.duration > 10) {
           this.pos.x = this.caster.pos.x;
           this.pos.y = this.caster.pos.y;
-          LW.ParticleSplatter((180 - this.duration)/60, function () {
-              var offset = new LW.Coord([20,20]);
+          LW.ParticleSplatter(1, function () {
+              var offset = new LW.Coord([Math.random()*5+20,0]);
               offset.plusAngleDeg(Math.random()*360);
               var randPos = this.caster.pos.dup().plus(offset);
               var spell = this;
@@ -30,8 +30,11 @@
                 vel: offset.divided(-20),
                 game: this.game,
                 duration: 20,
-                radius: Math.random()*5+1,
+                radius: Math.random()*5+5,
                 color: 'blue',
+                drawType: 'outerRadial',
+                radialColor: 'white',
+                radialSize: 0.1,
                 tickEvent: function () {
                   if (spell.isFired && !this.velChanged) {
                     // sets velocity to go twice lazer's pos over the course of its duration.

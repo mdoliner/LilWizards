@@ -15,7 +15,7 @@
       imgSizeX: 7.62,
       imgSizeY: 8,
       game: this,
-      spellList: [LW.SpellList.WreckingBall, LW.SpellList.Wave, LW.SpellList.Updraft]
+      spellList: [LW.SpellList.ToxicDarts, LW.SpellList.FanOfKnives, LW.SpellList.RayCannon]
     }));
     this.wizards.push (new LW.Wizard({
       pos: [64,64],
@@ -27,7 +27,7 @@
       imgSizeX: 7.62,
       imgSizeY: 8,
       game: this,
-      spellList: [LW.SpellList.Teleport, LW.SpellList.Fireball, LW.SpellList.RayCannon]
+      spellList: [LW.SpellList.Sword, LW.SpellList.Wave, LW.SpellList.ForcePush]
     }));
     this.wizards.push (new LW.Wizard({
       pos: [-500,130],
@@ -40,7 +40,7 @@
       spellList: [LW.SpellList.Fireball, LW.SpellList.Wave, LW.SpellList.Sword]
     }));
     this.wizards.push (new LW.Wizard({
-      pos: [700,130],
+      pos: [-700,130],
       vel: [0,0],
       horFacing: "left",
       img: "./graphics/wiz2.png",
@@ -97,6 +97,8 @@
     }
 
     this.camera.step();
+
+    // LW.ParticleSplatter(1, ParticleTest.bind(this));
 
     for (var i = 0; i < this.wizards.length; i++) {
       this.wizards[i].step();
@@ -289,14 +291,20 @@
 
 
   var ParticleTest = function () {
-    var randVel = new LW.Coord([Math.random()*3,Math.random()*3]).plusAngleDeg(Math.random()*360)
+    var randVel = new LW.Coord([Math.random()/4, 0]).plusAngleDeg(Math.random()*360)
     return {
       pos: [512,256],
       vel: randVel,
       game: this,
-      duration: 120,
-      radius: Math.random()*5+3,
-      color: 'white'
+      duration: 1800,
+      radius: Math.random()*5+15,
+      color: 'red',
+      drawType: 'square',
+      radialSize: 0.05,
+      radialColor: 'white',
+      tickEvent: function () {
+        this.color.hue += 3;
+      }
     };
   };
 

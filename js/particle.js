@@ -11,9 +11,11 @@
     this.duration = options.duration;
     this.maxDuration = this.duration;
     this.radius = options.radius;
+    this.drawType = options.drawType || "square";
+    this.radialSize = options.radialSize || 0.5;
 
     if (typeof options.color === "string") {
-      this.color = {}
+      this.color = {};
       var colorArr = colorMap[options.color];
       this.color.hue = colorArr[0];
       this.color.sat = colorArr[1];
@@ -23,7 +25,26 @@
     }
     this.color.alpha = this.color.alpha || 1.0;
 
+    if (options.radialColor) {
+      if (typeof options.radialColor === "string") {
+        this.radialColor = {};
+        var colorArr = colorMap[options.radialColor];
+        this.radialColor.hue = colorArr[0];
+        this.radialColor.sat = colorArr[1];
+        this.radialColor.light = colorArr[2];
+        this.radialColor.alpha = 1;
+      } else {
+        this.radialColor = options.radialColor;
+      }
+    } else {
+      this.radialColor = {}
+      for (var attr in this.color) {
+        this.radialColor[attr] = this.color[attr];
+      }
+    }
+
     this.tickEvent = options.tickEvent;
+    options.intialize && options.initialize();
   };
 
   Particle.prototype.draw = function (ctx, camera) {
@@ -38,8 +59,39 @@
       roundRadius, 
       roundRadius
     );
-    ctx.fillStyle = this.parseColor();
+    this[this.drawType](ctx, roundRadius, newPos);
     ctx.fill();
+  };
+
+  Particle.prototype.square = function (ctx, radius, pos) {
+    ctx.fillStyle = LW.parseColor(this.color);
+  };
+
+  Particle.prototype.radial = function (ctx, radius, pos) {
+    var hR = (radius / 2) | 0;
+    pos.plus(hR)
+    var inRad = (hR * this.radialSize) | 0;
+    var gradiant = ctx.createRadialGradient(pos.x, pos.y, hR, pos.x, pos.y, inRad);
+    var outerColor = this.radialColor;
+    outerColor.alpha = 0;
+    gradiant.addColorStop(0, LW.parseColor(outerColor));
+    gradiant.addColorStop(1, LW.parseColor(this.color));
+    ctx.fillStyle = gradiant;
+  };
+
+  Particle.prototype.outerRadial = function (ctx, radius, pos) {
+    var hR = (radius / 2) | 0;
+    pos.plus(hR)
+    var inRad = (hR * this.radialSize) | 0;
+    var gradiant = ctx.createRadialGradient(pos.x, pos.y, hR, pos.x, pos.y, inRad);
+    var innerColor = this.radialColor;
+    innerColor.alpha = this.color.alpha
+    var oldAlpha = this.color.alpha;
+    this.color.alpha = 0;
+    gradiant.addColorStop(0, LW.parseColor(this.color));
+    gradiant.addColorStop(1, LW.parseColor(innerColor));
+    ctx.fillStyle = gradiant;
+    this.color.alpha = oldAlpha;
   };
 
   Particle.prototype.move = function () {
@@ -73,8 +125,8 @@
     "crimson": [348, 83, 47]
   }
 
-  Particle.prototype.parseColor = function () {
-    return "hsla("+this.color.hue+","+this.color.sat+"%,"+this.color.light+"%,"+this.color.alpha+")";
+  LW.parseColor = function (color) {
+    return "hsla("+color.hue+","+color.sat+"%,"+color.light+"%,"+color.alpha+")";
   };
 
 

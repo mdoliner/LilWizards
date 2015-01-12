@@ -27,6 +27,7 @@
       } 
     };
     this.updateFPS = 0;
+    this.isDrawFrame = true;
   };
 
   GameView.prototype.startGame = function () {
@@ -36,12 +37,12 @@
       this.wizardActions();
       this.game.step();
       this.fps.element.html("FPS: "+this.fps.getFPS())
+      if (this.isDrawFrame) {
+        this.game.draw(this.fgctx, this.bgctx);
+      }
+      this.isDrawFrame = !this.isDrawFrame
     }.bind(this)
     setInterval(gameStep, 1000/120);
-
-    setInterval(function () {
-      this.game.draw(this.fgctx, this.bgctx);
-    }.bind(this), 1000/60)
   };
 
   GameView.prototype.wizardActions = function () {
@@ -97,22 +98,22 @@
       } else {
         this.game.wizards[i].actions["down"] = this.cycleRelease(this.game.wizards[i].actions["down"]);
       }
-      if (Gamepad.pressed(i, "FACE_1")) {
+      if (Gamepad.pressed(i, "FACE_1") || Gamepad.pressed(i, "LEFT_SHOULDER")) {
         this.game.wizards[i].actions["jump"] = this.cyclePress(this.game.wizards[i].actions["jump"]);
       } else {
         this.game.wizards[i].actions["jump"] = this.cycleRelease(this.game.wizards[i].actions["jump"]);
       }
-      if (Gamepad.pressed(i, "FACE_2")) {
+      if (Gamepad.pressed(i, "FACE_2") || Gamepad.pressed(i, "LEFT_SHOULDER_BOTTOM")) {
         this.game.wizards[i].actions["spells"][0] = this.cyclePress(this.game.wizards[i].actions["spells"][0]);
       } else {
         this.game.wizards[i].actions["spells"][0] = this.cycleRelease(this.game.wizards[i].actions["spells"][0]);
       }
-      if (Gamepad.pressed(i, "FACE_3")) {
+      if (Gamepad.pressed(i, "FACE_3") || Gamepad.pressed(i, "RIGHT_SHOULDER")) {
         this.game.wizards[i].actions["spells"][1] = this.cyclePress(this.game.wizards[i].actions["spells"][1]);
       } else {
         this.game.wizards[i].actions["spells"][1] = this.cycleRelease(this.game.wizards[i].actions["spells"][1]);
       }
-      if (Gamepad.pressed(i, "FACE_4")) {
+      if (Gamepad.pressed(i, "FACE_4") || Gamepad.pressed(i, "RIGHT_SHOULDER_BOTTOM")) {
         this.game.wizards[i].actions["spells"][2] = this.cyclePress(this.game.wizards[i].actions["spells"][2]);
       } else {
         this.game.wizards[i].actions["spells"][2] = this.cycleRelease(this.game.wizards[i].actions["spells"][2]);
