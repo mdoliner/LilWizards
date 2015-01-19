@@ -51,6 +51,21 @@ article.game {
 	box-sizing: border-box;
 }
 
+.main-menu-quads {
+	display: block;
+	width: 900px;
+	margin: 0 auto;
+	position: relative;
+}
+
+.menu-quad {
+	display: block;
+	width: 400px;
+	height: 250px;
+	float: left;
+	margin-right: 100px;
+	margin-bottom: 50px;
+}
 
 .main-menu-items {
 	display: block;

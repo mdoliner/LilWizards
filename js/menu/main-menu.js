@@ -11,6 +11,7 @@
 
 	MainMenu.prototype.swapTo = function (options) {
 		$(options.selector).empty();
+		this.swapToEvent && this.swaptoEvent();
 		this.addItems(options.selector);
 	};
 
@@ -29,6 +30,10 @@
 		};
 	};
 
+	var QuadView = LW.QuadView = function (options) {
+		MainMenu.call(this, options);
+	};
 
+	QuadView.inherits(MainMenu);
 
 })();
