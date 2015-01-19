@@ -61,7 +61,7 @@ article.game {
 	margin: 0 auto;
 }
 
-.main-menu-items a {
+.menu-item {
 	display: block;
 	background: #B2E5B6;
 	width: 100%;
@@ -75,10 +75,13 @@ article.game {
 	font-size: 24px;
 }
 
-a.selected, .main-menu-items a:hover {
+.menu-item.selected {
 	border: 5px solid #6B856D;
 }
 
+.menu-item:hover {
+	background-color: white;
+}
 
 .hidden {
 	display: none;

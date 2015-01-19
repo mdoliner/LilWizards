@@ -37,12 +37,13 @@
       this.wizardActions();
       this.game.step();
       this.fps.element.html("FPS: "+this.fps.getFPS())
-      if (this.isDrawFrame) {
-        this.game.draw(this.fgctx, this.bgctx);
-      }
-      this.isDrawFrame = !this.isDrawFrame
+      // if (this.isDrawFrame) {
+      //   this.game.draw(this.fgctx, this.bgctx);
+      // }
+      // this.isDrawFrame = !this.isDrawFrame
     }.bind(this)
     setInterval(gameStep, 1000/120);
+    setInterval(this.game.draw.bind(this.game, this.fgctx, this.bgctx), 1000/60);
   };
 
   GameView.prototype.wizardActions = function () {

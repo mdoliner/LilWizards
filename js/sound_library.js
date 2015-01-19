@@ -24,4 +24,6 @@
 
   SoundLibrary.MAXTAGS = 40;
 
+  LW.GlobalSL = new SoundLibrary();
+
 })();

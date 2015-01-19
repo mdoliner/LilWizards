@@ -41,15 +41,16 @@
     <script src="js/gamepad.js"></script>
     <script src="js/sound_library.js"></script>
 
+    <script src="js/menu/main-menu.js"></script>
+    <script src="js/menu/menu-top.js"></script>
+    <script src="js/menu/menu-settings.js"></script>
 
   </head>
   <body>
     <article class="game">
         <section class="main-menu">
-            <div class="main-menu-items">
-                <a href="#" class="selected local-game">Play Local Game</a>
-                <a href="#" class="setting">Settings</a>
-            </div>
+            <ul class="main-menu-items">
+            </ul>
         </section>
         <canvas id="game-bg-canvas" width="1024" height="576"></canvas>
         <canvas id="game-fg-canvas" width="1024" height="576"></canvas>
@@ -60,27 +61,7 @@
     </div>
 
     <script>
-    $('.local-game').on('click', function (event) {
-        event.preventDefault()
-
-        $('.main-menu').addClass("hidden");
-
-        var bgm = document.getElementById("bgm");
-        bgm.src = "audio/BGM/battle.mp3";
-        bgm.volume = 0.2;
-        var sound_library = new LW.SoundLibrary();
-        var fgcanvas = document.getElementById("game-fg-canvas");
-        var fgctx = fgcanvas.getContext('2d');
-        var bgcanvas = document.getElementById("game-bg-canvas");
-        var bgctx = bgcanvas.getContext('2d');
-        var gameView = new LW.GameView(bgctx, fgctx);
-        gameView.game.audio = sound_library;
-        gameView.startGame();
-        bgm.play();
-    })
-    $(function() {
-      
-    })
+    LW.Menus.TopMenu.swapTo({selector: '.main-menu-items'});
     </script>
 
   </body>

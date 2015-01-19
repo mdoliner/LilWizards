@@ -120,7 +120,8 @@ var Gamepad = (function(self) {
           if (typeof rawGamepads[i] !== prevRawGamepadTypes[i]) {
             prevRawGamepadTypes[i] = typeof rawGamepads[i];
           }
-          if (rawGamepads[i]) {
+          if (rawGamepads[i] && !rawGamepads[i].id.match(/Unknown/)) {
+            // Above is a the only fix i could find to FIX THAT SIHT.
             self.gamepads.push(rawGamepads[i]);
           }
         }
