@@ -41,6 +41,23 @@
 		this.events[$selected.data('command')].bind(this)();
 	};
 
+	MainMenu.prototype.selectCommand = function (num) {
+		LW.GlobalSL.playSE('menu-move.ogg', 100);
+		var $currentItem = $(".selected");
+		var $menuItems = $(".menu-item")
+		var currentIndex = $menuItems.index($currentItem);
+		$currentItem.removeClass("selected");
+		var newIndex = (currentIndex + num + $menuItems.length) % $menuItems.length;
+		$($menuItems[newIndex]).addClass("selected");
+	};
+
+	MainMenu.prototype.backCommand = function () {
+		LW.GlobalSL.playSE('menu-cancel.ogg', 100);
+		if (this.parentMenu) {
+			this.parentMenu.swapTo({selector: '.main-menu-items'});	
+		}
+	};
+
 	MainMenu.prototype.remove = function () {
 		clearInterval(this.checkingInputs);
 	};
@@ -54,13 +71,13 @@
 				this.executeCommand();
 			}
 			if (wizard.actions["up"] === "tap") {
-				
+				this.selectCommand(-1);
 			}
 			if (wizard.actions["down"] === "tap") {
-				
+				this.selectCommand(1);
 			}
 			if (wizard.actions["spells"][2] === "tap") {
-				
+				this.backCommand();
 			}
 		}
 	}

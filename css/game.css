@@ -18,6 +18,8 @@ body {
 
 canvas {
 	position: absolute;
+	top: 0;
+	left: 0;
 }
 
 audio {
@@ -88,6 +90,7 @@ article.game {
 	-webkit-text-stroke: 1px #878787;
 	font-family: sans-serif;
 	font-size: 24px;
+	border: 5px solid #B2E5B6;
 }
 
 .menu-item.selected {
