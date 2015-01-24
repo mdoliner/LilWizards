@@ -46,7 +46,7 @@
 
   Player.prototype.makeWizard = function (options) {
   	return this.wizard = new LW.Wizard({
-      pos: [-500,-500],
+      pos: options.game.getSpawnPointPos(),
       vel: [0,0],
       horFacing: "left",
       img: this.wizardGraphic,
@@ -54,7 +54,8 @@
       imgIndexYMax: 4,
       imgSizeX: 7.62,
       imgSizeY: 8,
-      spellList: this.spellList
+      spellList: this.spellList,
+      game: options.game
     });
   };
 

@@ -7,6 +7,7 @@
 		for (var attr in options) {
 			this[attr] = options[attr];
 		}
+		this.initializeEvent && this.initializeEvent();
 	};
 
 	MainMenu.prototype.swapTo = function (options) {
@@ -16,7 +17,7 @@
 		this.checkingInputs = setInterval(this.checkInput.bind(this), 1000/60);
 
 		$(options.selector).empty();
-		this.swapToEvent && this.swaptoEvent();
+		this.swapToEvent && this.swapToEvent();
 		this.addItems(options.selector);
 	};
 
@@ -61,6 +62,13 @@
 
 	MainMenu.prototype.remove = function () {
 		clearInterval(this.checkingInputs);
+		if (this.quadViews) {
+			$('.main-menu-quads').empty();
+			this.quadViews.forEach(function (quad) {
+				quad.remove();
+			})
+			this.quadViews = [];
+		}
 	};
 
 	MainMenu.prototype.checkInput = function () {

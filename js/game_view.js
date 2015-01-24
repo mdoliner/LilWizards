@@ -3,8 +3,8 @@
     window.LW = {};
   }
 
-  var GameView = LW.GameView = function (bgctx, fgctx) {
-    this.game = new LW.Game();
+  var GameView = LW.GameView = function (bgctx, fgctx, game) {
+    this.game = game;
     this.fgctx = fgctx;
     this.bgctx = bgctx;
     this.MS = Date.now();
@@ -32,8 +32,9 @@
 
   GameView.prototype.startGame = function () {
     var gameStep = function () {
-      this.checkControllerActions();
-      this.checkKeyActions();
+      // this.checkControllerActions();
+      // this.checkKeyActions();
+      this.checkPlayerActions();
       this.wizardActions();
       this.game.step();
       this.fps.element.html("FPS: "+this.fps.getFPS())
@@ -44,6 +45,12 @@
     }.bind(this)
     setInterval(gameStep, 1000/120);
     setInterval(this.game.draw.bind(this.game, this.fgctx, this.bgctx), 1000/60);
+  };
+
+  GameView.prototype.checkPlayerActions = function () {
+    for (var i = 0; i < LW.Players.length; i++) {
+      LW.Players[i].checkControllerActions();
+    }
   };
 
   GameView.prototype.wizardActions = function () {

@@ -3,62 +3,62 @@
     window.LW = {};
   }
 
-  var Game = LW.Game = function () {
+  var Game = LW.Game = function (level) {
     this.wizards = [];
-    this.wizards.push (new LW.Wizard({
-      pos: [300,130],
-      vel: [0,0],
-      horFacing: "left",
-      img: "./graphics/wiz_baby_ani_2.png",
-      imgIndexXMax: 4,
-      imgIndexYMax: 4,
-      imgSizeX: 7.62,
-      imgSizeY: 8,
-      game: this,
-      spellList: [LW.SpellList.WreckingBall, LW.SpellList.Wave, LW.SpellList.RayCannon]
-    }));
-    this.wizards.push (new LW.Wizard({
-      pos: [64,64],
-      vel: [0,0],
-      horFacing: "left",
-      img: "./graphics/wiz_baby_ani_2.png",
-      imgIndexXMax: 4,
-      imgIndexYMax: 4,
-      imgSizeX: 7.62,
-      imgSizeY: 8,
-      game: this,
-      spellList: [LW.SpellList.Updraft, LW.SpellList.Fireball, LW.SpellList.Crash]
-    }));
-    this.wizards.push (new LW.Wizard({
-      pos: [500,130],
-      vel: [0,0],
-      horFacing: "right",
-      img: "./graphics/wiz.png",
-      imgIndexXMax: 1,
-      imgIndexYMax: 1,
-      game: this,
-      spellList: [LW.SpellList.Fireball, LW.SpellList.Wave, LW.SpellList.Sword]
-    }));
-    this.wizards.push (new LW.Wizard({
-      pos: [-700,130],
-      vel: [0,0],
-      horFacing: "left",
-      img: "./graphics/wiz2.png",
-      imgIndexXMax: 1,
-      imgIndexYMax: 1,
-      game: this,
-      spellList: [LW.SpellList.Crash, LW.SpellList.Updraft, LW.SpellList.RayCannon]
-    }));
+    // this.wizards.push (new LW.Wizard({
+    //   pos: [300,130],
+    //   vel: [0,0],
+    //   horFacing: "left",
+    //   img: "./graphics/wiz_baby_ani_2.png",
+    //   imgIndexXMax: 4,
+    //   imgIndexYMax: 4,
+    //   imgSizeX: 7.62,
+    //   imgSizeY: 8,
+    //   game: this,
+    //   spellList: [LW.SpellList.WreckingBall, LW.SpellList.Wave, LW.SpellList.RayCannon]
+    // }));
+    // this.wizards.push (new LW.Wizard({
+    //   pos: [64,64],
+    //   vel: [0,0],
+    //   horFacing: "left",
+    //   img: "./graphics/wiz_baby_ani_2.png",
+    //   imgIndexXMax: 4,
+    //   imgIndexYMax: 4,
+    //   imgSizeX: 7.62,
+    //   imgSizeY: 8,
+    //   game: this,
+    //   spellList: [LW.SpellList.Updraft, LW.SpellList.Fireball, LW.SpellList.Crash]
+    // }));
+    // this.wizards.push (new LW.Wizard({
+    //   pos: [500,130],
+    //   vel: [0,0],
+    //   horFacing: "right",
+    //   img: "./graphics/wiz.png",
+    //   imgIndexXMax: 1,
+    //   imgIndexYMax: 1,
+    //   game: this,
+    //   spellList: [LW.SpellList.Fireball, LW.SpellList.Wave, LW.SpellList.Sword]
+    // }));
+    // this.wizards.push (new LW.Wizard({
+    //   pos: [-700,130],
+    //   vel: [0,0],
+    //   horFacing: "left",
+    //   img: "./graphics/wiz2.png",
+    //   imgIndexXMax: 1,
+    //   imgIndexYMax: 1,
+    //   game: this,
+    //   spellList: [LW.SpellList.Crash, LW.SpellList.Updraft, LW.SpellList.RayCannon]
+    // }));
     this.tiles = [];
     this.spawnPoints = [];
     this.spells = [];
-    this.parseLevel(Game.LEVEL);
+    this.parseLevel(level);
     this.particles = new LW.ParticleLibrary;
     this.camera = new LW.Camera({
       pos: [512,288],
       size: 100 //percent
     });
-
+    this.audio = LW.GlobalSL;
     this.background = new LW.Sprite({ pos: [512,288], img: "./graphics/bg_bookcase.jpg", background: true })
   };
 

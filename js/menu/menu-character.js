@@ -15,7 +15,7 @@
   		events: {
   			"ninja": function () {
   				this.remove();
-  				new LW.QuadView(SpellsView(player, this.$parentEl, [
+  				this.childQuad = new LW.QuadView(SpellsView(player, this.$parentEl, [
   					"Sword",
   					"FanOfKnives",
   					"Teleport",
@@ -24,7 +24,7 @@
   			},
   			"brawler": function () {
   				this.remove();
-  				new LW.QuadView(SpellsView(player, this.$parentEl, [
+  				this.childQuad = new LW.QuadView(SpellsView(player, this.$parentEl, [
   					"Crash",
   					"Updraft",
   					"Wave",
@@ -33,7 +33,7 @@
   			},
   			"dry-gone": function () {
   				this.remove();
-  				new LW.QuadView(SpellsView(player, this.$parentEl, [
+  				this.childQuad = new LW.QuadView(SpellsView(player, this.$parentEl, [
   					"Fireball",
   					"RayCannon",
   					"ForcePush",
@@ -47,7 +47,7 @@
   				}
   				this.remove();
   				this.player.menuReady = true;
-  				new LW.QuadView(ReadyUpView(this.player, this.$parentEl));
+  				this.childQuad = new LW.QuadView(ReadyUpView(this.player, this.$parentEl));
   				var numOfPlayersReady = 0;
   				for (var i = LW.Players.length - 1; i >= 0; i--) {
   					if (LW.Players[i].menuReady) {
@@ -55,7 +55,7 @@
   					}
   				};
   				if (numOfPlayersReady === LW.Players.length) {
-  					////// FUCK YAEH
+  					LW.Menus.Level.swapTo({selector: '.main-menu-items'});
   				}
   			}
   		}
@@ -75,7 +75,7 @@
   				player.spellList[spellIndex] = LW.SpellList[spell];
   			}
   			this.remove();
-  			new LW.QuadView(CategoryView(player, $parentEl));
+  			this.childQuad = new LW.QuadView(CategoryView(player, $parentEl));
   		};
   	});
   	return {
@@ -95,7 +95,7 @@
   			"de-ready": function () {
   				this.player.menuReady = false;
   				this.remove();
-  				new LW.QuadView(CategoryView(this.player, this.$parentEl));
+  				this.childQuad = new LW.QuadView(CategoryView(this.player, this.$parentEl));
   			}
   		}
   	};
@@ -103,8 +103,13 @@
 
 	var Character = LW.Menus.Character = new LW.MainMenu({
 		title: "Character Select",
-    commands: [],
-    events: {},
+    commands: ["back"],
+    events: {
+    	"back": function () {
+    		LW.GlobalSL.playSE('menu-cancel.ogg', 100)
+      	LW.Menus.TopMenu.swapTo({selector: '.main-menu-items'});
+    	}
+    },
     quadViews: [],
     executeCommand: function (player) {
     	if (LW.Players.length >= 4) {return;}
@@ -113,7 +118,14 @@
     	$('.main-menu-quads').append(quad.$parentEl);
     	this.quadViews.push(quad);
     },
-    parentMenu: LW.Menus.TopMenu
+    parentMenu: LW.Menus.TopMenu,
+    swapToEvent: function () {
+    	LW.Players.forEach(function (player) {
+    		var quad = new LW.QuadView(CategoryView(player));
+	    	$('.main-menu-quads').append(quad.$parentEl);
+	    	this.quadViews.push(quad);
+    	}.bind(this))
+    }
   });
 
 })();

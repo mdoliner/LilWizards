@@ -71,4 +71,9 @@
 		this.events[$selected.data('command')].bind(this)(index);
 	};
 
+	QuadView.prototype.remove = function () {
+		clearInterval(this.checkingInputs);
+		this.childQuad && this.childQuad.remove();
+	};
+
 })();

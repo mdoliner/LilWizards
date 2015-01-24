@@ -16,8 +16,11 @@ ul {
 }
 
 body {
-    background-color: black;
-    color: white;
+  background-color: black;
+  color: white;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: default;
 }
 
 canvas {
