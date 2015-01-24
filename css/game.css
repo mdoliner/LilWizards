@@ -1,4 +1,4 @@
-a, body, section, article, div, html {
+a, body, section, article, div, html, h1, ul, li {
 	margin: 0;
 	padding: 0;
 	outline: 0;
@@ -9,6 +9,10 @@ a, body, section, article, div, html {
 	text-align: inherit;
 	color: inherit;
 	background: transparent;
+}
+
+ul {
+	list-style: none;
 }
 
 body {
@@ -51,6 +55,14 @@ article.game {
 	height: 100%;
 	position: relative;
 	box-sizing: border-box;
+	z-index: 10;
+}
+
+.menu-title {
+	text-align: center;
+	-webkit-text-stroke: 1px #878787;
+	font-family: sans-serif;
+	font-size: 42px;
 }
 
 .main-menu-quads {
@@ -63,19 +75,24 @@ article.game {
 .menu-quad {
 	display: block;
 	width: 400px;
-	height: 250px;
+	height: 200px;
 	float: left;
-	margin-right: 100px;
 	margin-bottom: 50px;
+	background: brown;
+}
+
+.menu-quad:nth-child(2n+1) {
+	margin-right: 100px;
 }
 
 .main-menu-items {
 	display: block;
 	width: 260px;
-	position: relative;
+	position: absolute;
 	top: 50%;
-	transform: translateY(-50%);
-	margin: 0 auto;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	cursor: pointer;
 }
 
 .menu-item {
@@ -103,4 +120,10 @@ article.game {
 
 .hidden {
 	display: none;
+}
+
+.group:after {
+	content: "";
+	display: block;
+	clear: both;
 }

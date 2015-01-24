@@ -21,6 +21,7 @@
 	};
 
 	MainMenu.prototype.addItems = function (selector) {
+		$('.menu-title').html(this.title);
 		for (var i = 0; this.commands.length > i; i++) {
 			command = this.commands[i];
 			var $li = $('<li>');
@@ -65,10 +66,20 @@
 	MainMenu.prototype.checkInput = function () {
 		for (var i = 0; i < LW.AllPlayers.length; i++) {
 			var player = LW.AllPlayers[i];
+			if (this.quadViews) {
+				var skip = false;
+				for (var j = this.quadViews.length - 1; j >= 0; j--) {
+					var quad = this.quadViews[j]
+					if (player === quad.player) {
+						skip = true;
+					}
+				};
+				if (skip) {continue;}
+			}
 			player.checkControllerActions();
 			var wizard = player.wizard;
 			if (wizard.actions["jump"] === "tap") {
-				this.executeCommand();
+				this.executeCommand(player);
 			}
 			if (wizard.actions["up"] === "tap") {
 				this.selectCommand(-1);
@@ -81,11 +92,5 @@
 			}
 		}
 	}
-
-	var QuadView = LW.QuadView = function (options) {
-		MainMenu.call(this, options);
-	};
-
-	QuadView.inherits(MainMenu);
 
 })();

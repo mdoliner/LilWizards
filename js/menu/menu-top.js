@@ -7,7 +7,8 @@
 	}
 
 	var TopMenu = LW.Menus.TopMenu = new LW.MainMenu({
-    commands: ["local-game", "settings"],
+    title: "Lil' Wizards",
+    commands: ["local-game", "character-select", "settings"],
     events: {
       "local-game": function () {
         LW.GlobalSL.playSE('menu-select.ogg', 100)
@@ -27,6 +28,10 @@
         gameView.startGame();
         this.remove();
         // bgm.play();
+      },
+      "character-select": function () {
+        LW.GlobalSL.playSE('menu-select.ogg', 100)
+        LW.Menus.Character.swapTo({selector: '.main-menu-items'});
       },
       "settings": function () {
       	LW.GlobalSL.playSE('menu-select.ogg', 100)

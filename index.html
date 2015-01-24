@@ -44,6 +44,7 @@
     <script src="js/sound_library.js"></script>
 
     <script src="js/menu/main-menu.js"></script>
+    <script src="js/menu/main-quad.js"></script>
     <script src="js/menu/menu-top.js"></script>
     <script src="js/menu/menu-settings.js"></script>
     <script src="js/menu/menu-character.js"></script>
@@ -51,14 +52,15 @@
   </head>
   <body>
     <article class="game">
-        <section class="main-menu">
-            <ul class="main-menu-quads">
-            </ul>
-            <ul class="main-menu-items">
-            </ul>
-        </section>
-        <canvas id="game-bg-canvas" width="1024" height="576"></canvas>
-        <canvas id="game-fg-canvas" width="1024" height="576"></canvas>
+      <section class="main-menu">
+        <h1 class="menu-title"></h1>
+        <ul class="main-menu-quads groups">
+        </ul>
+        <ul class="main-menu-items">
+        </ul>
+      </section>
+      <canvas id="game-bg-canvas" width="1024" height="576"></canvas>
+      <canvas id="game-fg-canvas" width="1024" height="576"></canvas>
     </article>
     <div class="fps-counter"></div>
     <div class="audio-tags">

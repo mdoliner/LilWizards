@@ -7,6 +7,7 @@
 	}
 
 	var Settings = LW.Menus.Settings = new LW.MainMenu({
+    title: "Settings",
     commands: ["back"],
     events: {
       "back": function () {
