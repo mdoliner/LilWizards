@@ -15,7 +15,7 @@
       imgSizeX: 7.62,
       imgSizeY: 8,
       game: this,
-      spellList: [LW.SpellList.ToxicDarts, LW.SpellList.FanOfKnives, LW.SpellList.RayCannon]
+      spellList: [LW.SpellList.WreckingBall, LW.SpellList.Wave, LW.SpellList.RayCannon]
     }));
     this.wizards.push (new LW.Wizard({
       pos: [64,64],
@@ -27,10 +27,10 @@
       imgSizeX: 7.62,
       imgSizeY: 8,
       game: this,
-      spellList: [LW.SpellList.Sword, LW.SpellList.Wave, LW.SpellList.ForcePush]
+      spellList: [LW.SpellList.Updraft, LW.SpellList.Fireball, LW.SpellList.Crash]
     }));
     this.wizards.push (new LW.Wizard({
-      pos: [-500,130],
+      pos: [500,130],
       vel: [0,0],
       horFacing: "right",
       img: "./graphics/wiz.png",

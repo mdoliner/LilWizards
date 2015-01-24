@@ -21,12 +21,27 @@
 
   LW.Players = [];
 
+  var PseudoWizard = LW.PseudoWizard = function () {
+    this.actions = { // none, tap, hold, release
+      jump: "none",
+      spells: ["none", "none", "none"],
+      left: "none",
+      right: "none",
+      up: "none",
+      down: "none"
+    };
+  };
+
+  PseudoWizard.prototype.accelX = function () {};
+
+  PseudoWizard.prototype.faceDir = function () {};
+
   var Player = LW.Player = function (options) {
   	this.controllerType = options.controllerType; // "keyboard" or "gamepad"
   	this.controllerIndex = options.controllerIndex;
   	this.spellList = [];
   	this.wizardGraphic = "./graphics/wiz_baby_ani_2.png";
-  	this.wizard = null;
+  	this.wizard = options.wizard || null;
   };
 
   Player.prototype.makeWizard = function (options) {
@@ -119,7 +134,7 @@
     }
   };
 
-  GameView.prototype.checkKeyboardActions = function () {
+  Player.prototype.checkKeyboardActions = function () {
     var boost = LW.Wizard.BASEBOOST;
     var wizard = this.wizard;
     var buttons = LW.KeyboardControlScheme[this.controllerIndex];

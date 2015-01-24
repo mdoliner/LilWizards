@@ -9,8 +9,7 @@
 	var TopMenu = LW.Menus.TopMenu = new LW.MainMenu({
     commands: ["local-game", "settings"],
     events: {
-      "local-game": function (event) {
-        event.preventDefault()
+      "local-game": function () {
         LW.GlobalSL.playSE('menu-select.ogg', 100)
 
         $('.main-menu').addClass("hidden");
@@ -26,6 +25,7 @@
         var gameView = new LW.GameView(bgctx, fgctx);
         gameView.game.audio = sound_library;
         gameView.startGame();
+        this.remove();
         // bgm.play();
       },
       "settings": function () {
