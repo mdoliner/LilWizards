@@ -33,12 +33,12 @@
 			$li.html(command);
 			$li.data('command', command);
 			$(selector).append($li);
-			$("."+command).on("click", this.events[command].bind(this));
+			$li.on("click", this.events[command].bind(this));
 		};
 	};
 
 	MainMenu.prototype.executeCommand = function () {
-		$selected = $('.selected');
+		var $selected = $('.selected');
 		this.events[$selected.data('command')].bind(this)();
 	};
 

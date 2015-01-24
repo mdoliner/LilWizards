@@ -39,7 +39,7 @@
   var Player = LW.Player = function (options) {
   	this.controllerType = options.controllerType; // "keyboard" or "gamepad"
   	this.controllerIndex = options.controllerIndex;
-  	this.spellList = [];
+  	this.spellList = [null, null, null];
   	this.wizardGraphic = "./graphics/wiz_baby_ani_2.png";
   	this.wizard = options.wizard || null;
   };
