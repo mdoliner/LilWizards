@@ -289,6 +289,15 @@
     return randomSpawn.pos;
   };
 
+  Game.prototype.isOver = function () {
+    for (var i = 0; i < this.wizards.length; i++) {
+      if (this.wizards[i].kills >= LW.Settings.WinKills) {
+        return true;
+      }
+    }
+    return false;
+  };
+
 
   var ParticleTest = function () {
     var randVel = new LW.Coord([Math.random()/4, 0]).plusAngleDeg(Math.random()*360)
@@ -307,6 +316,5 @@
       }
     };
   };
-
 
 })();

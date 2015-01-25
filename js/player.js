@@ -54,10 +54,18 @@
       imgIndexYMax: 4,
       imgSizeX: 7.62,
       imgSizeY: 8,
-      spellList: this.spellList,
+      spellList: this.makeSpellList(),
       game: options.game
     });
   };
+
+  Player.prototype.makeSpellList = function () {
+    var spells = [];
+    this.spellList.forEach(function (spellName) {
+      spells.push(LW.SpellList[spellName]);
+    });
+    return spells;
+  }
 
   Player.prototype.checkControllerActions = function () {
   	if (!this.wizard) { return }
@@ -118,17 +126,17 @@
     } else {
       this.wizard.actions["jump"] = this.cycleRelease(this.wizard.actions["jump"]);
     }
-    if (Gamepad.pressed(i, "FACE_2") || Gamepad.pressed(i, "LEFT_SHOULDER_BOTTOM")) {
+    if (Gamepad.pressed(i, "FACE_3") || Gamepad.pressed(i, "RIGHT_SHOULDER")) {
       this.wizard.actions["spells"][0] = this.cyclePress(this.wizard.actions["spells"][0]);
     } else {
       this.wizard.actions["spells"][0] = this.cycleRelease(this.wizard.actions["spells"][0]);
     }
-    if (Gamepad.pressed(i, "FACE_3") || Gamepad.pressed(i, "RIGHT_SHOULDER")) {
+    if (Gamepad.pressed(i, "FACE_4") || Gamepad.pressed(i, "LEFT_SHOULDER_BOTTOM")) {
       this.wizard.actions["spells"][1] = this.cyclePress(this.wizard.actions["spells"][1]);
     } else {
       this.wizard.actions["spells"][1] = this.cycleRelease(this.wizard.actions["spells"][1]);
     }
-    if (Gamepad.pressed(i, "FACE_4") || Gamepad.pressed(i, "RIGHT_SHOULDER_BOTTOM")) {
+    if (Gamepad.pressed(i, "FACE_2") || Gamepad.pressed(i, "RIGHT_SHOULDER_BOTTOM")) {
       this.wizard.actions["spells"][2] = this.cyclePress(this.wizard.actions["spells"][2]);
     } else {
       this.wizard.actions["spells"][2] = this.cycleRelease(this.wizard.actions["spells"][2]);

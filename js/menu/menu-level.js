@@ -16,9 +16,6 @@
     commands.push(level);
   }
 
-  console.log(commands)
-  console.log(events)
-
 	var Level = LW.Menus.Level = new LW.MainMenu({
     title: "Level Select",
     commands: commands,
@@ -44,7 +41,7 @@
       var gameView = new LW.GameView(bgctx, fgctx, game);
       gameView.startGame();
       this.remove();
-      // bgm.play();
+      bgm.play();
     }
   })
 

@@ -7,8 +7,24 @@
 		LW.MainMenu.call(this, options);
 		LW.GlobalSL.playSE('menu-select.ogg', 100)
 		this.$el = $("<div>");
-		this.$menuItemsList = $("<ul class='menu-quad-items'>");
+
+		this.$menuItemsList = $("<ul class='quad-menu-items'>");
 		this.$el.append(this.$menuItemsList);
+
+		this.$playerPicture = $("<figure class='player-picture'>");
+
+		this.$playerSpells = $("<ul class='player-spells'>");
+		this.player.spellList.forEach(function (spell) {
+			var $spell = $("<li class='player-spell'>");
+			if (spell) {
+				$spell.html(spell)
+			} else {
+				$spell.html("-------");
+			}
+			this.$playerSpells.append($spell);
+		}.bind(this));
+		this.$el.append(this.$playerSpells);
+
 		this.$parentEl.html(this.$el);
 		this.checkingInputs = setInterval(this.checkInput.bind(this), 1000/60);
 		this.addItems();

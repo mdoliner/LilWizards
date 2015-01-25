@@ -6,6 +6,10 @@
 		window.LW.Menus = {};
 	}
 
+  LW.Settings = {
+    WinKills: 10
+  };
+
 	var Settings = LW.Menus.Settings = new LW.MainMenu({
     title: "Settings",
     commands: ["back"],

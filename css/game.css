@@ -80,12 +80,41 @@ article.game {
 	width: 400px;
 	height: 200px;
 	float: left;
-	margin-bottom: 50px;
 	background: brown;
 }
 
 .menu-quad:nth-child(2n+1) {
 	margin-right: 100px;
+}
+
+.menu-quad:nth-child(1), .menu-quad:nth-child(2) {
+	margin-bottom: 100px;
+}
+
+.quad-menu-items {
+	float: right;
+}
+
+.quad-menu-item {
+	padding: 5px;
+	border-radius: 5px;
+	background: blue;
+	border: 1px solid royalblue;
+}
+
+.quad-menu-item.selected {
+	background: teal;
+}
+
+.player-spells {
+	float: left;
+}
+
+.player-spell {
+	padding: 5px;
+	border-radius: 5px;
+	background: blue;
+	border: 1px solid royalblue;
 }
 
 .main-menu-items {

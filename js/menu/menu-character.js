@@ -7,7 +7,7 @@
 	}
 
 	var CategoryView = function (player, $parentEl) {
-  	var $parentEl = $parentEl || $("<li class='menu-quad'>");
+  	var $parentEl = $parentEl || $("<li class='menu-quad group'>");
   	return {
   		player: player,
   		commands: ["ninja", "brawler", "dry-gone", "ready-up"],
@@ -67,12 +67,12 @@
   	spells.forEach(function (spell) {
   		events[spell] = function (spellIndex) {
   			if (spellIndex >= 0) {
-  				var newSpell = LW.SpellList[spell];
+  				var newSpell = spell;
   				var oldIndex;
   				if ((oldIndex = player.spellList.indexOf(newSpell)) !== -1) {
   					player.spellList[oldIndex] = null;
   				}
-  				player.spellList[spellIndex] = LW.SpellList[spell];
+  				player.spellList[spellIndex] = spell;
   			}
   			this.remove();
   			this.childQuad = new LW.QuadView(CategoryView(player, $parentEl));
@@ -125,6 +125,11 @@
 	    	$('.main-menu-quads').append(quad.$parentEl);
 	    	this.quadViews.push(quad);
     	}.bind(this))
+    },
+    removeEvent: function () {
+      LW.Players.forEach(function (player) {
+        player.menuReady = false;
+      });
     }
   });
 

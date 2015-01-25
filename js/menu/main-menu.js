@@ -61,6 +61,7 @@
 	};
 
 	MainMenu.prototype.remove = function () {
+		this.removeEvent && this.removeEvent();
 		clearInterval(this.checkingInputs);
 		if (this.quadViews) {
 			$('.main-menu-quads').empty();
