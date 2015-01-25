@@ -34,6 +34,25 @@
       var bgcanvas = document.getElementById("game-bg-canvas");
       var bgctx = bgcanvas.getContext('2d');
       var game = new LW.Game(this.selectedLevel);
+
+      if (LW.Players.length === 1) {
+        LW.Players.push(new LW.Player({
+          controllerType: "computer",
+          controllerIndex: 0,
+          spellList: ["Fireball", "Sword", "Wave"]
+        }))
+        LW.Players.push(new LW.Player({
+          controllerType: "computer",
+          controllerIndex: 1,
+          spellList: ["Fireball", "Sword", "Wave"]
+        }))
+        LW.Players.push(new LW.Player({
+          controllerType: "computer",
+          controllerIndex: 2,
+          spellList: ["Fireball", "Sword", "Wave"]
+        }))
+      }
+
       LW.Players.forEach(function (player) {
         game.wizards.push(player.makeWizard({
           game: game

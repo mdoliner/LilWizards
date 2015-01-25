@@ -51,6 +51,12 @@
     clearInterval(this.drawInterval);
     this.fps.element.html("");
     $('#bgm')[0].pause();
+    for (var i = 0; i < LW.Players.length; i++) {
+      if (LW.Players[i].controllerType === "computer") {
+        LW.Players.splice(i,1);
+        i--;
+      }
+    }
   };
 
   GameView.prototype.checkPlayerActions = function () {

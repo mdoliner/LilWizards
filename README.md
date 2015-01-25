@@ -1,4 +1,4 @@
-TODO LIST:::
+TODO LIST
 ==============
 Autosizing Canvas
 read: http://www.html5rocks.com/en/tutorials/casestudies/gopherwoord-studios-resizing-html5-games/
@@ -19,18 +19,16 @@ IMPORTANT
   - Put Vendored Scripts into its own folder
 - Settings
 - Tooltips
+- Load the assests before the game starts
 
 MEDIUM
 - more spells?
 - ForcePush with Static Spell interaction.
 - speed improvement with collisions / check if they are slow.
-
 - cooldown circles
 - hud in general
-
 - on leaving window pauses game
 - write readme
-
 - kill cam joke mode?
 
 Spells

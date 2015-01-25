@@ -20,14 +20,6 @@
 
 	// Array Prototyping
 
-	Array.prototype.map = function (fn) {
-		var results = [];
-		this.forEach(function (el, index, array) {
-			results.push(fn(el, index, array));
-		});
-		return results;
-	};
-
 	// String Prototyping
 
 	String.prototype.capitalizeDashes = function () {
@@ -48,11 +40,11 @@
 
 	// Object Prototyping
 
-	Object.prototype.extendAttributes = function (otherObj) {
-		for (var attr in otherObj) {
-			this[attr] = otherObj[attr];
-		}
-		return this;
-	};
+	// Object.prototype.extendAttributes = function (otherObj) {
+	// 	for (var attr in otherObj) {
+	// 		this[attr] = otherObj[attr];
+	// 	}
+	// 	return this;
+	// };
 
 })();

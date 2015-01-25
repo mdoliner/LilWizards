@@ -39,7 +39,7 @@
   var Player = LW.Player = function (options) {
   	this.controllerType = options.controllerType; // "keyboard" or "gamepad"
   	this.controllerIndex = options.controllerIndex;
-  	this.spellList = [null, null, null];
+  	this.spellList = options.spellList || [null, null, null];
   	this.wizardGraphic = "./graphics/wiz_baby_ani_2.png";
   	this.wizard = options.wizard || null;
   };
@@ -73,7 +73,9 @@
   		this.checkKeyboardActions();
   	} else if (this.controllerType === "gamepad") {
   		this.checkGamepadActions();
-  	} else {
+  	} else if (this.controllerType === "computer") {
+      this.checkComputerActions();
+    } else {
   		console.log('player aint got a controllerType');
   	}
   };
@@ -183,6 +185,68 @@
         wizard.actions["spells"][spellIndex] = this.cycleRelease(wizard.actions["spells"][spellIndex]);
       }
     }
+  };
+
+  var COMPUTER_ACTIONS = ["up", "down", "left", "right", "jump", "spells0", "spells1", "spells2"];
+
+  Player.prototype.checkComputerActions = function () {
+    this.heldButtons = this.heldButtons || [];
+    this.actionTimer = this.actionTimer - 1 || 60;
+    var boost = LW.Wizard.BASEBOOST;
+    var actionIndex = Math.floor(Math.random() * COMPUTER_ACTIONS.length);
+    var wizard = this.wizard;
+
+    if (this.actionTimer < 2) {
+      this.heldButtons.push(COMPUTER_ACTIONS[actionIndex]);
+      if (this.heldButtons.length > 3) {
+        this.heldButtons.shift();
+      }
+    }
+
+    // TODO: Fix this code.
+
+    for (var i = 0; i < COMPUTER_ACTIONS.length; i++) {
+      var action = COMPUTER_ACTIONS[i];
+      if (this.heldButtons.indexOf(action) !== -1) {
+        if (action.match(/spells/)) {
+          wizard.actions["spells"][actionIndex-5] = this.cyclePress(wizard.actions["spells"][actionIndex-5]);
+        } else {
+          wizard.actions[action] = this.cyclePress(wizard.actions[action]);
+        }
+        if (action === "left") {
+          wizard.accelX(-boost);
+          wizard.faceDir("left");
+        } else if (action === "right") {
+          wizard.accelX(boost);
+          wizard.faceDir("right");
+        }
+      } else {
+        if (action.match(/spells/)) {
+          wizard.actions["spells"][actionIndex-5] = this.cycleRelease(wizard.actions["spells"][actionIndex-5]);
+        } else {
+          wizard.actions[action] = this.cycleRelease(wizard.actions[action]);
+        }
+      }
+    }
+
+    // if (actionIndex > 4) {
+    //   if (this.heldButtons.indexOf(wizard.actions["spells"][actionIndex - 5]) === -1) {
+    //     if (this.heldButtons.length === 3) {
+    //       wizard.releasePress(this.heldButtons.shift());
+    //       this.heldButtons.push(COMPUTER_ACTIONS[actionIndex]);
+    //     }
+    //   } 
+    //   wizard.actions["spells"][actionIndex - 5] = this.cyclePress(wizard.actions["spells"][actionIndex - 5]); 
+    // } else {
+    //   if (this.heldButtons.indexOf(wizard.actions[COMPUTER_ACTIONS[actionIndex]]) === -1) {
+    //     if (this.heldButtons.length === 3) {
+    //       wizard.actions[this.cycleRelease(wizard.actions[this.heldButtons.shift()]);
+    //       this.heldButtons.push(COMPUTER_ACTIONS[actionIndex]);
+    //     }
+    //   }
+    //   wizard.actions[COMPUTER_ACTIONS[actionIndex]] = this.cyclePress(wizard.actions[COMPUTER_ACTIONS[actionIndex]]);
+    // }
+
   };
 
 })();
