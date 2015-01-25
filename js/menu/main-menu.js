@@ -7,6 +7,7 @@
 		for (var attr in options) {
 			this[attr] = options[attr];
 		}
+		// this.extendAttributes(options);
 		this.initializeEvent && this.initializeEvent();
 	};
 
@@ -15,7 +16,7 @@
 		LW.CurrentMenu = this;
 
 		this.checkingInputs = setInterval(this.checkInput.bind(this), 1000/60);
-
+		console.log(options.selector)
 		$(options.selector).empty();
 		this.swapToEvent && this.swapToEvent();
 		this.addItems(options.selector);

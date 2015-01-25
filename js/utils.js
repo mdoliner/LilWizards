@@ -46,4 +46,13 @@
 		return this.capitalizeDashes().spaceCapitalize();
 	};
 
+	// Object Prototyping
+
+	Object.prototype.extendAttributes = function (otherObj) {
+		for (var attr in otherObj) {
+			this[attr] = otherObj[attr];
+		}
+		return this;
+	};
+
 })();

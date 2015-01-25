@@ -5,22 +5,20 @@ read: http://www.html5rocks.com/en/tutorials/casestudies/gopherwoord-studios-res
 
 - sprite refactoring
 
-Questions:
-- HP?
-- Respawn Points
-- Hud.
-
 IMPORTANT
 - FPS Boosts, DO:
 	- Change Canvas States Less.
 	- Make Pesudo Canvas Elements for Each Important Sprite (ie wizards) for pre-rendering;
-	- Bunch tiles to reduce collision checks. ------ WILL SAVE LIKE 4-5 fps!!!!
 	- Possibly: Never redraw boxes.
 - level zoom
   - possibly bigger levels
-- CONTROLLER FIX TTY
-- Possibly Input problem (shuriken + running + jumping??? and shuriken letting go)
-- Menu EWWWWWWW
+- Refactor Code:
+  - Remove Prototyping of Native Objects
+  - Array.every is a function!!
+  - Main Menu should have it's own $el
+  - Put Vendored Scripts into its own folder
+- Settings
+- Tooltips
 
 MEDIUM
 - more spells?
