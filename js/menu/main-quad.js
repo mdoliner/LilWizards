@@ -5,7 +5,7 @@
 
 	var QuadView = LW.QuadView = function (options) {
 		LW.MainMenu.call(this, options);
-		LW.GlobalSL.playSE('menu-select.ogg', 100)
+		LW.GlobalSL.playSE((this.SE || 'menu-select.ogg'), 100)
 		this.$el = $("<div>");
 
 		this.$menuItemsList = $("<ul class='quad-menu-items'>");
@@ -17,7 +17,7 @@
 		this.player.spellList.forEach(function (spell) {
 			var $spell = $("<li class='player-spell'>");
 			if (spell) {
-				$spell.html(spell)
+				$spell.html(spell.makeReadable())
 			} else {
 				$spell.html("-------");
 			}
@@ -41,7 +41,7 @@
 			if (i === 0) {
 				$li.addClass('selected');
 			}
-			$li.html(command);
+			$li.html(command.makeReadable());
 			$li.data('command', command);
 			this.$menuItemsList.append($li);
 			// $li.on("click", this.events[command].bind(this));

@@ -31,7 +31,7 @@
 			if (i === 0) {
 				$li.addClass('selected');
 			}
-			$li.html(command);
+			$li.html(command.makeReadable());
 			$li.data('command', command);
 			$(selector).append($li);
 			$li.on("click", this.events[command].bind(this));

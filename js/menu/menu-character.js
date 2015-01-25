@@ -91,6 +91,7 @@
   		player: player,
   		commands: ["de-ready"],
   		$parentEl: $parentEl,
+      SE: "equip.ogg",
   		events: {
   			"de-ready": function () {
   				this.player.menuReady = false;
