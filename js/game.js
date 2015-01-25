@@ -5,50 +5,6 @@
 
   var Game = LW.Game = function (level) {
     this.wizards = [];
-    // this.wizards.push (new LW.Wizard({
-    //   pos: [300,130],
-    //   vel: [0,0],
-    //   horFacing: "left",
-    //   img: "./graphics/wiz_baby_ani_2.png",
-    //   imgIndexXMax: 4,
-    //   imgIndexYMax: 4,
-    //   imgSizeX: 7.62,
-    //   imgSizeY: 8,
-    //   game: this,
-    //   spellList: [LW.SpellList.WreckingBall, LW.SpellList.Wave, LW.SpellList.RayCannon]
-    // }));
-    // this.wizards.push (new LW.Wizard({
-    //   pos: [64,64],
-    //   vel: [0,0],
-    //   horFacing: "left",
-    //   img: "./graphics/wiz_baby_ani_2.png",
-    //   imgIndexXMax: 4,
-    //   imgIndexYMax: 4,
-    //   imgSizeX: 7.62,
-    //   imgSizeY: 8,
-    //   game: this,
-    //   spellList: [LW.SpellList.Updraft, LW.SpellList.Fireball, LW.SpellList.Crash]
-    // }));
-    // this.wizards.push (new LW.Wizard({
-    //   pos: [500,130],
-    //   vel: [0,0],
-    //   horFacing: "right",
-    //   img: "./graphics/wiz.png",
-    //   imgIndexXMax: 1,
-    //   imgIndexYMax: 1,
-    //   game: this,
-    //   spellList: [LW.SpellList.Fireball, LW.SpellList.Wave, LW.SpellList.Sword]
-    // }));
-    // this.wizards.push (new LW.Wizard({
-    //   pos: [-700,130],
-    //   vel: [0,0],
-    //   horFacing: "left",
-    //   img: "./graphics/wiz2.png",
-    //   imgIndexXMax: 1,
-    //   imgIndexYMax: 1,
-    //   game: this,
-    //   spellList: [LW.SpellList.Crash, LW.SpellList.Updraft, LW.SpellList.RayCannon]
-    // }));
     this.tiles = [];
     this.spawnPoints = [];
     this.spells = [];
@@ -62,31 +18,6 @@
     this.background = new LW.Sprite({ pos: [512,288], img: "./graphics/bg_bookcase.jpg", background: true })
   };
 
-  var R = "right";
-  var L = "rightEnd";
-  var D = "down";
-  var U = "downEnd";
-
-  Game.LEVEL = [[R,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,L],
-                [D,0,0,0,0,0,0,0,0,0,0,0,0,0,0,D,0,0,0,0,0,D,0,0,0,0,0,0,0,0,0,D],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0],
-                [0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,U,0,0,0,0,0,U,0,0,0,0,0,0,0,0,D,0],
-                [0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,U,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,R,0,0,L,0],
-                [0,0,0,0,R,0,0,0,L,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,R,0,L,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,R,0,0,0,0,0,L,0,0,0,R,0,0,0,0,L,0],
-                [0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,R,0,L,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,D,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,U,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-                [0,0,0,0,0,0,0,R,0,0,0,0,0,L,0,0,0,0,0,0,0,0,0,R,0,0,L,0,0,0,2,0],
-                [0,0,0,0,0,0,0,1,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,D,0],
-                [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,R,0,L,0,0,0,0,0,0,0,0,0,0,0,0],
-                [U,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,R,0,0,0,L,0,0,0,0,0,0,0,0,0,U,U],
-                [R,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,L]
-                ]
-
   Game.DIMX = 1024;
   Game.DIMY = 576;
   Game.MAX_ZOOM = 125;
@@ -95,6 +26,8 @@
     if (this.camera.move.time <= 0){
       // this.adjustCamera();
     }
+
+    this.isOver();
 
     this.camera.step();
 
@@ -290,12 +223,37 @@
   };
 
   Game.prototype.isOver = function () {
+    if (this.gameEnding) {return;}
     for (var i = 0; i < this.wizards.length; i++) {
       if (this.wizards[i].kills >= LW.Settings.WinKills) {
+        this.endGame(this.wizards[i]);
         return true;
       }
     }
     return false;
+  };
+
+  Game.prototype.endGame = function (winner) {
+    this.gameEnding = true;
+    this.playSE('applause.ogg', 100);
+    $('#bgm').animate({volume: 0}, 5000);
+    var victoryFollow = setInterval(function () {
+      if (this.camera.size <= 380) {
+        var duration = 60;
+      } else {
+        var duration = 30;
+      }
+      this.camera.moveTo({
+        endPos: winner.pos,
+        endSize: 400,
+        moveType: "linear",
+        duration: duration
+      })
+    }.bind(this), 1000/60);
+    setTimeout(function() {
+      this.gameEnded = true;
+      clearInterval(victoryFollow);
+    }.bind(this), 5000);
   };
 
 

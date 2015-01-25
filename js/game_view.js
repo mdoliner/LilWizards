@@ -36,10 +36,10 @@
       this.wizardActions();
       this.game.step();
       this.fps.element.html("FPS: "+this.fps.getFPS())
-      if (this.game.isOver()) {
+      if (this.game.gameEnded) {
         this.remove();
         $('.main-menu').removeClass("hidden");
-        LW.Menus.Level.swapTo({selector: '.main-menu-items'});
+        LW.Menus.Character.swapTo({selector: '.main-menu-items'});
       }
     }.bind(this)
     this.gameInterval = setInterval(gameStep, 1000/120);
@@ -50,7 +50,7 @@
     clearInterval(this.gameInterval);
     clearInterval(this.drawInterval);
     this.fps.element.html("");
-    $('#bgm').pause();
+    $('#bgm')[0].pause();
   };
 
   GameView.prototype.checkPlayerActions = function () {

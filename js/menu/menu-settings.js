@@ -7,7 +7,7 @@
 	}
 
   LW.Settings = {
-    WinKills: 10
+    WinKills: 1
   };
 
 	var Settings = LW.Menus.Settings = new LW.MainMenu({

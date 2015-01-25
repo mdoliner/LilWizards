@@ -9,10 +9,10 @@
   var events = {};
   var commands = [];
   for (var level in LW.Levels) {
-    events[level] = function () {
-      this.selectedLevel = LW.Levels[level];
+    events[level] = function (nlevel) {
+      this.selectedLevel = LW.Levels[nlevel];
       this.runGame();
-    }
+    }.args(level);
     commands.push(level);
   }
 
@@ -20,6 +20,7 @@
     title: "Level Select",
     commands: commands,
     events: events,
+    parentMenu: LW.Menus.Character,
     runGame: function () {
       LW.GlobalSL.playSE('menu-select.ogg', 100)
 
