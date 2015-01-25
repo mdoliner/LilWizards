@@ -39,17 +39,17 @@
         LW.Players.push(new LW.Player({
           controllerType: "computer",
           controllerIndex: 0,
-          spellList: ["Fireball", "Sword", "Wave"]
+          spellList: LW.Player.randomSpellList()
         }))
         LW.Players.push(new LW.Player({
           controllerType: "computer",
           controllerIndex: 1,
-          spellList: ["Fireball", "Sword", "Wave"]
+          spellList: LW.Player.randomSpellList()
         }))
         LW.Players.push(new LW.Player({
           controllerType: "computer",
           controllerIndex: 2,
-          spellList: ["Fireball", "Sword", "Wave"]
+          spellList: LW.Player.randomSpellList()
         }))
       }
 

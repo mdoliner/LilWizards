@@ -65,7 +65,18 @@
       spells.push(LW.SpellList[spellName]);
     });
     return spells;
-  }
+  };
+
+  Player.randomSpellList = function () {
+    var spells = [];
+    while (spells.length < 3) {
+      var spell = LW.Spell.TOTAL_SPELL_NAMES[Math.floor(Math.random() * LW.Spell.TOTAL_SPELL_NAMES.length)];
+      if (spells.indexOf(spell) === -1) {
+        spells.push(spell);
+      }
+    }
+    return spells;
+  };
 
   Player.prototype.checkControllerActions = function () {
   	if (!this.wizard) { return }

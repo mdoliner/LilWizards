@@ -50,6 +50,21 @@
     defaults.initialize && defaults.initialize.bind(this)();
   };
 
+  Spell.TOTAL_SPELL_NAMES = [
+    "Crash",
+    "Updraft",
+    "Wave",
+    "WreckingBall",
+    "FanOfKnives",
+    "Teleport",
+    "Sword",
+    "ToxicDarts",
+    "Fireball",
+    "Candy",
+    "RayCannon",
+    "ForcePush"
+  ];
+
   Spell.prototype.draw = function (ctx, camera) {
     this.sprite.angle = this.vel.toAngleDeg();
     this.sprite.draw(ctx, camera);
