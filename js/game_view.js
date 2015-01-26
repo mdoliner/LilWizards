@@ -50,7 +50,11 @@
     clearInterval(this.gameInterval);
     clearInterval(this.drawInterval);
     this.fps.element.html("");
-    $('#bgm')[0].pause();
+    var bgm = $('#bgm')
+    bgm[0].pause();
+    bgm.attr('src',"audio/BGM/Dig-it.mp3");
+    bgm[0].volume = 0.2;
+    bgm[0].play();
     for (var i = 0; i < LW.Players.length; i++) {
       if (LW.Players[i].controllerType === "computer") {
         LW.Players.splice(i,1);

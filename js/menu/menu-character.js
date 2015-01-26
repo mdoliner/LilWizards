@@ -114,6 +114,7 @@
     quadViews: [],
     executeCommand: function (player) {
     	if (LW.Players.length >= 4) {return;}
+      player.wizardGraphic = LW.Sprite.WIZARDS[LW.Players.length];
     	var quad = new LW.QuadView(CategoryView(player));
     	LW.Players.push(player);
     	$('.main-menu-quads').append(quad.$parentEl);

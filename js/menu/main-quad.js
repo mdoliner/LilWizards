@@ -11,7 +11,16 @@
 		this.$menuItemsList = $("<ul class='quad-menu-items'>");
 		this.$el.append(this.$menuItemsList);
 
-		this.$playerPicture = $("<figure class='player-picture'>");
+		this.$playerPicture = $("<figure class='player-picture-fig'>");
+		var $image = $('<img class="player-picture-img" src="'+this.player.wizardGraphic+'">');
+		this.$playerPicture.append($image);
+		this.$el.append(this.$playerPicture);
+
+		var index = 0;
+		this.animatePicture = setInterval(function () {
+			index = (index + 1) % 4;
+			$image.css('transform', 'translateX(-'+index*25+'%)')
+		}, 420);
 
 		this.$playerSpells = $("<ul class='player-spells'>");
 		this.player.spellList.forEach(function (spell) {
@@ -89,6 +98,7 @@
 
 	QuadView.prototype.remove = function () {
 		clearInterval(this.checkingInputs);
+		clearInterval(this.animatePicture);
 		this.childQuad && this.childQuad.remove();
 	};
 

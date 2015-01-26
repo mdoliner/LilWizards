@@ -236,7 +236,7 @@
   Game.prototype.endGame = function (winner) {
     this.gameEnding = true;
     this.playSE('applause.ogg', 100);
-    $('#bgm').animate({volume: 0}, 5000);
+    $('#bgm').animate({volume: 0}, 4000);
     var victoryFollow = setInterval(function () {
       if (this.camera.size <= 380) {
         var duration = 60;

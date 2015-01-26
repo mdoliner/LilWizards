@@ -52,8 +52,7 @@
           spellList: LW.Player.randomSpellList()
         }))
       }
-      for (var i = 0; i < LW.Players.length; i++) {
-        LW.Players[i].wizardGraphic = LW.Sprite.WIZARDS[i];
+      for (var i = 0; i < LW.Players.length; i++) {        
         game.wizards.push(LW.Players[i].makeWizard({
           game: game
         }));

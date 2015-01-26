@@ -70,6 +70,10 @@
 
     <script>
     $(document).ready( function () {
+      var bgm = $('#bgm')
+      bgm.attr('src',"audio/BGM/Dig-it.mp3");
+      bgm.attr('volume', 0.2);
+      bgm[0].play();
       LW.AllPlayers = [
         new LW.Player({
           controllerType: "keyboard",

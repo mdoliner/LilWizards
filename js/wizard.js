@@ -97,13 +97,6 @@
 
   Wizard.prototype.draw = function (ctx, camera) {
     if (this.isDead()) {return;}
-    // if (this.verFacing === "up") {
-    //   this.sprite.angle = -30;
-    // } else if (this.verFacing === "down") {
-    //   this.sprite.angle = 30;
-    // } else {
-    //   this.sprite.angle = 0;
-    // }
     this.sprite.animate();
     this.sprite.draw(ctx, camera);
   };
@@ -281,7 +274,7 @@
     if (!this.onGround) {
       val *= Wizard.AIRCONTROL;
     } else {
-      if (this.sprite.indexYMax >= 2 && this.sprite.indexY !== 1) {
+      if (this.sprite.indexY !== 1) {
         this.sprite.indexY = 1;
         this.sprite.indexX = 0;
       }

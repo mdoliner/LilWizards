@@ -40,7 +40,7 @@
   	this.controllerType = options.controllerType; // "keyboard" or "gamepad"
   	this.controllerIndex = options.controllerIndex;
   	this.spellList = options.spellList || [null, null, null];
-  	this.wizardGraphic = "./graphics/wiz_baby_ani_2.png";
+  	this.wizardGraphic = options.wizardGraphic || "./graphics/baby_wiz_green.png";
   	this.wizard = options.wizard || null;
   };
 
@@ -220,7 +220,8 @@
       var action = COMPUTER_ACTIONS[i];
       if (this.heldButtons.indexOf(action) !== -1) {
         if (action.match(/spells/)) {
-          wizard.actions["spells"][actionIndex-5] = this.cyclePress(wizard.actions["spells"][actionIndex-5]);
+          var spellIndex = action.slice(6);
+          wizard.actions["spells"][spellIndex] = this.cyclePress(wizard.actions["spells"][spellIndex]);
         } else {
           wizard.actions[action] = this.cyclePress(wizard.actions[action]);
         }
