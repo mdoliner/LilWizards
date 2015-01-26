@@ -68,7 +68,7 @@ article.game {
 	font-family: sans-serif;
 	font-size: 88px;
 	text-shadow: 2px 2px #888;
-	-webkit-animation: zoomIn 0.42s infinite both;
+	-webkit-animation: zoomIn 0.428s infinite both;
 }
 
 @-webkit-keyframes zoomIn {

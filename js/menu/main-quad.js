@@ -20,7 +20,7 @@
 		this.animatePicture = setInterval(function () {
 			index = (index + 1) % 4;
 			$image.css('transform', 'translateX(-'+index*25+'%)')
-		}, 420);
+		}, 214);
 
 		this.$playerSpells = $("<ul class='player-spells'>");
 		this.player.spellList.forEach(function (spell) {
