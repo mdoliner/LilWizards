@@ -51,7 +51,7 @@
       horFacing: "left",
       img: this.wizardGraphic,
       imgIndexXMax: 4,
-      imgIndexYMax: 4,
+      imgIndexYMax: 6,
       imgSizeX: 7.62,
       imgSizeY: 8,
       spellList: this.makeSpellList(),

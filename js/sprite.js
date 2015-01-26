@@ -55,6 +55,13 @@
     this.animationReset = defaults.animationReset;
   };
 
+  Sprite.WIZARDS = [
+    "./graphics/baby_wiz_green.png",
+    "./graphics/baby_wiz_purple.png",
+    "./graphics/baby_wiz_red.png",
+    "./graphics/baby_wiz_blue.png"
+  ];
+
   Sprite.prototype.animate = function () {
     this.tickCount += 1;
     if (this.tickCount > this.buffer) {

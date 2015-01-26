@@ -154,10 +154,17 @@
       },
       leftCollision: function () {
         that.onLeftWall = true;
+        if (that.sprite.index !== 5) {
+          that.sprite.indexY = 5;
+          that.sprite.indexX = 0;
+        }
       },
       rightCollision: function () {
+        if (that.sprite.index !== 5) {
+          that.sprite.indexY = 5;
+          that.sprite.indexX = 0;
+        }
         that.onRightWall = true;
-
       }
     })
 
@@ -213,6 +220,10 @@
       LW.ParticleSplatter(3, landParticleGen.bind(this, false))
       LW.ParticleSplatter(3, landParticleGen.bind(this, true))
     }
+    if (this.sprite.indexY !== 0) {
+      this.sprite.indexY = 0;
+      this.sprite.indexX = 0;
+    }
     this.onGround = true;
     this.boosted = false;
   };
@@ -235,17 +246,23 @@
     val *= this.jumpModifier;
     this.dynamicJumpTimer = Wizard.BASEJUMPTIME;
     if (this.onGround) {
+      this.sprite.indexY = 4;
+      this.sprite.indexX = 0;
       this.vel.y = val;
       this.game.playSE('jump_ground.ogg');
       LW.ParticleSplatter(5, jumpOffGroundGen.bind(this))
       return;
     } else if ((this.onLeftWall && this.isOnWall()) || this.wallJumpBuffer > 0) {
+      this.sprite.indexY = 4;
+      this.sprite.indexX = 0;
       this.vel.y = val;
       this.vel.x = Wizard.BASEWALLJUMPX;
       this.onLeftWall = false;
       this.faceDir("right");
       var offset = [-8,0];
     } else if ((this.onRightWall && this.isOnWall()) || this.wallJumpBuffer > 0) {
+      this.sprite.indexY = 4;
+      this.sprite.indexX = 0;
       this.vel.y = val;
       this.vel.x = -Wizard.BASEWALLJUMPX;
       this.onRightWall = false;

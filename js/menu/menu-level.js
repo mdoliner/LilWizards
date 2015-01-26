@@ -52,12 +52,12 @@
           spellList: LW.Player.randomSpellList()
         }))
       }
-
-      LW.Players.forEach(function (player) {
-        game.wizards.push(player.makeWizard({
+      for (var i = 0; i < LW.Players.length; i++) {
+        LW.Players[i].wizardGraphic = LW.Sprite.WIZARDS[i];
+        game.wizards.push(LW.Players[i].makeWizard({
           game: game
-        }))
-      })
+        }));
+      }
       var gameView = new LW.GameView(bgctx, fgctx, game);
       gameView.startGame();
       this.remove();
