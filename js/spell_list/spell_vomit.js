@@ -11,7 +11,7 @@
       dim: [4,4],
       game: this.game,
       caster: this,
-      duration: 60,
+      duration: 75,
       sType: "ray",
       sId: "vomit",
       tickEvent: function () {
@@ -43,10 +43,13 @@
               this.victim.accelXModifier -= this.modAccelX;
               this.modJump = this.victim.jumpModifier * 0.75;
               this.victim.jumpModifier -= this.modJump;
+              this.modMaxVelX = this.victim.maxVelX * 0.75;
+              this.victim.maxVelX -= this.modMaxVelX;
             },
             removeEvent: function () {
               this.victim.jumpModifier += this.modJump;
               this.victim.accelXModifier += this.modAccelX;
+              this.victim.maxVelX += this.modMaxVelX;
             //   this.victim.kill(this.wizard);
             }
           }));

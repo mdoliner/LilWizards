@@ -5,7 +5,7 @@
 
   LW.SpellList.Crash = function (spellIndex) {
     if (this.onGround) {
-      this.game.playSE('fail.ogg');
+      this.game.playSE('fail.ogg', 0.5);
       LW.ParticleSplatter(10, function () {
         var randVel = new LW.Coord([-Math.random()*4,0]).plusAngleDeg(Math.floor(Math.random()*2)*180);
         return {
@@ -49,7 +49,7 @@
             this.caster.vel.x = 0;
             this.caster.applyMomentum([0,-15]);
             this.vel.y = 0.1;
-            this.game.playSE('explode.ogg');
+            this.game.playSE('explode.ogg', 0.5);
             LW.ParticleSplatter(40, function () {
               var randVel = new LW.Coord([-Math.random()*4,0]).plusAngleDeg(Math.floor(Math.random()*2)*180);
               var color = ['orange', 'yellow', 'white'][Math.floor(Math.random()*3)];

@@ -311,7 +311,7 @@
     if (this.vel.y < -2) {
       this.gravity.y = this.jGravity;
       if (this.dynamicJumpTimer > 0) {
-        this.vel.y += Wizard.BASEJUMPBOOST * (this.dynamicJumpTimer / Wizard.BASEJUMPTIME);
+        this.vel.y += Wizard.BASEJUMPBOOST * (this.dynamicJumpTimer / Wizard.BASEJUMPTIME) * this.jumpModifier;
       }
     }
   };
