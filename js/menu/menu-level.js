@@ -39,17 +39,20 @@
         LW.Players.push(new LW.Player({
           controllerType: "computer",
           controllerIndex: 0,
-          spellList: LW.Player.randomSpellList()
+          spellList: LW.Player.randomSpellList(),
+          wizardGraphic: LW.Sprite.WIZARDS[LW.Players.length]
         }))
         LW.Players.push(new LW.Player({
           controllerType: "computer",
           controllerIndex: 1,
-          spellList: LW.Player.randomSpellList()
+          spellList: LW.Player.randomSpellList(),
+          wizardGraphic: LW.Sprite.WIZARDS[LW.Players.length]
         }))
         LW.Players.push(new LW.Player({
           controllerType: "computer",
           controllerIndex: 2,
-          spellList: LW.Player.randomSpellList()
+          spellList: LW.Player.randomSpellList(),
+          wizardGraphic: LW.Sprite.WIZARDS[LW.Players.length]
         }))
       }
       for (var i = 0; i < LW.Players.length; i++) {        

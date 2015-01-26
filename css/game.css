@@ -72,9 +72,9 @@ article.game {
 }
 
 @-webkit-keyframes zoomIn {
-	0% {transform: scale(0.9); color: #ddd;}
-	50% {transform: scale(1.1); color: #fff;}
-	100% {transform: scale(0.9); color: #ddd;}
+	0% {transform: scale(0.9);}
+	50% {transform: scale(1.1);}
+	100% {transform: scale(0.9);}
 }
 
 .main-menu-quads {

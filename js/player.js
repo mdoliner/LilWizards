@@ -42,6 +42,12 @@
   	this.spellList = options.spellList || [null, null, null];
   	this.wizardGraphic = options.wizardGraphic || "./graphics/baby_wiz_green.png";
   	this.wizard = options.wizard || null;
+    if (this.controllerType === "computer") {
+      this.heldButtons = {};
+      for (var i = 0; i < COMPUTER_ACTIONS.length; i++) {
+        this.heldButtons[COMPUTER_ACTIONS[i]] = false;
+      }
+    }
   };
 
   Player.prototype.makeWizard = function (options) {
@@ -201,24 +207,27 @@
   var COMPUTER_ACTIONS = ["up", "down", "left", "right", "jump", "spells0", "spells1", "spells2"];
 
   Player.prototype.checkComputerActions = function () {
-    this.heldButtons = this.heldButtons || [];
-    this.actionTimer = this.actionTimer - 1 || 60;
+    this.actionTimer = this.actionTimer - 1 || Math.random() * 30 + 45;
     var boost = LW.Wizard.BASEBOOST;
     var actionIndex = Math.floor(Math.random() * COMPUTER_ACTIONS.length);
     var wizard = this.wizard;
 
     if (this.actionTimer < 2) {
-      this.heldButtons.push(COMPUTER_ACTIONS[actionIndex]);
-      if (this.heldButtons.length > 3) {
-        this.heldButtons.shift();
+      while (this.heldButtons[COMPUTER_ACTIONS[actionIndex]]) {
+        this.heldButtons[COMPUTER_ACTIONS[actionIndex]] = false;
+        actionIndex = Math.floor(Math.random() * COMPUTER_ACTIONS.length);
       }
+      this.heldButtons[COMPUTER_ACTIONS[actionIndex]] = true;
+      var offActionIndex = Math.floor(actionIndex + (COMPUTER_ACTIONS.length - 2) * Math.random() + 1);
+      offActionIndex = offActionIndex % COMPUTER_ACTIONS.length;
+      this.heldButtons[COMPUTER_ACTIONS[offActionIndex]] = false;
     }
 
     // TODO: Fix this code.
 
     for (var i = 0; i < COMPUTER_ACTIONS.length; i++) {
       var action = COMPUTER_ACTIONS[i];
-      if (this.heldButtons.indexOf(action) !== -1) {
+      if (this.heldButtons[action]) {
         if (action.match(/spells/)) {
           var spellIndex = action.slice(6);
           wizard.actions["spells"][spellIndex] = this.cyclePress(wizard.actions["spells"][spellIndex]);
@@ -234,30 +243,13 @@
         }
       } else {
         if (action.match(/spells/)) {
-          wizard.actions["spells"][actionIndex-5] = this.cycleRelease(wizard.actions["spells"][actionIndex-5]);
+          var spellIndex = action.slice(6);
+          wizard.actions["spells"][spellIndex] = this.cycleRelease(wizard.actions["spells"][spellIndex]);
         } else {
           wizard.actions[action] = this.cycleRelease(wizard.actions[action]);
         }
       }
     }
-
-    // if (actionIndex > 4) {
-    //   if (this.heldButtons.indexOf(wizard.actions["spells"][actionIndex - 5]) === -1) {
-    //     if (this.heldButtons.length === 3) {
-    //       wizard.releasePress(this.heldButtons.shift());
-    //       this.heldButtons.push(COMPUTER_ACTIONS[actionIndex]);
-    //     }
-    //   } 
-    //   wizard.actions["spells"][actionIndex - 5] = this.cyclePress(wizard.actions["spells"][actionIndex - 5]); 
-    // } else {
-    //   if (this.heldButtons.indexOf(wizard.actions[COMPUTER_ACTIONS[actionIndex]]) === -1) {
-    //     if (this.heldButtons.length === 3) {
-    //       wizard.actions[this.cycleRelease(wizard.actions[this.heldButtons.shift()]);
-    //       this.heldButtons.push(COMPUTER_ACTIONS[actionIndex]);
-    //     }
-    //   }
-    //   wizard.actions[COMPUTER_ACTIONS[actionIndex]] = this.cyclePress(wizard.actions[COMPUTER_ACTIONS[actionIndex]]);
-    // }
 
   };
 
