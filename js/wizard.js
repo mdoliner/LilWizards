@@ -190,7 +190,7 @@
       if (collisions) {
         return true;
       }
-    }w
+    }
 
     return false;
   };
