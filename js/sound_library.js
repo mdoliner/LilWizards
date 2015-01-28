@@ -21,7 +21,6 @@
       volume /= 100;
     }
     volume *= LW.Settings.SEVolume;
-    console.log(volume);
     var $audio = this.audioTags[this.currentIndex]
     var audio = $audio[0];
     audio.src = "audio/SE/"+src;

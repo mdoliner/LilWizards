@@ -67,3 +67,35 @@
 .command-action {
 	color: white;
 }
+
+.credits {
+	position: fixed;
+	right: 0;
+	bottom: 0;
+	z-index: 10;
+}
+
+.credits-list {
+	display: none;
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 300px;
+	transform: translateY(-100%);
+	background: rgba(0,0,0,0.2);
+	border-radius: 5px;
+	padding: 10px;
+}
+
+.credits:hover .credits-list {
+	display: block;
+}
+
+.credit-link {
+	color: #ddd;
+	text-decoration: underline;
+}
+
+.credit-link:hover {
+	color: #fff;
+}

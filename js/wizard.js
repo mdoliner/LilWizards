@@ -24,23 +24,11 @@
       sizeY: options.imgSizeY,
       animationReset: function () {
         if (this.verFacing === "up") {
-          if (this.sprite.indexYMax >= 4) {
-            this.sprite.indexY = 2
-          } else {
-            this.sprite.angle = -30;
-          }
+          this.sprite.indexY = 2
         } else if (this.verFacing === "down") {
-          if (this.sprite.indexYMax >= 4) {
-            this.sprite.indexY = 3
-          } else {
-            this.sprite.angle = 30;
-          }
+          this.sprite.indexY = 3
         } else {
-          if (this.indexYMax >= 4) {
-            this.sprite.indexY = 0
-          } else {
-            this.sprite.angle = 0;
-          }
+          this.sprite.indexY = 0
         }
       }.bind(this)
     });
@@ -202,7 +190,7 @@
       if (collisions) {
         return true;
       }
-    }
+    }w
 
     return false;
   };
@@ -213,7 +201,7 @@
       LW.ParticleSplatter(3, landParticleGen.bind(this, false))
       LW.ParticleSplatter(3, landParticleGen.bind(this, true))
     }
-    if (this.sprite.indexY !== 0) {
+    if (this.sprite.indexY === 5) {
       this.sprite.indexY = 0;
       this.sprite.indexX = 0;
     }
@@ -304,7 +292,7 @@
     } else if (dir === "up" || dir === "down") {
       this.verFacing = dir;
     }
-    this.sprite.animationReset();
+    
   };
 
   Wizard.prototype.dynamicJump = function () {

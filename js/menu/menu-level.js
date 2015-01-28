@@ -10,10 +10,22 @@
   var commands = [];
   for (var level in LW.Levels) {
     events[level] = function (nlevel) {
+      this.nlevel = nlevel
       this.selectedLevel = LW.Levels[nlevel];
       this.runGame();
     }.args(level);
     commands.push(level);
+  }
+
+  var songs = [
+    "Castlemania.mp3",
+    "Full-Circle.mp3",
+    "battle.mp3"
+  ]
+
+  var backgrounds = {
+    Library: "bg_bookcase.jpg",
+    Cemetery: "bg-cemetery.png"
   }
 
 	var Level = LW.Menus.Level = new LW.MainMenu({
@@ -28,12 +40,16 @@
 
       $('.main-menu').addClass("hidden");
 
-      LW.GlobalSL.playBGM("battle.mp3", 20);
+      var song = songs[Math.floor(songs.length * Math.random())]
+      LW.GlobalSL.playBGM(song, 20);
       var fgcanvas = document.getElementById("game-fg-canvas");
       var fgctx = fgcanvas.getContext('2d');
       var bgcanvas = document.getElementById("game-bg-canvas");
       var bgctx = bgcanvas.getContext('2d');
-      var game = new LW.Game(this.selectedLevel);
+      var game = new LW.Game({
+        level: this.selectedLevel,
+        background: backgrounds[this.nlevel]
+      });
 
       if (LW.Players.length === 1) {
         LW.Players.push(new LW.Player({

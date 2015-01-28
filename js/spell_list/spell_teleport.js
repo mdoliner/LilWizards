@@ -37,6 +37,7 @@
             }.bind(this));
           }
           var times = 5;
+          this.vel.times(0);
           this.remove();
           var funct = function() {
             LW.ParticleSplatter(3, function () {

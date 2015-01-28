@@ -3,12 +3,12 @@
     window.LW = {};
   }
 
-  var Game = LW.Game = function (level) {
+  var Game = LW.Game = function (options) {
     this.wizards = [];
     this.tiles = [];
     this.spawnPoints = [];
     this.spells = [];
-    this.parseLevel(level);
+    this.parseLevel(options.level);
     this.particles = new LW.ParticleLibrary;
     this.camera = new LW.Camera({
       pos: [512,288],
@@ -17,7 +17,7 @@
     this.audio = LW.GlobalSL;
     this.background = new LW.Sprite({ 
       pos: [512,288], 
-      img: "./graphics/bg_bookcase.jpg", 
+      img: "./graphics/"+options.background, 
       background: true, 
       load: true,
       game: this
