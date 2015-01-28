@@ -5,6 +5,11 @@ read: http://www.html5rocks.com/en/tutorials/casestudies/gopherwoord-studios-res
 
 - sprite refactoring
 
+TOP LEVEL IMPORTANT:
+- Demo mode / Tutorial Mode?
+- BGM in Sound
+- Settings
+
 IMPORTANT
 - FPS Boosts, DO:
 	- Change Canvas States Less.

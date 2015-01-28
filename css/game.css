@@ -1,4 +1,4 @@
-a, body, section, article, div, html, h1, ul, li {
+a, body, section, article, div, html, h1, h2, ul, li, strong, p, pre {
 	margin: 0;
 	padding: 0;
 	outline: 0;
@@ -50,6 +50,7 @@ article.game {
 	background-size: 1024px 576px;
 	background-repeat: no-repeat;
 	margin: 10px auto;
+	overflow: hidden;
 }
 
 .main-menu {
@@ -75,6 +76,18 @@ article.game {
 	0% {transform: scale(0.9);}
 	50% {transform: scale(1.1);}
 	100% {transform: scale(0.9);}
+}
+
+.menu-tooltip {
+	position: absolute;
+	width: 300px;
+	bottom: 0;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	border-radius: 5px;
+	background: rgba(0,0,0,0.2);
+	padding: 10px;
+	text-align: center;
 }
 
 .main-menu-quads {
@@ -130,8 +143,8 @@ article.game {
 	padding: 5px;
 	margin-bottom: 10px;
 	border-radius: 5px;
-	background: #E36666;
-	border: 2px solid #A33C46;
+	background: #CC6FF7;
+	border: 2px solid #AF5FD4;
 	text-align: center;
 	box-shadow: 1px 1px 2px #444;
 	transition: box-shadow 0.2s, background 0.2s, border 0.2s;
@@ -147,10 +160,19 @@ article.game {
 }
 
 .quad-menu-item.selected {
-	background: #FF6B6B;
-	border: 2px solid #C44D58;
+	background: #DA9CF7;
+	border: 2px solid #BB85D4;
 	box-shadow: 2px 2px 4px #333;
 	transform: scale(1.1);
+}
+
+.quad-menu-item.player-spell.selected {
+	background: #FF6B6B;
+	border: 2px solid #C44D58;
+}
+
+.quad-menu-item.player-spell {
+	margin-bottom: 10px;
 }
 
 .quad-menu-item.ready-up.selected {
@@ -168,6 +190,7 @@ article.game {
 }
 
 .player-spell {
+	position: relative;
 	min-width: 100px;
 	padding: 5px;
 	border-radius: 5px;
@@ -181,20 +204,87 @@ article.game {
 	margin-bottom: 0;
 }
 
+.spell-hover-effect {
+	display: block;
+	position: absolute;
+	right: -10px;
+	top: 50%;
+	transform: translate(100%, -50%);
+	-webkit-animation: bobLeft 2s infinite both;
+	width: 20px;
+	background: #000;
+	border-radius: 5px;
+	padding: 2px 0;
+	border: 2px solid #fff;
+}
+
+@-webkit-keyframes bobLeft {
+	0% {right: -10px;}
+	50% {right: -5px;}
+	100% {right: -10px;}
+}
+
+.quad-title {
+	position: absolute;
+	top: 0px;
+	text-align: center;
+	left: 50%;
+	transform: translate(-50%,-75%);
+	font-size: 24px;
+	background: #556270;
+	border-radius: 5px;
+	border: 5px solid #4a5263;
+	box-shadow: 2px 2px 2px #000;
+	width: 200px;
+	min-height: 24px;
+}
+
 .main-menu-items {
 	display: block;
 	position: absolute;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	cursor: pointer;
+}
+
+.bounce-up-arrow, .bounce-down-arrow {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	background: rgba(0,0,0,0.2);
+	padding: 2px 10px;
+	border-radius: 50%;
+	font-size: 24px;
+}
+
+.bounce-up-arrow {
+	top: -30px;
+	-webkit-animation: bobUp 2s infinite both;
+}
+
+.bounce-down-arrow {
+	bottom: -30px;
+	-webkit-animation: bobDown 2s infinite both;
+}
+
+@-webkit-keyframes bobUp {
+	0% {top: -30px;}
+	50% {top: -25px;}
+	100% {top: -30px;}
+}
+
+@-webkit-keyframes bobDown {
+	0% {bottom: -30px;}
+	50% {bottom: -25px;}
+	100% {bottom: -30px;}
 }
 
 .menu-item {
 	display: block;
+	position: relative;
 	background: #FF6B6B;
 	width: 260px;
-	padding: 30px;
+	padding: 10px 30px;
 	border-radius: 5px;
 	text-align: center;
 	margin: 10px 0;
@@ -210,14 +300,31 @@ article.game {
 	width: 100px;
 	padding: 30px 5px;
 	margin-top: 80px;
+	cursor: pointer;
+}
+
+.menu-item.back:hover {
+	transform: scale(1.05);
 }
 
 .menu-item.selected {
 	border: 5px solid #C44D58;
 }
 
-.menu-item:hover {
-	transform: scale(1.05);
+.menu-item-tooltip {
+	display: none;
+	position: absolute;
+	right: -10px;
+	top: 50%;
+	transform: translate(100%, -50%);
+	padding: 5px 10px;
+	background: #556270;
+	border: 5px solid #4a5263;
+	font-size: 20px;
+}
+
+.menu-item.selected .menu-item-tooltip {
+	display: block;
 }
 
 .hidden {

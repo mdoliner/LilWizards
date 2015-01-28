@@ -15,7 +15,14 @@
       size: 100 //percent
     });
     this.audio = LW.GlobalSL;
-    this.background = new LW.Sprite({ pos: [512,288], img: "./graphics/bg_bookcase.jpg", background: true })
+    this.background = new LW.Sprite({ 
+      pos: [512,288], 
+      img: "./graphics/bg_bookcase.jpg", 
+      background: true, 
+      load: true,
+      game: this
+    })
+    this.drawAll = true;
   };
 
   Game.DIMX = 1024;
@@ -43,7 +50,7 @@
   };
 
   Game.prototype.playSE = function (src, volume) {
-    volume = volume || 0.7;
+    volume = volume || 0.8;
     this.audio.playSE(src, volume);
   };
 
@@ -85,9 +92,10 @@
       // }
     }
     this.particles.draw(fgctx, this.camera)
-    if (this.camera.hasMoved) {
+    if (this.camera.hasMoved || this.drawAll) {
       var bgObjects = this.bgObjects();
       this.camera.hasMoved = false;
+      this.drawAll = false;
       bgctx.clearRect(0,0,1024,576);
       this.background.draw(bgctx, this.camera);
       for (var i = 0; i < bgObjects.length; i++ ) {
@@ -179,6 +187,7 @@
             img: "./graphics/box_hard_stone.png",
             sizeXFactor: 6.25/2,
             sizeYFactor: 6.25/2,
+            load: true
           }));
         }
         if (level[yIndex][xIndex] === "down") {
@@ -192,6 +201,7 @@
             img: "./graphics/box_hard_stone.png",
             sizeXFactor: 6.25/2,
             sizeYFactor: 6.25/2,
+            load: true
           }));
         }
         if (level[yIndex][xIndex] === 1) {
@@ -200,12 +210,14 @@
             img: "./graphics/box_hard_stone.png",
             sizeXFactor: 6.25/2,
             sizeYFactor: 6.25/2,
+            load: true
           }));
         }
         if (level[yIndex][xIndex] === 2) {
           this.spawnPoints.push(new LW.Tile({
             pos: [16 + xIndex * 32, 16 + yIndex * 32],
-            img: "./graphics/spawn_point.png"
+            img: "./graphics/spawn_point.png",
+            load: true
           }));
         }
       }

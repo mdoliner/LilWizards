@@ -52,9 +52,7 @@
     this.fps.element.html("");
     var bgm = $('#bgm')
     bgm[0].pause();
-    bgm.attr('src',"audio/BGM/Dig-It.mp3");
-    bgm[0].volume = 0.2;
-    bgm[0].play();
+    LW.GlobalSL.playBGM("Dig-It.mp3", 20);
     for (var i = 0; i < LW.Players.length; i++) {
       if (LW.Players[i].controllerType === "computer") {
         LW.Players.splice(i,1);

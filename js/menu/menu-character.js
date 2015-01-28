@@ -10,30 +10,31 @@
   	var $parentEl = $parentEl || $("<li class='menu-quad group'>");
   	return {
   		player: player,
-  		commands: ["ninja", "brawler", "dry-gone", "ready-up"],
+  		commands: ["ninja-spells", "brawler-spells", "dragon-spells", "ready-up"],
   		$parentEl: $parentEl,
+      quadTitle: "",
   		events: {
-  			"ninja": function () {
+  			"ninja-spells": function () {
   				this.remove();
-  				this.childQuad = new LW.QuadView(SpellsView(player, this.$parentEl, [
+  				this.childQuad = new LW.QuadView(SpellsView(player, this.$parentEl, "Ninja", [
   					"Sword",
   					"FanOfKnives",
   					"Teleport",
   					"ToxicDarts"
   				]));
   			},
-  			"brawler": function () {
+  			"brawler-spells": function () {
   				this.remove();
-  				this.childQuad = new LW.QuadView(SpellsView(player, this.$parentEl, [
+  				this.childQuad = new LW.QuadView(SpellsView(player, this.$parentEl, "Brawler", [
   					"Crash",
   					"Updraft",
   					"Wave",
   					"WreckingBall"
   				]));
   			},
-  			"dry-gone": function () {
+  			"dragon-spells": function () {
   				this.remove();
-  				this.childQuad = new LW.QuadView(SpellsView(player, this.$parentEl, [
+  				this.childQuad = new LW.QuadView(SpellsView(player, this.$parentEl, "Dragon", [
   					"Fireball",
   					"RayCannon",
   					"ForcePush",
@@ -55,14 +56,14 @@
   					}
   				};
   				if (numOfPlayersReady === LW.Players.length) {
-  					LW.Menus.Level.swapTo({selector: '.main-menu-items'});
+  					LW.Menus.Level.swapTo();
   				}
   			}
   		}
   	};
   };
 
-  var SpellsView = function (player, $parentEl, spells) {
+  var SpellsView = function (player, $parentEl, title, spells) {
   	var events = {};
   	spells.forEach(function (spell) {
   		events[spell] = function (spellIndex) {
@@ -82,6 +83,8 @@
   		player: player,
   		commands: spells,
   		$parentEl: $parentEl,
+      quadTitle: title + " Spells",
+      isSpellMenu: true,
   		events: events
   	};
   };
@@ -91,6 +94,7 @@
   		player: player,
   		commands: ["de-ready"],
   		$parentEl: $parentEl,
+      quadTitle: "Ready!",
       SE: "equip.ogg",
   		events: {
   			"de-ready": function () {
@@ -104,16 +108,21 @@
 
 	var Character = LW.Menus.Character = new LW.MainMenu({
 		title: "Character Select",
+    tooltip: "Press jump to join. <br> Use spell keys to select spells. <br> Ready up when you have 3 spells.",
     commands: ["back"],
     events: {
     	"back": function () {
     		LW.GlobalSL.playSE('menu-cancel.ogg', 100)
-      	LW.Menus.TopMenu.swapTo({selector: '.main-menu-items'});
+      	LW.Menus.TopMenu.swapTo();
     	}
     },
     quadViews: [],
     executeCommand: function (player) {
     	if (LW.Players.length >= 4) {return;}
+      if (LW.Players.length > 1) {
+        $('.menu-tooltip').addClass('hidden')
+      }
+      LW.GlobalSL.playSE('menu-select.ogg', 100)
       player.wizardGraphic = LW.Sprite.WIZARDS[LW.Players.length];
     	var quad = new LW.QuadView(CategoryView(player));
     	LW.Players.push(player);
@@ -122,6 +131,9 @@
     },
     parentMenu: LW.Menus.TopMenu,
     swapToEvent: function () {
+      if (LW.Players.length > 2) {
+        $('.menu-tooltip').addClass('hidden')
+      }
     	LW.Players.forEach(function (player) {
     		var quad = new LW.QuadView(CategoryView(player));
 	    	$('.main-menu-quads').append(quad.$parentEl);
@@ -132,7 +144,8 @@
       LW.Players.forEach(function (player) {
         player.menuReady = false;
       });
-    }
+    },
+    selector: '.main-menu-items'
   });
 
 })();

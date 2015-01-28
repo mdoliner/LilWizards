@@ -16,27 +16,56 @@
 		LW.CurrentMenu = this;
 
 		this.checkingInputs = setInterval(this.checkInput.bind(this), 1000/60);
-		console.log(options.selector)
-		$(options.selector).empty();
+
+		$(this.selector).empty();
+		$('.menu-tooltip').removeClass("hidden")
 		this.swapToEvent && this.swapToEvent();
-		this.addItems(options.selector);
+		this.addItems();
 	};
 
-	MainMenu.prototype.addItems = function (selector) {
+	MainMenu.prototype.addItems = function (selectorIndex) {
 		$('.menu-title').html(this.title);
+		$('.menu-tooltip').html(this.tooltip);
 		for (var i = 0; this.commands.length > i; i++) {
 			command = this.commands[i];
 			var $li = $('<li>');
 			$li.addClass('menu-item')
 			$li.addClass(command);
-			if (i === 0) {
+			if (i === 0 && !selectorIndex || i === selectorIndex) {
 				$li.addClass('selected');
 			}
 			$li.html(command.makeReadable());
 			$li.data('command', command);
-			$(selector).append($li);
-			$li.on("click", this.events[command].bind(this));
+			if (this.commandTooltips) {
+				var tooltip = this.commandTooltips[command];
+				if (tooltip) {
+					var $tooltip = $("<div class='menu-item-tooltip'>")
+					if (tooltip instanceof Function) {
+						$tooltip.html(tooltip());
+					} else {
+						$tooltip.html(tooltip);
+					}
+					$li.append($tooltip);
+				}
+			}
+
+			$(this.selector).append($li);
+			if (command === "back") {
+				$li.on("click", this.events[command].bind(this));
+			} else {
+				$li.on("click", function () {
+					$('.menu-title').html("&darr; CHECK THE CONTROLS &darr;")
+				})
+			}
 		};
+		if (this.commands.length >= 2) {
+			var $up = $("<div class='bounce-up-arrow'>");
+			var $down = $("<div class='bounce-down-arrow'>");
+			$up.html("&uarr;");
+			$down.html("&darr;");
+			$(this.selector).append($up);
+			$(this.selector).append($down);
+		}
 	};
 
 	MainMenu.prototype.executeCommand = function () {
@@ -46,7 +75,7 @@
 
 	MainMenu.prototype.selectCommand = function (num) {
 		LW.GlobalSL.playSE('menu-move.ogg', 100);
-		var $currentItem = $(".selected");
+		var $currentItem = $(".menu-item.selected");
 		var $menuItems = $(".menu-item")
 		var currentIndex = $menuItems.index($currentItem);
 		$currentItem.removeClass("selected");

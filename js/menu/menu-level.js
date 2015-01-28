@@ -18,17 +18,17 @@
 
 	var Level = LW.Menus.Level = new LW.MainMenu({
     title: "Level Select",
+    tooltip: "Choose a level to begin playing!",
     commands: commands,
     events: events,
     parentMenu: LW.Menus.Character,
+    selector: '.main-menu-items',
     runGame: function () {
       LW.GlobalSL.playSE('menu-select.ogg', 100)
 
       $('.main-menu').addClass("hidden");
 
-      var bgm = document.getElementById("bgm");
-      bgm.src = "audio/BGM/battle.mp3";
-      bgm.volume = 0.2;
+      LW.GlobalSL.playBGM("battle.mp3", 20);
       var fgcanvas = document.getElementById("game-fg-canvas");
       var fgctx = fgcanvas.getContext('2d');
       var bgcanvas = document.getElementById("game-bg-canvas");

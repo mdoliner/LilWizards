@@ -38,6 +38,15 @@
 
     this.img = new Image();
     this.img.src = defaults.img;
+    if (defaults.load) {
+      this.img.onload = function () {
+        if (defaults.game) {
+          defaults.game.drawAll = true;
+        } else if (this.parent) {
+          this.parent.game.drawAll = true;
+        }
+      }.bind(this)
+    }
 
     this.indexX = defaults.indexX;
     this.indexXMax = defaults.indexXMax;
@@ -56,10 +65,10 @@
   };
 
   Sprite.WIZARDS = [
-    "./graphics/baby_wiz_green.png",
+    "./graphics/baby_wiz_cream.png",
     "./graphics/baby_wiz_purple.png",
     "./graphics/baby_wiz_red.png",
-    "./graphics/baby_wiz_blue.png"
+    "./graphics/baby_wiz_green.png"
   ];
 
   Sprite.prototype.animate = function () {

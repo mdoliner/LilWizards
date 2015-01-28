@@ -207,7 +207,7 @@
   var COMPUTER_ACTIONS = ["up", "down", "left", "right", "jump", "spells0", "spells1", "spells2"];
 
   Player.prototype.checkComputerActions = function () {
-    this.actionTimer = this.actionTimer - 1 || Math.random() * 30 + 45;
+    this.actionTimer = this.actionTimer - 1 || Math.floor(Math.random() * 30) + 45;
     var boost = LW.Wizard.BASEBOOST;
     var actionIndex = Math.floor(Math.random() * COMPUTER_ACTIONS.length);
     var wizard = this.wizard;
