@@ -54,7 +54,7 @@
   	return this.wizard = new LW.Wizard({
       pos: options.game.getSpawnPointPos(),
       vel: [0,0],
-      horFacing: "left",
+      horFacing: "right",
       img: this.wizardGraphic,
       imgIndexXMax: 4,
       imgIndexYMax: 6,

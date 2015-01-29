@@ -1,57 +1,34 @@
-TODO LIST
-==============
-Autosizing Canvas
-read: http://www.html5rocks.com/en/tutorials/casestudies/gopherwoord-studios-resizing-html5-games/
+Lil' Wizards
+=====
 
-- sprite refactoring
+A fighting game built with HTML5, CSS, and Javscript.
+The world's wizards have been transformed into their younger selves, and must fight to gain their original forms.
+Play with up to three friends/enemies for maximum fun, or enter the game by yourself to fight sad approximations of your friends.
 
-TOP LEVEL IMPORTANT:
-- Demo mode / Tutorial Mode?
+###Features
 
-IMPORTANT
-- FPS Boosts, DO:
-	- Change Canvas States Less.
-	- Make Pesudo Canvas Elements for Each Important Sprite (ie wizards) for pre-rendering;
-	- Possibly: Never redraw boxes.
-- level zoom
-  - possibly bigger levels
-- Refactor Code:
-  - Remove Prototyping of Native Objects
-  - Array.every is a function!!
-  - Main Menu should have it's own $el
-  - Put Vendored Scripts into its own folder
-- Settings
-- Tooltips
-- Load the assests before the game starts
+-	Utilizes multiple canvases, drawing on each only when necessary to improve framerate.
+-	Uses jQuery to create a multi-layered menu system with full keyboard and controller support.
+-	Handles multiple audio tags to effectively render sound effects and music to the page.
+-	Wields a camera system to change the 2d perspective on the fly.
+- Manages a particle system with intelligent garbage disposal to improve speed.
+-	Creates a coordinate class with multiple vector functions to DRY up code.
+-	Leverages a Spell Superclass that reduces boilerplate on making new spells.
 
-MEDIUM
-- more spells?
-- ForcePush with Static Spell interaction.
-- speed improvement with collisions / check if they are slow.
-- cooldown circles
-- hud in general
-- on leaving window pauses game
-- write readme
-- kill cam joke mode?
+###Requirements
 
-Spells
-=========
-- fireball
-  - splits on solid impact
-- smokebomb
-  - hides players
-- lightning strike
-- tentacle monster portal
-- sword attack
-- teleport (blink)
-- ray cannon
-  - ~2 second delay
-- crystal ball shards
-- force push (music?, torrent of blood)
-  - maybe add hitting a wall too fast kills you
-- werewolf transformation mode? / level of transformations
-- sheep tosser
-- mines
-- growth into death serum
-- kiss of alignment
-  - you get enemy's kills until wears off or death
+-	Chrome is the only current fully supported browser.
+- Or netscape navigator.
+- Keyboard or Gamepads.
+
+###Setup
+
+To play without downloading, go to [www.lilwizards.com](http://www.lilwizards.com/).
+
+Otherwise, to play lag-free download the [zip](https://github.com/mdoliner/LilWizards/archive/master.zip) on the right and open game.html in your browser.
+
+To get controllers setup, download the necessary drivers for your controllers, and simply refresh the game. Tap any button for the browser to recognize your controller.
+
+###Controls
+
+Controls can be found at the bottom of the game page.
