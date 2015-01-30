@@ -1,6 +1,6 @@
 $(document).ready( function () {
   LW.GlobalSL = new LW.SoundLibrary();
-  LW.GlobalSL.playBGM("Dig-It.mp3", 20);
+  LW.GlobalSL.playBGM("Dig-It.mp3");
   LW.AllPlayers = [
     new LW.Player({
       controllerType: "keyboard",

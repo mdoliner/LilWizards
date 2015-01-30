@@ -8,7 +8,7 @@
       pos: this.pos,
       vel: this.spellDirection().times(30).plusAngleDeg(90),
       img: "graphics/spell_sword.png",
-      dim: [25,4],
+      dim: [15,6],
       game: this.game,
       caster: this,
       duration: 20,
@@ -42,8 +42,8 @@
     });
 
     this.game.spells.push(spell);
-    this.globalCooldown = 10;
-    this.cooldownList[spellIndex] = 30;
+    this.globalCooldown = 20;
+    this.cooldownList[spellIndex] = 45;
     return spell;
   }
 

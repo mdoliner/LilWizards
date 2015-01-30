@@ -52,7 +52,7 @@
     this.fps.element.html("");
     var bgm = $('#bgm')
     bgm[0].pause();
-    LW.GlobalSL.playBGM("Dig-It.mp3", 20);
+    LW.GlobalSL.playBGM("Dig-It.mp3");
     for (var i = 0; i < LW.Players.length; i++) {
       if (LW.Players[i].controllerType === "computer") {
         LW.Players.splice(i,1);

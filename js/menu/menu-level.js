@@ -41,7 +41,7 @@
       $('.main-menu').addClass("hidden");
 
       var song = songs[Math.floor(songs.length * Math.random())]
-      LW.GlobalSL.playBGM(song, 20);
+      LW.GlobalSL.playBGM(song);
       var fgcanvas = document.getElementById("game-fg-canvas");
       var fgctx = fgcanvas.getContext('2d');
       var bgcanvas = document.getElementById("game-bg-canvas");

@@ -8,7 +8,7 @@
       pos: this.pos,
       vel: this.horSpellDirection().times(7),
       img: "graphics/spell_updraft.png",
-      dim: [10,10],
+      dim: [15,15],
       game: this.game,
       caster: this,
       duration: 30,
@@ -16,8 +16,8 @@
       sType: "melee",
       sId: "updraft",
       initialize: function () {
-        this.sprite.sizeY = 35;
-        this.sprite.sizeX = 35;
+        this.sprite.sizeY = 52;
+        this.sprite.sizeX = 52;
         this.game.playSE('ice.ogg')
         LW.ParticleSplatter(10, iceyGather.bind(this))
         this.caster.vel.y = 0;
@@ -40,7 +40,7 @@
       }
     });
     this.game.spells.push(spell);
-    this.globalCooldown = 30;
+    this.globalCooldown = 20;
     this.cooldownList[spellIndex] = 90;
     return spell;
   };

@@ -70,8 +70,8 @@
       }
     });
     this.game.spells.push(spell);
-    this.globalCooldown = 30;
-    this.cooldownList[spellIndex] = 180;
+    this.globalCooldown = 20;
+    this.cooldownList[spellIndex] = 120;
     return spell;
   };
 

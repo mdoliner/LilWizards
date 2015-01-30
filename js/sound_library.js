@@ -30,6 +30,7 @@
   };
 
   SoundLibrary.prototype.playBGM = function (src, volume) {
+    volume = volume || 70;
     volume *= this.bgmVol;
     volume /= 100;
     this.$bgm.attr('src',"audio/BGM/" + src);
