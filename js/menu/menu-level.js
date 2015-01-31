@@ -9,11 +9,11 @@
   var events = {};
   var commands = [];
   for (var level in LW.Levels) {
-    events[level] = function (nlevel) {
+    events[level] = Util.args(function (nlevel) {
       this.nlevel = nlevel
       this.selectedLevel = LW.Levels[nlevel];
       this.runGame();
-    }.args(level);
+    }, level);
     commands.push(level);
   }
 

@@ -34,7 +34,7 @@
 			if (i === 0 && !selectorIndex || i === selectorIndex) {
 				$li.addClass('selected');
 			}
-			$li.html(command.makeReadable());
+			$li.html(Util.makeReadable(command));
 			$li.data('command', command);
 			if (this.commandTooltips) {
 				var tooltip = this.commandTooltips[command];

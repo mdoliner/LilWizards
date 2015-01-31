@@ -323,14 +323,15 @@
   }
 
   Wizard.prototype.kill = function (killer) {
+    if (this.isDead()) { return }
     if (killer === this) {
       killer.kills -= 1;
     } else {
       killer.kills += 1;
     }
-    LW.ParticleSplatter(20, deathParticles.bind(this))
+    LW.ParticleSplatter(20, deathParticles.bind(this));
 
-    this.game.camera.startShake({power: 3, direction: 'x', duration: 20})
+    this.game.camera.startShake({power: 3, direction: 'x', duration: 20});
     this.game.playSE('death.ogg');
 
     this.deadTimer = 70 + Math.random() * 80;
@@ -358,17 +359,7 @@
     // }
     // this.spellList = listdup;
 
-    LW.ParticleSplatter(20, function () {
-      var randVel = new LW.Coord([Math.random()*3,Math.random()*3]).plusAngleDeg(Math.random()*360)
-      return {
-        pos: this.pos,
-        vel: randVel,
-        game: this.game,
-        duration: Math.floor(Math.random()*30+30),
-        radius: Math.random()*4+1,
-        color: 'white'
-      };
-    }.bind(this))
+    LW.ParticleSplatter(20, reviveParticles.bind(this))
   };
 
   Wizard.prototype.removeActiveSpells = function () {
@@ -391,6 +382,10 @@
       this.spellList[spellIndex].bind(this)(spellIndex);
     }
   };
+
+  // -----------------------------------------------------------
+  // PARTICLES
+  // -----------------------------------------------------------
 
   var slideParticles = function () {
     var randVel = this.vel.dup().times([-0.2,0]).plusUpAngleDeg(Math.random()*30+15)
@@ -463,6 +458,18 @@
         this.vel.y += 0.05;
         this.radius -= 0.01;
       }
+    };
+  };
+
+  var reviveParticles = function () {
+    var randVel = new LW.Coord([Math.random()*3,Math.random()*3]).plusAngleDeg(Math.random()*360)
+    return {
+      pos: this.pos,
+      vel: randVel,
+      game: this.game,
+      duration: Math.floor(Math.random()*30+30),
+      radius: Math.random()*4+1,
+      color: 'white'
     };
   };
 

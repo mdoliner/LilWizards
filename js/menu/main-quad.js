@@ -40,7 +40,7 @@
 		this.player.spellList.forEach(function (spell, listIndex) {
 			var $spell = $("<li class='player-spell'>");
 			if (spell) {
-				$spell.html(spell.makeReadable());
+				$spell.html(Util.makeReadable(spell));
 			} else {
 				$spell.html("-------");
 			}
@@ -58,7 +58,7 @@
 		this.addItems();
 	};
 
-	QuadView.inherits(LW.MainMenu);
+	Util.inherits(QuadView,LW.MainMenu);
 
 	QuadView.prototype.addItems = function () {
 		for (var i = 0; this.commands.length > i; i++) {
@@ -72,7 +72,7 @@
 			if (i === 0) {
 				$li.addClass('selected');
 			}
-			$li.html(command.makeReadable());
+			$li.html(Util.makeReadable(command));
 			$li.data('command', command);
 			this.$menuItemsList.append($li);
 			// $li.on("click", this.events[command].bind(this));
