@@ -4,10 +4,7 @@
 	}
 
 	var MainMenu = LW.MainMenu = function (options) {
-		for (var attr in options) {
-			this[attr] = options[attr];
-		}
-		// this.extendAttributes(options);
+		Util.extend(this, options);
 		this.initializeEvent && this.initializeEvent();
 	};
 

@@ -21,11 +21,7 @@
       imgSizeX: 100,
       imgSizeY: 100,
     }
-    for (var attrname in options) {
-      if (options[attrname] !== undefined) {
-        defaults[attrname] = options[attrname]; 
-      } 
-    }
+    Util.extend(defaults, options);
 
     this.pos = new LW.Coord(defaults.pos);
     this.vel = new LW.Coord(defaults.vel);

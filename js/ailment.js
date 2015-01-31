@@ -4,9 +4,7 @@
   }
 
   var Ailment = LW.Ailment = function (attr) {
-    for (var attribute in attr) {
-      this[attribute] = attr[attribute];
-    }
+    Util.extend(this, attr);
     this.initialize && this.initialize();
     this.time = this.duration || 120;
   };

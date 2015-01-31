@@ -36,7 +36,7 @@
 	};
 
 	Util.makeReadable = function (str) {
-		return str.capitalizeDashes().spaceCapitalize();
+		return Util.spaceCapitalize(Util.capitalizeDashes(str));
 	};
 
 	// Object Prototyping

@@ -23,11 +23,7 @@
       opacity: 1,
       animationReset: function () {}
     };
-    for (var attrname in options) {
-      if (options[attrname] !== undefined) {
-        defaults[attrname] = options[attrname]; 
-      } 
-    }
+    Util.extend(defaults, options);
 
     this.parent = defaults.parent;
     if (defaults.pos) {
