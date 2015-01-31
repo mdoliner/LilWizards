@@ -103,6 +103,7 @@
       }
     }
     for (var i = 0; i < this.wizards.length; i++) {
+      if (this.wizards[i].isDead()) {continue}
       var newPos = this.camera.relativePos(this.wizards[i].pos)
       fgctx.font = "15px Sans-serif"
       fgctx.strokeStyle = "black";
@@ -154,7 +155,9 @@
   };
 
   Game.prototype.wizardCollisions = function (collBox) {
-    return this.allCollisions(collBox, this.wizards);
+    return this.allCollisions(collBox, this.wizards.filter(function (wizard) {
+      return !wizard.isDead();
+    }));
   };
 
   Game.prototype.allCollisions = function (collBox, objArray) {

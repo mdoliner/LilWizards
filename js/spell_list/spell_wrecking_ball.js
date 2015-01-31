@@ -19,7 +19,7 @@
       dim: [12,12],
       game: this.game,
       caster: this,
-      duration: 60,
+      duration: 90,
       sType: "melee",
       sId: "wreckingBall",
       initialize: function () {
@@ -53,12 +53,20 @@
           }
         }
       },
+      wizardColl: function (wizard) {
+        if (wizard !== this.caster) {
+          this.game.playSE('hard_hit.ogg', 0.5);
+          wizard.kill(this.caster);
+        }
+      },
+      removeEvent: function () {
+        this.caster.cooldownList[spellIndex] = 120;
+      },
       spellColl: null,
       solidColl: null
     });
     this.game.spells.push(spell);
     this.globalCooldown = 30;
-    this.cooldownList[spellIndex] = 120;
     return spell;
   };
 

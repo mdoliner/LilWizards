@@ -12,10 +12,10 @@
       dir.plusRightAngleDeg(20);
       var angleChange = LW.Coord.prototype.plusRightAngleDeg.bind(dir, -10);
     }
-    LW.SpellList.ToxicDartShot.bind(this)(spellIndex, dir.dup());
+    ToxicDartShot.bind(this)(spellIndex, dir.dup());
     var nextDart = function () {
       angleChange();
-      LW.SpellList.ToxicDartShot.bind(this)(spellIndex, dir.dup());
+      ToxicDartShot.bind(this)(spellIndex, dir.dup());
     }.bind(this)
     setTimeout(nextDart, 1000/120*5);
     setTimeout(nextDart, 1000/120*10);
@@ -27,7 +27,7 @@
     return;
   };
 
-  LW.SpellList.ToxicDartShot = function (spellIndex, dir) {
+  var ToxicDartShot = function (spellIndex, dir) {
     var spell = new LW.Spell ({
       pos: this.pos,
       vel: dir.times(5),
@@ -45,11 +45,11 @@
       },
       tickEvent: function () {
         PurpleSit.bind(this)();
-        // this.collBox.angle = this.vel.toAngleDeg();
       },
       wizardColl: function (wizard) {
         if (wizard !== this.caster) {
           this.remove();
+          this.game.playSE('flesh_hit.ogg', 0.5);
           var isKill = false;
           wizard.ailments.forEach(function (ailment) {
             if (ailment.id === "toxicDartEffect") {isKill = true;}
@@ -63,15 +63,14 @@
               tickEvent: PurpleFall,
               id: "toxicDartEffect",
               initialize: function () {
-                this.modAccelX = this.victim.accelXModifier * 0.40;
-                this.victim.accelXModifier -= this.modAccelX;
+                this.modMaxVelX = this.victim.maxVelX * 0.40;
+                this.victim.maxVelX -= this.modMaxVelX;
                 this.modJump = this.victim.jumpModifier * 0.10;
                 this.victim.jumpModifier -= this.modJump;
               },
               removeEvent: function () {
                 this.victim.jumpModifier += this.modJump;
-                this.victim.accelXModifier += this.modAccelX;
-              //   this.victim.kill(this.wizard);
+                this.victim.maxVelX += this.modMaxVelX;
               }
             }))
           }

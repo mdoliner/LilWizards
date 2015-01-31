@@ -335,7 +335,6 @@
     this.game.playSE('death.ogg');
 
     this.deadTimer = 70 + Math.random() * 80;
-    this.pos.setTo(-1000);
 
     this.removeActiveSpells();
     this.removeAilments();
