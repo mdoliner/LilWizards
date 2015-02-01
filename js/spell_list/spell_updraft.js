@@ -59,7 +59,7 @@
 
   var iceyGather = function () {
     var color = ['deepskyblue', 'royalblue', 'dodgerblue'][Math.floor(Math.random()*3)];
-    var offset = [Math.random()*30,0].toCoord().plusAngleDeg(Math.random()*360)
+    var offset = (new LW.Coord([Math.random()*30,0])).plusAngleDeg(Math.random()*360)
     return {
       pos: this.pos.dup().plus(offset),
       vel: offset.toUnitVector().times(-2),
@@ -72,7 +72,7 @@
 
   var iceyExplode = function () {
     var color = ['deepskyblue', 'royalblue', 'dodgerblue'][Math.floor(Math.random()*3)];
-    var offset = [Math.random()*4,0].toCoord().plusAngleDeg(Math.random()*360)
+    var offset = (new LW.Coord([Math.random()*4,0])).plusAngleDeg(Math.random()*360)
     return {
       pos: this.pos,
       vel: offset,

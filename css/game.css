@@ -163,9 +163,9 @@ article.game {
 }
 
 .quad-menu-item {
-	min-width: 100px;
-	padding: 5px;
-	margin-bottom: 10px;
+	min-width: 120px;
+	padding: 5px 2px;
+	margin-bottom: 5px;
 	border-radius: 5px;
 	background: #CC6FF7;
 	border: 2px solid #AF5FD4;
@@ -196,7 +196,7 @@ article.game {
 }
 
 .quad-menu-item.player-spell {
-	margin-bottom: 10px;
+	margin-bottom: 5px;
 }
 
 .quad-menu-item.ready-up.selected {
@@ -216,7 +216,7 @@ article.game {
 .player-spell {
 	position: relative;
 	min-width: 100px;
-	padding: 5px;
+	padding: 5px 2px;
 	border-radius: 5px;
 	background: #E36666;
 	border: 2px solid #A33C46;
@@ -250,7 +250,7 @@ article.game {
 
 .quad-title {
 	position: absolute;
-	top: 0px;
+	top: -5px;
 	text-align: center;
 	left: 50%;
 	transform: translate(-50%,-75%);

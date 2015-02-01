@@ -56,9 +56,10 @@
     "Sword",
     "ToxicDarts",
     "Fireball",
-    "Candy",
+    "EvilCandy",
     "RayCannon",
-    "ForcePush"
+    "ForcePush",
+    "Vomit"
   ];
 
   Spell.prototype.draw = function (ctx, camera) {

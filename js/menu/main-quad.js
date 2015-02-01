@@ -84,6 +84,7 @@
 	};
 
 	QuadView.prototype.close = function () {
+		LW.GlobalSL.playSE('menu-cancel.ogg', 100);
 		LW.Players.splice(LW.Players.indexOf(this.player), 1);
 		this.remove();
 		LW.CurrentMenu.swapTo();

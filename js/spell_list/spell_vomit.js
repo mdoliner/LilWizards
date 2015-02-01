@@ -11,7 +11,7 @@
       dim: [4,4],
       game: this.game,
       caster: this,
-      duration: 75,
+      duration: 90,
       sType: "ray",
       sId: "vomit",
       tickEvent: function () {
@@ -34,7 +34,7 @@
       wizardColl: function (wizard) {
         if (wizard !== this.caster && this.inflicted.indexOf(wizard) < 0) {
           wizard.addAilment(new LW.Ailment({
-            duration: 400,
+            duration: 480,
             victim: wizard,
             wizard: this.caster,
             tickEvent: greenSparks,

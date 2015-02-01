@@ -3,7 +3,7 @@
     window.LW = {};
   }
 
-  LW.SpellList.Candy = function (spellIndex) {
+  LW.SpellList.EvilCandy = function (spellIndex) {
     var spell = new LW.Spell ({
       pos: this.pos,
       vel: [0,0],
@@ -35,7 +35,7 @@
       },
       solidColl: null,
       spellColl: function (spell) {
-        if (spell.sId === "candy" || spell.sId === "forcePush") {return;}
+        if (spell.sId === "candy" || spell.sId === "forcePush" || spell.sId === "teleport") {return;}
         if (spell.sType !== "ray") {
           spell.remove();
         }

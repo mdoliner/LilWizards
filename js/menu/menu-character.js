@@ -10,7 +10,7 @@
   	var $parentEl = $parentEl || $("<li class='menu-quad group'>");
   	return {
   		player: player,
-  		commands: ["ninja-spells", "brawler-spells", "dragon-spells", "ready-up"],
+  		commands: ["ninja-spells", "brawler-spells", "elemental-spells", "eldritch-spells", "ready-up"],
   		$parentEl: $parentEl,
       quadTitle: "",
   		events: {
@@ -32,15 +32,22 @@
   					"WreckingBall"
   				]));
   			},
-  			"dragon-spells": function () {
+  			"elemental-spells": function () {
   				this.remove();
-  				this.childQuad = new LW.QuadView(SpellsView(player, this.$parentEl, "Dragon", [
+  				this.childQuad = new LW.QuadView(SpellsView(player, this.$parentEl, "Elemental", [
   					"Fireball",
   					"RayCannon",
-  					"ForcePush",
-  					"Candy"
+  					"ForcePush"
+  					
   				]));
   			},
+        "eldritch-spells": function () {
+          this.remove();
+          this.childQuad = new LW.QuadView(SpellsView(player, this.$parentEl, "Eldritch", [
+            "Vomit",
+            "EvilCandy"
+          ]));
+        },
   			"ready-up": function () {
   				if (this.player.spellList.indexOf(null) !== -1) {
   					LW.GlobalSL.playSE('fail.ogg', 100)
