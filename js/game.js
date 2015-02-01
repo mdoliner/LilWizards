@@ -155,7 +155,7 @@
   };
 
   Game.prototype.wizardCollisions = function (collBox) {
-    return this.allCollisions(collBox, this.wizards.filter(function (wizard) {
+    return this.allCollisions(collBox, $.grep(this.wizards, function (wizard) {
       return !wizard.isDead();
     }));
   };

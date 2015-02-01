@@ -118,6 +118,29 @@ article.game {
 	margin-bottom: 50px;
 }
 
+.quad-close-button {
+	position: absolute;
+	display: inline-block;
+	background: #556270;
+	border: 5px solid #4a5263;
+	cursor: pointer;
+	color: #aaa;
+	outline: none;
+	left: 0;
+	top: 0;
+	transform: translate(-50%, -50%);
+	border-radius: 5px;
+	font-size: 20px;
+}
+
+.quad-close-button:hover {
+	color: #fff;
+}
+
+.quad-close-button:active {
+	color: #f00;
+}
+
 .player-picture-fig {
 	position: absolute;
 	overflow: hidden;

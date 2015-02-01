@@ -77,6 +77,16 @@
 			this.$menuItemsList.append($li);
 			// $li.on("click", this.events[command].bind(this));
 		};
+		var $closeButton = $("<button class='quad-close-button'>")
+		$closeButton.html("&times;")
+		this.$el.append($closeButton);
+		$closeButton.on("click", this.close.bind(this))
+	};
+
+	QuadView.prototype.close = function () {
+		LW.Players.splice(LW.Players.indexOf(this.player), 1);
+		this.remove();
+		LW.CurrentMenu.swapTo();
 	};
 
 	QuadView.prototype.checkInput = function () {
@@ -90,6 +100,12 @@
 		}
 		if (wizard.actions["down"] === "tap") {
 			this.selectCommand(1);
+		}
+		if (wizard.actions["left"] === "tap") {
+			this.changeGraphic(-1);
+		}
+		if (wizard.actions["right"] === "tap") {
+			this.changeGraphic(1);
 		}
 		if (wizard.actions["spells"][0] === "tap") {
 			this.executeCommand(0);
@@ -130,6 +146,12 @@
 		var $selected = $(this.$menuItemsList.children(".selected")[0]);
 		if (!$selected.data('command')) {return;}
 		this.events[$selected.data('command')].bind(this)(index);
+	};
+
+	QuadView.prototype.changeGraphic = function (dir) {
+		LW.GlobalSL.playSE('menu-select.ogg', 100) 
+		this.player.nextSprite(dir)
+		this.$playerPicture.children("img").attr("src", this.player.wizardGraphic); 
 	};
 
 	QuadView.prototype.remove = function () {

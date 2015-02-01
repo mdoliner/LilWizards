@@ -40,7 +40,7 @@
   	this.controllerType = options.controllerType; // "keyboard" or "gamepad"
   	this.controllerIndex = options.controllerIndex;
   	this.spellList = options.spellList || [null, null, null];
-  	this.wizardGraphic = options.wizardGraphic || "./graphics/baby_wiz_green.png";
+  	this.wizardGraphic = options.wizardGraphic || "./graphics/wiz.png";
   	this.wizard = options.wizard || null;
     if (this.controllerType === "computer") {
       this.heldButtons = {};
@@ -82,6 +82,21 @@
       }
     }
     return spells;
+  };
+
+  Player.prototype.nextSprite = function (dir) {
+    var index = LW.Sprite.WIZARDS.indexOf(this.wizardGraphic);
+    index = (index + dir + LW.Sprite.WIZARDS.length) % LW.Sprite.WIZARDS.length;
+    this.wizardGraphic = null;
+    var spriteTaken = function (graphic) {
+      return LW.Players.some(function (player) {
+        return player.wizardGraphic === graphic;
+      })
+    };
+    while (spriteTaken(LW.Sprite.WIZARDS[index])) {
+      index = (index + dir + LW.Sprite.WIZARDS.length) % LW.Sprite.WIZARDS.length;
+    }
+    return this.wizardGraphic = LW.Sprite.WIZARDS[index];
   };
 
   Player.prototype.checkControllerActions = function () {

@@ -123,7 +123,7 @@
         $('.menu-tooltip').addClass('hidden')
       }
       LW.GlobalSL.playSE('menu-select.ogg', 100)
-      player.wizardGraphic = LW.Sprite.WIZARDS[LW.Players.length];
+      player.nextSprite(1);
     	var quad = new LW.QuadView(CategoryView(player));
     	LW.Players.push(player);
     	$('.main-menu-quads').append(quad.$parentEl);

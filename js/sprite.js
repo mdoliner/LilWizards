@@ -64,7 +64,8 @@
     "./graphics/baby_wiz_cream.png",
     "./graphics/baby_wiz_purple.png",
     "./graphics/baby_wiz_red.png",
-    "./graphics/baby_wiz_green.png"
+    "./graphics/baby_wiz_green.png",
+    "./graphics/baby_wiz_blue.png"
   ];
 
   Sprite.prototype.animate = function () {
