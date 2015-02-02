@@ -92,7 +92,9 @@
       ctx.scale(-1,1)
     }
     ctx.rotate((this.angle - this.baseAngle) * Math.PI/180);
-    ctx.globalAlpha = this.opacity;
+    if (ctx.globalAlpha !== this.opacity) {
+      ctx.globalAlpha = this.opacity;
+    }
     // Perform special rounding for speed boost and pixel clairty
     var sWidth = (this.img.width / this.indexXMax + 0.5) | 0;
     var sHeight = (this.img.height / this.indexYMax + 0.5) | 0;
@@ -109,7 +111,9 @@
       relHeight * 2
       );
     ctx.restore();
-    ctx.globalAlpha = 1;
+    if (ctx.globalAlpha !== 1) {
+      ctx.globalAlpha = 1;
+    }
   };
 
 })();

@@ -16,15 +16,10 @@ IMPORTANT
 - level zoom
   - possibly bigger levels
 - Refactor Code:
-  - Remove Prototyping of Native Objects
   - Array.every is a function!!
   - Main Menu should have it's own $el
-  - Put Vendored Scripts into its own folder
 - Load the assests before the game starts (better?)
-- Take a character off character select.
-- Charater Select with sprite select.
 - Random Spell Select
-- Fix Offscrean victory camera.
 
 MEDIUM
 - more spells?
