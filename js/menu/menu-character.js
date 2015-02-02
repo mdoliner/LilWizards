@@ -45,7 +45,8 @@
           this.remove();
           this.childQuad = new LW.QuadView(SpellsView(player, this.$parentEl, "Eldritch", [
             "Vomit",
-            "EvilCandy"
+            "EvilCandy",
+            "Berserk"
           ]));
         },
   			"ready-up": function () {

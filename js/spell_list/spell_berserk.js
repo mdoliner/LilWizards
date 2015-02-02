@@ -4,64 +4,93 @@
   }
 
   LW.SpellList.Berserk = function (spellIndex) {
-    var spell = new LW.Spell ({
-      pos: this.pos,
-      vel: [0,0],
-      img: "graphics/empty.gif",
-      dim: [0,0],
+    var ailment = new LW.Ailment ({
       game: this.game,
-      caster: this,
+      wizard: this,
+      victim: this,
       sType: "misc",
       sId: "berserk",
+      duration: 360,
       initialize: function () {
         this.game.playSE('teleport.ogg');
-        this.steroidTime = 600;
-        this.pos = this.caster.pos;
         this.colors = ['white', 'gold', 'orange', 'papayawhip', 'orangered'];
-        this.caster.maxVelX = 7;
-        this.caster.nGravity = 0.14;
-        this.caster.jGravity = 0.05;
+        this.victim.maxVelX = 8;
+        this.victim.nGravity = 0.19;
+        this.victim.jGravity = 0.05;
+        LW.ParticleSplatter(40, startParticles.bind(this))
       },
       tickEvent: function () {
-        if (this.caster.isDead()) {
-          this.remove();
-        } else if (this.steroidTime === 0) {
+        if (this.victim.isDead()) {
           this.remove();
         } else {
-          this.caster.globalCooldown -= 2;
-          for (i in this.caster.cooldownList) {
-            this.caster.cooldownList[i] -= 2;
+          this.victim.globalCooldown -= 3;
+          for (i in this.victim.cooldownList) {
+            this.victim.cooldownList[i] -= 3;
           }
-          LW.ParticleSplatter(2, function () {
-            var randVel = (new LW.Coord([1,1])).times(Math.random()).plusAngleDeg(Math.random()*360);
-            return {
-              pos: this.pos.dup().plus(Math.floor(5 - this.steroidTime/120) * .1),
-              vel: randVel,
-              game: this.game,
-              duration: Math.floor(Math.random()*10+5),
-              radius: Math.random()*2+1,
-              color: this.colors[Math.floor(Math.random() * this.colors.length)]
-            };
-          }.bind(this))
-
-          this.steroidTime -= 1;
+          LW.ParticleSplatter(2, tickParticles.bind(this))
         }
       },
       wizardColl: null,
       spellColl: null,
       solidColl: null,
       removeEvent: function () {
-        this.caster.maxVelX = 5;
-        this.caster.nGravity = 0.18;
-        this.caster.jGravity = 0.07;
-        this.caster.globalCooldown = 360;
+        this.victim.maxVelX = 5;
+        this.victim.nGravity = 0.18;
+        this.victim.jGravity = 0.07;
+        this.victim.globalCooldown = 360;
+        this.victim.cooldownList[spellIndex] = 420;
+        var ending = setInterval(function () {
+          LW.ParticleSplatter(2, endParticles.bind(this))
+          if (this.victim.globalCooldown <= 20 || this.victim.isDead()) {
+            clearInterval(ending);
+          }
+        }.bind(this), 1000/60)
       }
     });
 
-    this.game.spells.push(spell);
+    this.addAilment(ailment);
     this.globalCooldown = 0;
-    this.cooldownList[spellIndex] = 180;
-    return spell;
+    this.cooldownList[spellIndex] = 360;
+    return ailment;
   }
+
+  var tickParticles = function () {
+    var randVel = (new LW.Coord(2)).times(Math.random()).plusAngleDeg(Math.random()*360);
+    return {
+      pos: this.victim.pos.dup(),
+      vel: randVel,
+      game: this.game,
+      duration: Math.floor(Math.random()*10+5),
+      radius: Math.random()*2+1,
+      color: this.colors[Math.floor(Math.random() * this.colors.length)]
+    };
+  };
+
+  var startParticles = function () {
+    var randVel = (new LW.Coord(1.2)).plusAngleDeg(Math.random()*360);
+    return {
+      pos: this.victim.pos.dup(),
+      vel: randVel,
+      game: this.game,
+      duration: Math.floor(Math.random()*15+20),
+      radius: Math.random()*3+3,
+      color: this.colors[Math.floor(Math.random() * this.colors.length)]
+    };
+  };
+
+  var endParticles = function () {
+    var randVel = new LW.Coord([0,1]);
+    return {
+      pos: this.victim.pos.dup().plus([Math.random()*24-12, -21 + Math.random() * 10]),
+      vel: randVel,
+      game: this.game,
+      duration: Math.floor(Math.random()*15+20),
+      radius: Math.random()*2+1,
+      color: 'papayawhip',
+      tickEvent: function () {
+        this.vel.y += 0.01
+      }
+    };
+  };
 
 })();

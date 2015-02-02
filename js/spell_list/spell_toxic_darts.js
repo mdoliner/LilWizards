@@ -30,7 +30,7 @@
   var ToxicDartShot = function (spellIndex, dir) {
     var spell = new LW.Spell ({
       pos: this.pos,
-      vel: dir.times(5),
+      vel: dir.times(9),
       img: "graphics/spell_dart.gif",
       dim: [5,5],
       game: this.game,

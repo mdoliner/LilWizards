@@ -122,7 +122,9 @@
     "dodgerblue": [210, 100, 56],
     "whitesmoke": [0, 0, 96],
     "floralwhite": [40, 100, 97],
-    "crimson": [348, 83, 47]
+    "crimson": [348, 83, 47],
+    "papayawhip": [37,16,100],
+    "orangered": [8,100,50]
   }
 
   LW.parseColor = function (color) {

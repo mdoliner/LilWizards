@@ -14,7 +14,7 @@
 
     var spell = new LW.Spell ({
       pos: this.pos,
-      vel: (new LW.Coord([0,-1])).times(64),
+      vel: new LW.Coord(0),
       img: "graphics/spell_wrecking_ball.png",
       dim: [12,12],
       game: this.game,
@@ -26,28 +26,19 @@
         this.sprite.sizeX = 50;
         this.sprite.sizeY = 50;
         this.game.playSE('swing.ogg');
-        if (this.caster.horFacing === "right") {
-          this.angleChange = 3;
-        } else {
-          this.angleChange = -3;
-        }
       },
       tickEvent: function () {
         var action = this.caster.actions.spells[spellIndex];
         if (action === "hold" || action === "tap") {
           if (this.isFired) {
-            this.vel = this.pos.dup().minus(this.caster.pos);
             this.sType = "melee"
             this.isFired = false;
           }
-          this.duration += 1;
+          this.duration = 90;
           LW.ParticleSplatter(5, connection.bind(this));
-          this.pos.setTo(this.caster.pos)
-          this.vel.plusAngleDeg(this.angleChange); 
+          this.vel.plus(this.caster.pos.dup().minus(this.pos).divided(100)).times(0.97); 
         } else {
           if (!this.isFired) {
-            var angularSpd = this.pos.dup().minus(this.caster.pos).toScalar() * (Math.abs(this.angleChange) * Math.PI / 180);
-            this.vel = this.vel.toUnitVector().plusAngleDeg(this.angleChange * 30).times(angularSpd);
             this.isFired = true;
             this.sType = "projectile"
           }
