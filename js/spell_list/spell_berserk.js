@@ -25,6 +25,7 @@
         } else {
           this.victim.globalCooldown -= 4;
           for (i in this.victim.cooldownList) {
+            if (i === spellIndex) {continue;}
             this.victim.cooldownList[i] -= 4;
           }
           LW.ParticleSplatter(2, tickParticles.bind(this))
