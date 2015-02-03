@@ -22,8 +22,8 @@
     setTimeout(nextDart, 1000/120*15);
     setTimeout(nextDart, 1000/120*20);
 
-    this.globalCooldown = 30;
-    this.cooldownList[spellIndex] = 45;
+    this.globalCooldown = 25;
+    this.cooldownList[spellIndex] = 60;
     return;
   };
 
@@ -58,19 +58,19 @@
             wizard.kill(this.caster);
           } else {
             wizard.addAilment(new LW.Ailment({
-              duration: 180,
+              duration: 240,
               victim: wizard,
               tickEvent: PurpleFall,
               id: "toxicDartEffect",
               initialize: function () {
-                this.modMaxVelX = this.victim.maxVelX * 0.40;
-                this.victim.maxVelX -= this.modMaxVelX;
-                this.modJump = this.victim.jumpModifier * 0.10;
-                this.victim.jumpModifier -= this.modJump;
+                this.modMaxVelX = 0.60;
+                this.victim.maxVelX *= this.modMaxVelX;
+                this.modJump = 0.60;
+                this.victim.jumpModifier *= this.modJump;
               },
               removeEvent: function () {
-                this.victim.jumpModifier += this.modJump;
-                this.victim.maxVelX += this.modMaxVelX;
+                this.victim.jumpModifier /= this.modJump;
+                this.victim.maxVelX /= this.modMaxVelX;
               }
             }))
           }

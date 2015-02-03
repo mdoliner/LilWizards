@@ -59,7 +59,9 @@
     "EvilCandy",
     "RayCannon",
     "ForcePush",
-    "Vomit"
+    "Vomit",
+    "DarkRift",
+    "Berserk"
   ];
 
   Spell.prototype.draw = function (ctx, camera) {

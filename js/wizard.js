@@ -298,9 +298,9 @@
   Wizard.prototype.dynamicJump = function () {
     if (this.vel.y < -2) {
       this.gravity.y = this.jGravity;
-      if (this.dynamicJumpTimer > 0) {
-        this.vel.y += Wizard.BASEJUMPBOOST * (this.dynamicJumpTimer / Wizard.BASEJUMPTIME) * this.jumpModifier;
-      }
+    }
+    if (this.dynamicJumpTimer > 0) {
+      this.vel.y += Wizard.BASEJUMPBOOST * (this.dynamicJumpTimer / Wizard.BASEJUMPTIME) * this.jumpModifier;
     }
   };
 
@@ -362,12 +362,14 @@
   };
 
   Wizard.prototype.removeActiveSpells = function () {
+    var removeSpells = []
     for (var i = this.game.spells.length - 1; i >= 0; i--) {
       var spell = this.game.spells[i];
       if (spell.caster === this && "ray melee".indexOf(spell.sType) >= 0) {
-        this.game.spells.splice(i, 1);
+        removeSpells.push(spell);
       }
     };
+    removeSpells.forEach(function(spell) {spell.remove()});
   };
 
   Wizard.prototype.removeAilments = function () {

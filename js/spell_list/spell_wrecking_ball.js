@@ -29,14 +29,17 @@
       },
       tickEvent: function () {
         var action = this.caster.actions.spells[spellIndex];
-        if (action === "hold" || action === "tap") {
+        if (!this.caster.isDead() && (action === "hold" || action === "tap")) {
           if (this.isFired) {
             this.sType = "melee"
             this.isFired = false;
           }
           this.duration = 90;
-          LW.ParticleSplatter(5, connection.bind(this));
-          this.vel.plus(this.caster.pos.dup().minus(this.pos).divided(100)).times(0.97); 
+          LW.ParticleSplatter(4, connection.bind(this));
+          this.vel.plus(this.caster.pos.dup().minus(this.pos).divided(130)).times(0.97);
+          if (this.vel.toScalar() > 18) {
+            this.vel.times(18/this.vel.toScalar());
+          }
         } else {
           if (!this.isFired) {
             this.isFired = true;
@@ -45,7 +48,7 @@
         }
       },
       wizardColl: function (wizard) {
-        if (wizard !== this.caster) {
+        if (wizard !== this.caster && this.vel.toScalar() > 4) {
           this.game.playSE('hard_hit.ogg', 0.5);
           wizard.kill(this.caster);
         }

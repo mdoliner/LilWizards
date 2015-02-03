@@ -10,35 +10,33 @@
       victim: this,
       sType: "misc",
       sId: "berserk",
-      duration: 360,
+      duration: 300,
       initialize: function () {
-        this.game.playSE('teleport.ogg');
+        this.game.playSE('boost.ogg');
         this.colors = ['white', 'gold', 'orange', 'papayawhip', 'orangered'];
-        this.victim.maxVelX = 8;
-        this.victim.nGravity = 0.19;
-        this.victim.jGravity = 0.05;
+        this.victim.maxVelX *= 1.6;
+        this.victim.nGravity *= 1.1;
+        this.victim.jGravity *= 0.5;
         LW.ParticleSplatter(40, startParticles.bind(this))
       },
       tickEvent: function () {
         if (this.victim.isDead()) {
           this.remove();
         } else {
-          this.victim.globalCooldown -= 3;
+          this.victim.globalCooldown -= 4;
           for (i in this.victim.cooldownList) {
-            this.victim.cooldownList[i] -= 3;
+            this.victim.cooldownList[i] -= 4;
           }
           LW.ParticleSplatter(2, tickParticles.bind(this))
         }
       },
-      wizardColl: null,
-      spellColl: null,
-      solidColl: null,
       removeEvent: function () {
-        this.victim.maxVelX = 5;
-        this.victim.nGravity = 0.18;
-        this.victim.jGravity = 0.07;
-        this.victim.globalCooldown = 360;
-        this.victim.cooldownList[spellIndex] = 420;
+        this.victim.maxVelX /= 1.6;
+        this.victim.nGravity /= 1.1;
+        this.victim.jGravity /= 0.5;
+        this.game.playSE('debuff.ogg');
+        this.victim.globalCooldown = 520;
+        this.victim.cooldownList[spellIndex] = 620;
         var ending = setInterval(function () {
           LW.ParticleSplatter(2, endParticles.bind(this))
           if (this.victim.globalCooldown <= 20 || this.victim.isDead()) {

@@ -11,16 +11,16 @@
       dim: [4,4],
       game: this.game,
       caster: this,
-      duration: 90,
+      duration: 120,
       sType: "ray",
       sId: "vomit",
       tickEvent: function () {
         if (this.duration < 30) {
           this.sprite.opacity -= 0.033;
         }
-        this.sprite.sizeX += 1.45;
-        this.sprite.sizeY += 1.15;
-        this.collBox.dim.plus(1);
+        this.sprite.sizeX += 1.30;
+        this.sprite.sizeY += 1.10;
+        this.collBox.dim.plus(0.66);
       },
       initialize: function () {
         this.game.playSE('vomit.ogg');
@@ -39,18 +39,17 @@
             wizard: this.caster,
             tickEvent: greenSparks,
             initialize: function () {
-              this.modAccelX = this.victim.accelXModifier * 0.75;
-              this.victim.accelXModifier -= this.modAccelX;
-              this.modJump = this.victim.jumpModifier * 0.75;
-              this.victim.jumpModifier -= this.modJump;
-              this.modMaxVelX = this.victim.maxVelX * 0.75;
-              this.victim.maxVelX -= this.modMaxVelX;
+              this.modAccelX = 0.25;
+              this.victim.accelXModifier *= this.modAccelX;
+              this.modJump = 0.25;
+              this.victim.jumpModifier *= this.modJump;
+              this.modMaxVelX = 0.25;
+              this.victim.maxVelX *= this.modMaxVelX;
             },
             removeEvent: function () {
-              this.victim.jumpModifier += this.modJump;
-              this.victim.accelXModifier += this.modAccelX;
-              this.victim.maxVelX += this.modMaxVelX;
-            //   this.victim.kill(this.wizard);
+              this.victim.jumpModifier /= this.modJump;
+              this.victim.accelXModifier /= this.modAccelX;
+              this.victim.maxVelX /= this.modMaxVelX;
             }
           }));
           this.inflicted.push(wizard)
@@ -58,7 +57,7 @@
       }
     });
     this.game.spells.push(spell);
-    this.globalCooldown = 30;
+    this.globalCooldown = 20;
     this.cooldownList[spellIndex] = 120;
     return spell;
   };

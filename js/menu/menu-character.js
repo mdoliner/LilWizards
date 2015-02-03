@@ -29,7 +29,8 @@
   					"Crash",
   					"Updraft",
   					"Wave",
-  					"WreckingBall"
+  					"WreckingBall",
+            "MeteorShell"
   				]));
   			},
   			"elemental-spells": function () {
@@ -46,7 +47,8 @@
           this.childQuad = new LW.QuadView(SpellsView(player, this.$parentEl, "Eldritch", [
             "Vomit",
             "EvilCandy",
-            "Berserk"
+            "Berserk",
+            "DarkRift"
           ]));
         },
   			"ready-up": function () {

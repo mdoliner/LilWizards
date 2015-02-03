@@ -20,9 +20,9 @@
         this.sprite.sizeX = 7.27;
         this.sprite.sizeY = 7.27;
         if (this.caster.horFacing === "right") {
-          this.vel.setTo([10,0]);
+          this.vel.setTo([this.caster.maxVelX * 2,0]);
         } else {
-          this.vel.setTo([-10,0]);
+          this.vel.setTo([this.caster.maxVelX * -2,0]);
         }
       },
       tickEvent: function () {
