@@ -61,7 +61,8 @@
       imgSizeX: 7.62,
       imgSizeY: 8,
       spellList: this.makeSpellList(),
-      game: options.game
+      game: options.game,
+      controllerType: this.controllerType
     });
   };
 

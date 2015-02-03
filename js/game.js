@@ -15,10 +15,10 @@
       size: 100 //percent
     });
     this.audio = LW.GlobalSL;
-    this.background = new LW.Sprite({ 
-      pos: [512,288], 
-      img: "./graphics/"+options.background, 
-      background: true, 
+    this.background = new LW.Sprite({
+      pos: [512,288],
+      img: "./graphics/"+options.background,
+      background: true,
       load: true,
       game: this
     })
@@ -109,7 +109,11 @@
       fgctx.strokeStyle = "black";
       fgctx.lineWidth = 3
       fgctx.strokeText(this.wizards[i].kills, newPos.x, newPos.y - 32);
-      fgctx.fillStyle = "white";
+      if (this.wizards[i].controllerType === "computer") {
+        fgctx.fillStyle = "red";
+      } else {
+        fgctx.fillStyle = "white";
+      }
       fgctx.fillText(this.wizards[i].kills, newPos.x, newPos.y - 32);
     }
   };

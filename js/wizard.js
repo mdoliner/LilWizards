@@ -58,6 +58,7 @@
       up: "none",
       down: "none"
     };
+    this.controllerType = options.controllerType;
   };
 
   Wizard.BASEBOOST = 0.3;
@@ -292,7 +293,7 @@
     } else if (dir === "up" || dir === "down") {
       this.verFacing = dir;
     }
-    
+
   };
 
   Wizard.prototype.dynamicJump = function () {
