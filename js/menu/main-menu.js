@@ -1,6 +1,6 @@
 (function () {
 	if (window.LW === undefined) {
-		window.LW = {};	
+		window.LW = {};
 	}
 
 	var MainMenu = LW.MainMenu = function (options) {
@@ -47,13 +47,7 @@
 			}
 
 			$(this.selector).append($li);
-			if (command === "back") {
-				$li.on("click", this.events[command].bind(this));
-			} else {
-				$li.on("click", function () {
-					$('.menu-title').html("&darr; CHECK THE CONTROLS &darr;")
-				})
-			}
+			$li.on("click", this.events[command].bind(this));
 		};
 		if (this.commands.length >= 2) {
 			var $up = $("<div class='bounce-up-arrow'>");
@@ -83,7 +77,7 @@
 	MainMenu.prototype.backCommand = function () {
 		LW.GlobalSL.playSE('menu-cancel.ogg', 100);
 		if (this.parentMenu) {
-			this.parentMenu.swapTo({selector: '.main-menu-items'});	
+			this.parentMenu.swapTo({selector: '.main-menu-items'});
 		}
 	};
 

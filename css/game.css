@@ -318,6 +318,7 @@ article.game {
 	font-size: 32px;
 	border: 5px solid #F06565;
 	box-shadow: 2px 2px 4px #444;
+	cursor: pointer;
 }
 
 .menu-item.back {
@@ -327,7 +328,7 @@ article.game {
 	cursor: pointer;
 }
 
-.menu-item.back:hover {
+.menu-item:hover {
 	transform: scale(1.05);
 }
 

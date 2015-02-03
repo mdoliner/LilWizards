@@ -28,3 +28,65 @@ $(document).ready( function () {
     }
   }, 1000);
 });
+
+
+var songs = [
+  "Castlemania.mp3",
+  "Full-Circle.mp3",
+  "battle.mp3"
+]
+
+var backgrounds = {
+  Library: "bg_bookcase.jpg",
+  Cemetery: "bg-cemetery.png"
+}
+
+LW.runGame = function (selectedLevel, nlevel, isDemo) {
+  LW.GlobalSL.playSE('menu-select.ogg', 100)
+
+  $('.main-menu').addClass("hidden");
+
+  var song = songs[Math.floor(songs.length * Math.random())]
+  LW.GlobalSL.playBGM(song);
+  var fgcanvas = document.getElementById("game-fg-canvas");
+  var fgctx = fgcanvas.getContext('2d');
+  var bgcanvas = document.getElementById("game-bg-canvas");
+  var bgctx = bgcanvas.getContext('2d');
+  var game = new LW.Game({
+    level: selectedLevel,
+    background: backgrounds[nlevel]
+  });
+
+  if (LW.Players.length === 1) {
+    LW.Players.push(new LW.Player({
+      controllerType: "computer",
+      controllerIndex: 0,
+      spellList: LW.Player.randomSpellList(),
+      wizardGraphic: LW.Sprite.WIZARDS[0]
+    }))
+    LW.Players.push(new LW.Player({
+      controllerType: "computer",
+      controllerIndex: 1,
+      spellList: LW.Player.randomSpellList(),
+      wizardGraphic: LW.Sprite.WIZARDS[0]
+    }))
+    LW.Players.push(new LW.Player({
+      controllerType: "computer",
+      controllerIndex: 2,
+      spellList: LW.Player.randomSpellList(),
+      wizardGraphic: LW.Sprite.WIZARDS[0]
+    }))
+    LW.Players.slice(1).forEach(function (player) {
+      player.nextSprite(1);
+    })
+  }
+  for (var i = 0; i < LW.Players.length; i++) {
+    game.wizards.push(LW.Players[i].makeWizard({
+      game: game
+    }));
+  }
+  var gameView = new LW.GameView(bgctx, fgctx, game);
+  gameView.isDemo = isDemo;
+  gameView.startGame();
+  bgm.play();
+};

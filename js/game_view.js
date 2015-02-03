@@ -24,7 +24,7 @@
         }
         return result;
 
-      } 
+      }
     };
     this.updateFPS = 0;
     this.isDrawFrame = true;
@@ -38,8 +38,6 @@
       this.fps.element.html("FPS: "+this.fps.getFPS())
       if (this.game.gameEnded) {
         this.remove();
-        $('.main-menu').removeClass("hidden");
-        LW.Menus.Character.swapTo({selector: '.main-menu-items'});
       }
     }.bind(this)
     this.gameInterval = setInterval(gameStep, 1000/120);
@@ -58,6 +56,12 @@
         LW.Players.splice(i,1);
         i--;
       }
+    }
+    $('.main-menu').removeClass("hidden");
+    if (this.isDemo) {
+      LW.Menus.TopMenu.swapTo();
+    } else {
+      LW.Menus.Character.swapTo();
     }
   };
 
