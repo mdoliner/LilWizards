@@ -3,7 +3,7 @@
     window.LW = {};
   }
 
-  LW.SpellList.MeteorShell = function (spellIndex) {
+  LW.SpellList.MeteorShield = function (spellIndex) {
     var spell = new LW.Spell ({
       pos: this.pos,
       vel: [0,0],
@@ -13,7 +13,7 @@
       caster: this,
       duration: 360,
       sType: "melee",
-      sId: "meteorShell",
+      sId: "meteorShield",
       initialize: function () {
         this.sprite.sizeY = 66;
         this.sprite.sizeX = 66;

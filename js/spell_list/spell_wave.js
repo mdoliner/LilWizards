@@ -49,8 +49,8 @@
       solidColl: null,
     });
     this.game.spells.push(spell);
-    this.globalCooldown = 30;
-    this.cooldownList[spellIndex] = 120;
+    this.globalCooldown = 10;
+    this.cooldownList[spellIndex] = 115;
     return spell;
   };
 

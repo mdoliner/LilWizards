@@ -30,7 +30,7 @@
   					"Updraft",
   					"Wave",
   					"WreckingBall",
-            "MeteorShell"
+            "MeteorShield"
   				]));
   			},
   			"elemental-spells": function () {
@@ -38,8 +38,8 @@
   				this.childQuad = new LW.QuadView(SpellsView(player, this.$parentEl, "Elemental", [
   					"Fireball",
   					"RayCannon",
-  					"ForcePush"
-  					
+  					"ForcePush",
+            "NaturesWrath"	
   				]));
   			},
         "eldritch-spells": function () {
