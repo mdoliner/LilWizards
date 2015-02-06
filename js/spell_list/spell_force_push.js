@@ -11,7 +11,7 @@
       dim: [8,8],
       game: this.game,
       caster: this,
-      duration: 30,
+      duration: 40,
       sType: "ray",
       sId: "forcePush",
       tickEvent: function () {

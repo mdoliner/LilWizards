@@ -11,7 +11,7 @@
       dim: [15,15],
       game: this.game,
       caster: this,
-      duration: 249,
+      duration: 199,
       sType: "static",
       sId: "darkRift",
       initialize: function () {
@@ -35,7 +35,7 @@
           var pulse = function (obj) {
             var dist = this.pos.dup().minus(obj.pos);
             var distance = dist.toScalar();
-            if (distance > 150) { return; }
+            if (distance > 200) { return; }
             distance = Math.max(distance, 60);
             obj.vel.plus(dist.divided(Math.pow(distance / 20, 1.6)))
           }.bind(this)
@@ -57,13 +57,13 @@
     });
     this.game.spells.push(spell);
     this.globalCooldown = 30;
-    this.cooldownList[spellIndex] = 100;
+    this.cooldownList[spellIndex] = 150;
     return spell;
   };
 
 
   var pulseParticles = function () {
-    var offset = (new LW.Coord([150,0])).plusAngleDeg(Math.random()*360);
+    var offset = (new LW.Coord([200,0])).plusAngleDeg(Math.random()*360);
     var myPos = this.pos
     return {
       pos: this.pos.dup().plus(offset),

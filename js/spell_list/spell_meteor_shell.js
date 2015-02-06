@@ -11,7 +11,7 @@
       dim: [30,30],
       game: this.game,
       caster: this,
-      duration: 120,
+      duration: 360,
       sType: "melee",
       sId: "meteorShell",
       initialize: function () {
@@ -45,7 +45,7 @@
           spell.vel.times(-1);
           this.game.playSE('metal_ping.ogg');
           spell.remove();
-        } else if (spell.sType === "projectile") {
+        } else {
           spell.remove();
         }
       },

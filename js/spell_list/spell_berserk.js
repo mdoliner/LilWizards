@@ -23,10 +23,10 @@
         if (this.victim.isDead()) {
           this.remove();
         } else {
-          this.victim.globalCooldown -= 4;
-          for (i in this.victim.cooldownList) {
+          this.victim.globalCooldown -= 3;
+          for (var i = 0; i < this.victim.cooldownList.length; i++) {
             if (i === spellIndex) {continue;}
-            this.victim.cooldownList[i] -= 4;
+            this.victim.cooldownList[i] -= 3;
           }
           LW.ParticleSplatter(2, tickParticles.bind(this))
         }
@@ -36,8 +36,8 @@
         this.victim.nGravity /= 1.1;
         this.victim.jGravity /= 0.5;
         this.game.playSE('debuff.ogg');
-        this.victim.globalCooldown = 520;
-        this.victim.cooldownList[spellIndex] = 620;
+        this.victim.globalCooldown = 560;
+        this.victim.cooldownList[spellIndex] = 660;
         var ending = setInterval(function () {
           LW.ParticleSplatter(2, endParticles.bind(this))
           if (this.victim.globalCooldown <= 20 || this.victim.isDead()) {

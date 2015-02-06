@@ -8,7 +8,13 @@ read: http://www.html5rocks.com/en/tutorials/casestudies/gopherwoord-studios-res
 TOP LEVEL IMPORTANT:
 - Demo mode / Tutorial Mode?
 
+Spell:
+- Dark Rift: Too much control
+- Force Push: Too weak
+- Meteor Shell: Too weak
+
 IMPORTANT
+- Fix Settings with mouse use.
 - FPS Boosts, DO:
 	- Change Canvas States Less.
 	- Make Pesudo Canvas Elements for Each Important Sprite (ie wizards) for pre-rendering;

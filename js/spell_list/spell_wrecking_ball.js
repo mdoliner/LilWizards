@@ -49,7 +49,7 @@
       },
       wizardColl: function (wizard) {
         if (wizard !== this.caster && this.vel.toScalar() > 4) {
-          this.game.playSE('hard_hit.ogg', 0.5);
+          this.game.playSE('hard_hit.ogg', 0.8);
           wizard.kill(this.caster);
         }
       },
