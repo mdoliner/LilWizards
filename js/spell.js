@@ -9,6 +9,7 @@
       wizardColl: function (wizard) {
         if (wizard !== this.caster) {
           wizard.kill(this.caster);
+          this.game.playSE('hit.ogg', 90);
         }
       },
       spellColl: function () {},

@@ -8,6 +8,7 @@
     this.tiles = [];
     this.spawnPoints = [];
     this.spells = [];
+    this.spellRemoveQueue = [];
     this.parseLevel(options.level);
     this.particles = new LW.ParticleLibrary;
     this.camera = new LW.Camera({
@@ -33,19 +34,15 @@
     if (this.camera.move.time <= 0){
       // this.adjustCamera();
     }
-
     this.isOver();
-
     this.camera.step();
-
-    // LW.ParticleSplatter(1, ParticleTest.bind(this));
-
     for (var i = 0; i < this.wizards.length; i++) {
       this.wizards[i].step();
     };
     for (var i = 0; i < this.spells.length; i++) {
       this.spells[i].move();
     };
+    this.emptyRemoveQueue();
     this.particles.move();
   };
 
@@ -120,11 +117,7 @@
 
   Game.prototype.remove = function (obj) {
     if (obj instanceof LW.Spell) {
-      var index = this.spells.indexOf(obj);
-      if (index < 0) {
-        return;
-      }
-      this.spells.splice(index, 1);
+      this.spellRemoveQueue.push(obj);
     } else if (obj instanceof LW.Particle) {
       var index = this.particles.indexOf(obj);
       if (index < 0) {
@@ -132,6 +125,19 @@
       }
       this.particles.spliceOne(index);
     }
+  };
+
+  Game.prototype.emptyRemoveQueue = function () {
+    for (var i = 0; i < this.spellRemoveQueue.length; i++) {
+      var spell = this.spellRemoveQueue[i];
+      var index = this.spells.indexOf(spell);
+      
+      if (index < 0) {
+        continue;
+      }
+      this.spells.splice(index, 1);
+    }
+    this.spellRemoveQueue = [];
   };
 
   Game.prototype.solidObjects = function () {

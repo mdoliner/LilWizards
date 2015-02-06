@@ -348,7 +348,8 @@ article.game {
 	font-size: 20px;
 }
 
-.menu-item.selected .menu-item-tooltip {
+.menu-item.selected .menu-item-tooltip,
+.menu-item:hover .menu-item-tooltip {
 	display: block;
 }
 

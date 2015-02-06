@@ -32,6 +32,8 @@
         if (action === "release" || action === "none") {
           this.remove();
         }
+        this.caster.globalCooldown = 20;
+        this.caster.cooldownList[spellIndex] = 30;
       },
       spellColl: function (spell) {
         if (spell.caster === this.caster) {return};

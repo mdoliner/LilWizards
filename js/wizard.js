@@ -297,7 +297,7 @@
   };
 
   Wizard.prototype.dynamicJump = function () {
-    if (this.vel.y < -2) {
+    if (this.vel.y < -2 || this.dynamicJumpTimer > 0) {
       this.gravity.y = this.jGravity;
     }
     if (this.dynamicJumpTimer > 0) {

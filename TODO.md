@@ -6,12 +6,14 @@ read: http://www.html5rocks.com/en/tutorials/casestudies/gopherwoord-studios-res
 - sprite refactoring
 
 TOP LEVEL IMPORTANT:
-- Demo mode / Tutorial Mode?
+- Node.js
 
 Spell:
-- Dark Rift: Too much control
-- Force Push: Too weak
-- Meteor Shell: Too weak
+- Meteor Shell too Stronk.
+- Wave too weak.
+- Sword too weak?
+- Updraft above.
+- NEW SPELLS??
 
 IMPORTANT
 - Fix Settings with mouse use.
@@ -36,6 +38,7 @@ MEDIUM
 - on leaving window pauses game
 - write readme
 - kill cam joke mode?
+- Fix splicing and indexing of Spell Removal.
 
 Spells
 =========
