@@ -6,7 +6,7 @@
   LW.SpellList.Updraft = function (spellIndex) {
     var spell = new LW.Spell ({
       pos: this.pos,
-      vel: this.horSpellDirection().times(7),
+      vel: this.horSpellDirection().times(15),
       img: "graphics/spell_updraft.png",
       dim: [15,15],
       game: this.game,
@@ -25,7 +25,7 @@
       },
       tickEvent: function () {
         this.vel.plusUpAngleDeg(10)
-        this.caster.vel.plus(this.vel.dup().divided(10))
+        this.caster.vel.plus(this.vel.dup().divided(20))
         if (this.caster.vel.toScalar() > 14) {
           this.caster.vel.times(14/this.caster.vel.toScalar());
         }

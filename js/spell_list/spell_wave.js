@@ -9,7 +9,7 @@
       vel: [0,0],
       img: "graphics/spell_wave.png",
       imgBaseAngle: 270,
-      dim: [15,5],
+      dim: [20,5],
       game: this.game,
       caster: this,
       duration: 60,
@@ -17,12 +17,12 @@
       sId: "wave",
       initialize: function () {
         this.game.playSE('wave.ogg')
-        this.sprite.sizeX = 7.27;
+        this.sprite.sizeX = 9.27;
         this.sprite.sizeY = 7.27;
         if (this.caster.horFacing === "right") {
-          this.vel.setTo([this.caster.maxVelX * 2,0]);
+          this.vel.setTo([11,0]);
         } else {
-          this.vel.setTo([this.caster.maxVelX * -2,0]);
+          this.vel.setTo([-11,0]);
         }
       },
       tickEvent: function () {

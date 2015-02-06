@@ -6,9 +6,9 @@
   LW.SpellList.Sword = function (spellIndex) {
     var spell = new LW.Spell ({
       pos: this.pos,
-      vel: this.spellDirection().times(30).plusAngleDeg(90),
+      vel: this.spellDirection().times(30).plusAngleDeg(60),
       img: "graphics/spell_sword.png",
-      dim: [15,6],
+      dim: [17,6],
       game: this.game,
       caster: this,
       duration: 20,
@@ -22,7 +22,7 @@
       tickEvent: function () {
         this.pos.x = this.caster.pos.x;
         this.pos.y = this.caster.pos.y;
-        this.vel.plusAngleDeg(-9);
+        this.vel.plusAngleDeg(-6);
         // this.collBox.dim.setTo(this.vel).max(5);
         this.collBox.angle = this.vel.toAngleDeg();
       },
