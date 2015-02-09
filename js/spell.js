@@ -22,29 +22,20 @@
       imgSizeX: 100,
       imgSizeY: 100,
     }
-    Util.extend(defaults, options);
+    Util.extend(this, defaults, options);
 
-    this.pos = new LW.Coord(defaults.pos);
-    this.vel = new LW.Coord(defaults.vel);
+    this.pos = new LW.Coord(this.pos);
+    this.vel = new LW.Coord(this.vel);
+    this.collBox = new LW.CollBox(this, this.dim);
     this.sprite = new LW.Sprite({
       parent: this,
-      img: defaults.img,
-      baseAngle: defaults.imgBaseAngle,
-      sizeX: defaults.imgSizeX,
-      sizeY: defaults.imgSizeY
+      img: this.img,
+      baseAngle: this.imgBaseAngle,
+      sizeX: this.imgSizeX,
+      sizeY: this.imgSizeY
     });
-    this.collBox = new LW.CollBox(this, defaults.dim)
-    this.caster = defaults.caster;
-    this.game = defaults.game;
-    this.tickEvent = defaults.tickEvent;
-    this.wizardColl = defaults.wizardColl;
-    this.solidColl = defaults.solidColl;
-    this.spellColl = defaults.spellColl;
-    this.removeEvent = defaults.removeEvent.bind(this);
-    this.duration = defaults.duration;
-    this.sType = defaults.sType;
-    this.sId = defaults.sId;
-    defaults.initialize && defaults.initialize.bind(this)();
+
+    this.try(this.initialize);
   };
 
   Spell.TOTAL_SPELL_NAMES = [
