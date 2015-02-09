@@ -1,0 +1,30 @@
+{
+  "name": "LilWizards",
+  "version": "1.0.0",
+  "description": "Its a lifestyle.",
+  "main": "index.js",
+  "dependencies": {
+    "socket.io": "1.0.x",
+    "mime": "~1.2.7",
+    "node-static": "^0.7.4"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jussch/LilWizards.git"
+  },
+  "keywords": [
+    "Lil",
+    "Wizards",
+    "Fighting",
+    "Owls"
+  ],
+  "author": "Michael Doliner and Justin Schultz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jussch/LilWizards/issues"
+  },
+  "homepage": "https://github.com/jussch/LilWizards"
+}
