@@ -42,6 +42,7 @@
   	this.spellList = options.spellList || [null, null, null];
   	this.wizardGraphic = options.wizardGraphic || "./graphics/wiz.png";
   	this.wizard = options.wizard || null;
+    this.pollFromOnline = false;
     if (this.controllerType === "computer") {
       this.heldButtons = {};
       for (var i = 0; i < COMPUTER_ACTIONS.length; i++) {

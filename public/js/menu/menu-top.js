@@ -9,7 +9,7 @@
 	var TopMenu = LW.Menus.TopMenu = new LW.MainMenu({
     title: "Lil' Wizards",
     tooltip: "Welcome to Lil' Wizards! <br> The controls are at the bottom.",
-    commands: ["demo-mode", "local-game", "settings"],
+    commands: ["demo-mode", "local-game", "online-game", "settings"],
     events: {
 			"demo-mode": function () {
 				var player = LW.AllPlayers[0];
@@ -23,6 +23,9 @@
         LW.GlobalSL.playSE('menu-select.ogg', 100)
         LW.Menus.Character.swapTo({selector: '.main-menu-items'});
       },
+			"online-game": function () {
+				LW.EstablishConnection();
+			},
       "settings": function () {
       	LW.GlobalSL.playSE('menu-select.ogg', 100)
       	LW.Menus.Settings.swapTo({selector: '.main-menu-items'});
