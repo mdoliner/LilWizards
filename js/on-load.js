@@ -1,4 +1,6 @@
 $(document).ready( function () {
+  mixinEverything();
+
   LW.GlobalSL = new LW.SoundLibrary();
   LW.GlobalSL.playBGM("Dig-It.mp3");
   LW.AllPlayers = [
@@ -29,6 +31,14 @@ $(document).ready( function () {
   }, 1000);
 });
 
+var mixinEverything = function () {
+  for (var attr in LW) {
+    var fn = LW[attr];
+    if (fn instanceof Function) {
+      Util.include(fn, Mixin);
+    }
+  }
+};
 
 var songs = [
   "Castlemania.mp3",

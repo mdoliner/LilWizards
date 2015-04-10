@@ -25,7 +25,7 @@
         this.sprite.opacity = 0.5;
       },
       tickEvent: function () {
-        this.caster.pos.plus([0,0.02]);
+        this.caster.vel.plus([0,0.28]);
         this.pos.setTo(this.caster.pos);
         this.vel.setTo(0);
         this.sprite.baseAngle += 1;

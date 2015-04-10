@@ -3,61 +3,47 @@
     window.LW = {};
   }
 
-  var Sprite = LW.Sprite = function (options) {
-    var defaults = {
-      parent: null,
-      pos: null,
-      img: "",
-      indexX: 0,
-      indexXMax: 1,
-      indexY: 0,
-      indexYMax: 1,
-      tickCount: 0,
-      buffer: 10,
-      mirror: false,
-      angle: 0,
-      baseAngle: 0,
-      sizeX: 100, //percent
-      sizeY: 100, //percent
-      background: false,
-      opacity: 1,
-      animationReset: function () {}
-    };
-    Util.extend(defaults, options);
+  var defaults = {
+    parent: null,
+    pos: null,
+    img: "",
+    indexX: 0,
+    indexXMax: 1,
+    indexY: 0,
+    indexYMax: 1,
+    tickCount: 0,
+    buffer: 10,
+    mirror: false,
+    angle: 0,
+    baseAngle: 0,
+    sizeX: 100, //percent
+    sizeY: 100, //percent
+    background: false,
+    opacity: 1,
+    animationReset: function () {}
+  };
 
-    this.parent = defaults.parent;
-    if (defaults.pos) {
-      this.pos = new LW.Coord(defaults.pos)
+  var Sprite = LW.Sprite = function (options) {
+    var item;
+    Util.extend(this, item = Util.clone(defaults), options);
+
+    if (this.pos) {
+      this.pos = new LW.Coord(this.pos)
     } else {
       this.pos = this.parent.pos;
-    } 
+    }
 
     this.img = new Image();
-    this.img.src = defaults.img;
-    if (defaults.load) {
+    this.img.src = item.img;
+    if (this.load) {
       this.img.onload = function () {
-        if (defaults.game) {
-          defaults.game.drawAll = true;
+        if (this.game) {
+          this.game.drawAll = true;
         } else if (this.parent) {
           this.parent.game.drawAll = true;
         }
       }.bind(this)
     }
-
-    this.indexX = defaults.indexX;
-    this.indexXMax = defaults.indexXMax;
-    this.indexY = defaults.indexY;
-    this.indexYMax = defaults.indexYMax;
-    this.tickCount = defaults.tickCount;
-    this.buffer = defaults.buffer;
-    this.mirror = defaults.mirror;
-    this.angle = defaults.angle;
-    this.baseAngle = defaults.baseAngle;
-    this.sizeX = defaults.sizeX; //percent
-    this.sizeY = defaults.sizeY; //percent
-    this.background = defaults.background;
-    this.opacity = defaults.opacity;
-    this.animationReset = defaults.animationReset;
   };
 
   Sprite.WIZARDS = [
