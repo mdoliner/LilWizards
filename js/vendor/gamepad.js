@@ -137,11 +137,14 @@ var Gamepad = (function(self) {
       if (self.gamepads[pad] && (BUTTONS[buttonId] >= 0)) {
         var buttonIndex = BUTTONS[buttonId];
         if (buttonIndex === 4 || buttonIndex === 5) {
-          return self.gamepads[pad].buttons[buttonIndex] > self.SHOULDER0_BUTTON_THRESHOLD;
+          // return self.gamepads[pad].buttons[buttonIndex].value > self.SHOULDER0_BUTTON_THRESHOLD;
+          return self.gamepads[pad].buttons[buttonIndex].pressed;
         } else if (buttonIndex === 6 || buttonIndex === 7) {
-          return self.gamepads[pad].buttons[buttonIndex] > self.SHOULDER1_BUTTON_THRESHOLD;
+          // return self.gamepads[pad].buttons[buttonIndex].value > self.SHOULDER1_BUTTON_THRESHOLD;
+          return self.gamepads[pad].buttons[buttonIndex].pressed;
         } else {
-          return self.gamepads[pad].buttons[buttonIndex] > 0.5;
+          // return self.gamepads[pad].buttons[buttonIndex] > 0.5;
+          return self.gamepads[pad].buttons[buttonIndex].pressed;
         }
       } else {
         return false;
