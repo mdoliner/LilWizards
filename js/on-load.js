@@ -1,4 +1,6 @@
-$(document).ready( function () {
+window.$ = window.jQuery = require('./js/vendor/jquery-2.1.3.js');
+
+$(function () {
   mixinEverything();
 
   LW.GlobalSL = new LW.SoundLibrary();
