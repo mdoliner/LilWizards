@@ -1,5 +1,8 @@
 {
   "name"    : "lil-wizards",
   "version" : "0.1.0",
-  "main"    : "main.js"
+  "main"    : "main.js",
+  "dependencies": {
+    "electron": "~0.4.0"
+  }
 }

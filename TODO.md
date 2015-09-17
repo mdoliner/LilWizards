@@ -1,5 +1,11 @@
 TODO LIST
 ==============
+Refactoring:
+	-	Convert Most Arrays to Hashes as Hash[ID] = object. (? Is this Faster ?)
+		-	This removes indexOf and splicing, two loops that are constantly iterated for.
+	- Clean up Classes, add proper inheritance splicing.
+		-	Make LW.SpellLists into Classes, so that functions are prototypal vs generated.
+
 Autosizing Canvas
 read: http://www.html5rocks.com/en/tutorials/casestudies/gopherwoord-studios-resizing-html5-games/
 

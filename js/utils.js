@@ -22,6 +22,26 @@
 		}
 	};
 
+	Util.fnExtend = function(protoProps, staticProps) {
+		var parent = this;
+		var child;
+
+		if (protoProps.constructor) {
+			child = protoProps.constructor;
+		} else {
+			child = function() { parent.apply(this, arguments); }
+		}
+
+		var Surrogate = function() {};
+		Surrogate.prototype = parent.prototype;
+		child.prototype = new Surrogate();
+
+		// extend static props here.
+		
+		child.__parent__ = parent;
+		return child;
+	};		
+
 	// Array Prototyping
 
 	// String Prototyping
