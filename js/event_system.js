@@ -10,7 +10,7 @@
 
     var ESInit = function (obj) {
         obj._events = obj._events || {};
-    }
+    };
 
     EventSystem.on = function (event, callback) {
         this._events = this._events || {};
