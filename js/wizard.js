@@ -279,6 +279,20 @@
     }
   };
 
+  Wizard.prototype.moveX = function(val) {
+    var diff = val - this.vel.x;
+    var maxAccelX = this.maxVelX / 6;
+    if (!this.onGround) {
+      maxAccelX *= 0.4;
+    }
+
+    if (Math.abs(diff) > maxAccelX) {
+      diff *= maxAccelX / Math.abs(diff);
+    }
+
+    this.vel.x += diff;
+  };
+
   Wizard.prototype.faceDir = function (dir) {
     if (dir === "left") {
       this.sprite.mirror = true;
