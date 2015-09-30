@@ -29,7 +29,7 @@
         LW.GlobalSL.playSE('menu-select.ogg', 100);
         var index = WinKillsSelection.indexOf(LW.Settings.WinKills);
         LW.Settings.WinKills = WinKillsSelection[(index + 1) % WinKillsSelection.length];
-        setSettings()
+        setSettings();
 
         $(this.selector).empty();
         this.addItems(0);
@@ -78,6 +78,6 @@
     },
     selector: '.main-menu-items',
     parentMenu: LW.Menus.TopMenu,
-  })
+  });
 
 })();
