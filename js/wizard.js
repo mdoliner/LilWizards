@@ -8,7 +8,7 @@
     this.vel = new LW.Coord(options.vel);
     this.horFacing = options.horFacing;
     this.verFacing = null;
-    this.maxVelX = 5;
+    this.maxVelX = Wizard.BASEBOOST;
     this.nGravity = 0.18;
     this.jGravity = 0.09;
     this.terminalVel = 7;
@@ -61,7 +61,9 @@
     this.controllerType = options.controllerType;
   };
 
-  Wizard.BASEBOOST = 0.3;
+  //Wizard.BASEBOOST = 0.3;
+  Wizard.ACCELTIME = 6;
+  Wizard.BASEBOOST = 4;
   Wizard.BASEJUMP = -3;
   Wizard.BASEJUMPBOOST = -0.3;
   Wizard.BASEJUMPTIME = 20;
@@ -258,7 +260,7 @@
     LW.ParticleSplatter(5, jumpOffWallGen.bind(this, offset))
   };
 
-  Wizard.prototype.accelX = function (val) {
+  Wizard.prototype.accelXDeprecated = function (val) {
     val *= this.accelXModifier;
     if (!this.onGround) {
       val *= Wizard.AIRCONTROL;
@@ -279,15 +281,18 @@
     }
   };
 
-  Wizard.prototype.moveX = function(val) {
-    var diff = val - this.vel.x;
-    var maxAccelX = this.maxVelX / 6;
+  Wizard.prototype.accelX = function(val) {
+    var diff = val * this.accelXModifier - this.vel.x;
+    var maxAccelX = this.maxVelX / Wizard.ACCELTIME;
     if (!this.onGround) {
-      maxAccelX *= 0.4;
+      maxAccelX *= Wizard.AIRCONTROL;
     }
 
     if (Math.abs(diff) > maxAccelX) {
       diff *= maxAccelX / Math.abs(diff);
+      if (this.onGround) {
+        LW.ParticleSplatter(1, slideParticles.bind(this));
+      }
     }
 
     this.vel.x += diff;

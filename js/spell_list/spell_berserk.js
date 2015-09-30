@@ -3,6 +3,11 @@
     window.LW = {};
   }
 
+  var MAX_VEL_X_CHANGE = 1.6;
+  var ACCEL_X_CHANGE = 1.6;
+  var N_GRAVITY_CHANGE = 1.1;
+  var J_GRAVITY_CHANGE = 0.5;
+
   LW.SpellList.Berserk = function (spellIndex) {
     var ailment = new LW.Ailment ({
       game: this.game,
@@ -14,9 +19,10 @@
       initialize: function () {
         this.game.playSE('boost.ogg');
         this.colors = ['white', 'gold', 'orange', 'papayawhip', 'orangered'];
-        this.victim.maxVelX *= 1.6;
-        this.victim.nGravity *= 1.1;
-        this.victim.jGravity *= 0.5;
+        this.victim.maxVelX *= MAX_VEL_X_CHANGE;
+        this.victim.accelXModifier *= ACCEL_X_CHANGE;
+        this.victim.nGravity *= N_GRAVITY_CHANGE;
+        this.victim.jGravity *= J_GRAVITY_CHANGE;
         LW.ParticleSplatter(40, startParticles.bind(this))
       },
       tickEvent: function () {
@@ -32,9 +38,10 @@
         }
       },
       removeEvent: function () {
-        this.victim.maxVelX /= 1.6;
-        this.victim.nGravity /= 1.1;
-        this.victim.jGravity /= 0.5;
+        this.victim.maxVelX /= MAX_VEL_X_CHANGE;
+        this.victim.accelXModifier /= ACCEL_X_CHANGE;
+        this.victim.nGravity /= N_GRAVITY_CHANGE;
+        this.victim.jGravity /= J_GRAVITY_CHANGE;
         this.game.playSE('debuff.ogg');
         this.victim.globalCooldown = 560;
         this.victim.cooldownList[spellIndex] = 660;

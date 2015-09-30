@@ -180,22 +180,22 @@
   };
 
   Player.prototype.checkKeyboardActions = function () {
-    //var boost = LW.Wizard.BASEBOOST;
-    var boost = 5;
+    var boost = LW.Wizard.BASEBOOST;
+    //var boost = 5;
     var wizard = this.wizard;
     var buttons = LW.KeyboardControlScheme[this.controllerIndex];
     if (key.isPressed(buttons["left"])) {
     	wizard.actions["left"] = this.cyclePress(wizard.actions["left"]);
-      //wizard.accelX(-boost);
-      wizard.moveX(-boost);
+      wizard.accelX(-boost);
+      //wizard.moveX(-boost);
       wizard.faceDir("left");
     } else {
     	wizard.actions["left"] = this.cycleRelease(wizard.actions["left"]);
     }
     if (key.isPressed(buttons['right'])) {
     	wizard.actions["right"] = this.cyclePress(wizard.actions["right"]);
-      //wizard.accelX(boost);
-      wizard.moveX(boost);
+      wizard.accelX(boost);
+      //wizard.moveX(boost);
       wizard.faceDir("right");
     } else {
     	wizard.actions["right"] = this.cycleRelease(wizard.actions["right"]);
