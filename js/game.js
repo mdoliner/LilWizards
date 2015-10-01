@@ -1,9 +1,9 @@
-(function () {
+(function() {
   if (window.LW === undefined) {
     window.LW = {};
   }
 
-  var Game = LW.Game = function (options) {
+  var Game = LW.Game = function(options) {
     this.wizards = [];
     this.tiles = [];
     this.spawnPoints = [];
@@ -13,16 +13,16 @@
     this.particles = new LW.ParticleLibrary;
     this.camera = new LW.Camera({
       pos: [512,288],
-      size: 100 //percent
+      size: 100,
     });
     this.audio = LW.GlobalSL;
     this.background = new LW.Sprite({
       pos: [512,288],
-      img: "./graphics/"+options.background,
+      img: './graphics/' + options.background,
       background: true,
       load: true,
-      game: this
-    })
+      game: this,
+    });
     this.drawAll = true;
   };
 
@@ -30,55 +30,63 @@
   Game.DIMY = 576;
   Game.MAX_ZOOM = 125;
 
-  Game.prototype.step = function () {
-    if (this.camera.move.time <= 0){
-      // this.adjustCamera();
+  Game.prototype.step = function() {
+    if (false && this.camera.move.time <= 0) {
+      this.adjustCamera();
     }
+
     this.isOver();
     this.camera.step();
-    for (var i = 0; i < this.wizards.length; i++) {
+    var i;
+    for (i = 0; i < this.wizards.length; i++) {
       this.wizards[i].step();
-    };
-    for (var i = 0; i < this.spells.length; i++) {
+    }
+
+    for (i = 0; i < this.spells.length; i++) {
       this.spells[i].move();
-    };
+    }
+
     this.emptyRemoveQueue();
     this.particles.move();
   };
 
-  Game.prototype.playSE = function (src, volume) {
+  Game.prototype.playSE = function(src, volume) {
     volume = volume || 0.8;
     this.audio.playSE(src, volume);
   };
 
-
-  Game.prototype.adjustCamera = function () {
+  Game.prototype.adjustCamera = function() {
     var arrX = [];
     var arrY = [];
-    this.wizards.forEach(function (wizard) {
+    this.wizards.forEach(function(wizard) {
       arrX.push(wizard.pos.x);
       arrY.push(wizard.pos.y);
-    }.bind(this))
-    var arrX = arrX.sort((function(a,b){return a - b}));
-    var arrY = arrY.sort((function(a,b){return a - b}));
+    }.bind(this));
+
+    arrX = arrX.sort((function(a,b) {return a - b; }));
+
+    arrY = arrY.sort((function(a,b) {return a - b; }));
+
     var avgX = (arrX[0] + arrX[arrX.length - 1]) / 2;
     var avgY = (arrY[0] + arrY[arrY.length - 1]) / 2;
-    var magX = Game.DIMX/(Math.abs(avgX - arrX[arrX.length - 1]) * 3) * 100;
-    var magY = Game.DIMY/(Math.abs(avgY - arrY[arrY.length - 1]) * 3) * 100;
+    var magX = Game.DIMX / (Math.abs(avgX - arrX[arrX.length - 1]) * 3) * 100;
+    var magY = Game.DIMY / (Math.abs(avgY - arrY[arrY.length - 1]) * 3) * 100;
     var mag = Math.min(magX, magY, Game.MAX_ZOOM);
     this.camera.moveTo({
       endPos: [avgX, avgY],
       endSize: mag,
-      moveType: "linear",
-      duration: 20
+      moveType: 'linear',
+      duration: 20,
     });
-  }
+  };
 
-  Game.prototype.draw = function (fgctx, bgctx) {
-    var allObjects = this.allObjects();
+  Game.prototype.draw = function(fgctx, bgctx) {
+    //var allObjects = this.allObjects();
     var fgObjects = this.fgObjects();
-    fgctx.clearRect(0,0,1024,576);
-    for (var i = 0; i < fgObjects.length; i++ ) {
+    var i;
+
+    fgctx.clearRect(0, 0, 1024, 576);
+    for (i = 0; i < fgObjects.length; i++) {
       fgObjects[i].draw(fgctx, this.camera);
 
       // COLLISION BOX DEBUG CODE:
@@ -88,34 +96,38 @@
       //   allObjects[i].collBox.draw(ctx, this.camera, "red")
       // }
     }
-    this.particles.draw(fgctx, this.camera)
+
+    this.particles.draw(fgctx, this.camera);
     if (this.camera.hasMoved || this.drawAll) {
       var bgObjects = this.bgObjects();
       this.camera.hasMoved = false;
       this.drawAll = false;
-      bgctx.clearRect(0,0,1024,576);
+      bgctx.clearRect(0, 0, 1024, 576);
       this.background.draw(bgctx, this.camera);
-      for (var i = 0; i < bgObjects.length; i++ ) {
+      for (i = 0; i < bgObjects.length; i++) {
         bgObjects[i].draw(bgctx, this.camera);
       }
     }
-    for (var i = 0; i < this.wizards.length; i++) {
-      if (this.wizards[i].isDead()) {continue}
-      var newPos = this.camera.relativePos(this.wizards[i].pos)
-      fgctx.font = "15px Sans-serif"
-      fgctx.strokeStyle = "black";
-      fgctx.lineWidth = 3
+
+    for (i = 0; i < this.wizards.length; i++) {
+      if (this.wizards[i].isDead()) continue;
+
+      var newPos = this.camera.relativePos(this.wizards[i].pos);
+      fgctx.font = '15px Sans-serif';
+      fgctx.strokeStyle = 'black';
+      fgctx.lineWidth = 3;
       fgctx.strokeText(this.wizards[i].kills, newPos.x, newPos.y - 32);
-      if (this.wizards[i].controllerType === "computer") {
-        fgctx.fillStyle = "red";
+      if (this.wizards[i].controllerType === 'computer') {
+        fgctx.fillStyle = 'red';
       } else {
-        fgctx.fillStyle = "white";
+        fgctx.fillStyle = 'white';
       }
+
       fgctx.fillText(this.wizards[i].kills, newPos.x, newPos.y - 32);
     }
   };
 
-  Game.prototype.remove = function (obj) {
+  Game.prototype.remove = function(obj) {
     if (obj instanceof LW.Spell) {
       this.spellRemoveQueue.push(obj);
     } else if (obj instanceof LW.Particle) {
@@ -123,62 +135,67 @@
       if (index < 0) {
         return;
       }
+
       this.particles.spliceOne(index);
     }
   };
 
-  Game.prototype.emptyRemoveQueue = function () {
+  Game.prototype.emptyRemoveQueue = function() {
     for (var i = 0; i < this.spellRemoveQueue.length; i++) {
       var spell = this.spellRemoveQueue[i];
       var index = this.spells.indexOf(spell);
-      
+
       if (index < 0) {
         continue;
       }
+
       this.spells.splice(index, 1);
     }
+
     this.spellRemoveQueue = [];
   };
 
-  Game.prototype.solidObjects = function () {
+  Game.prototype.solidObjects = function() {
     return this.tiles;
   };
 
-  Game.prototype.allObjects = function () {
+  Game.prototype.allObjects = function() {
     return this.tiles.concat(this.spawnPoints).concat(this.wizards).concat(this.spells);
   };
 
-  Game.prototype.fgObjects = function () {
+  Game.prototype.fgObjects = function() {
     return this.wizards.concat(this.spells).concat(this.particles);
   };
 
-  Game.prototype.bgObjects = function () {
+  Game.prototype.bgObjects = function() {
     return this.tiles.concat(this.spawnPoints);
   };
 
-  Game.prototype.solidCollisions = function (collBox) {
+  Game.prototype.solidCollisions = function(collBox) {
     return this.allCollisions(collBox, this.solidObjects());
   };
 
-  Game.prototype.spellCollisions = function (collBox) {
+  Game.prototype.spellCollisions = function(collBox) {
     return this.allCollisions(collBox, this.spells);
   };
 
-  Game.prototype.wizardCollisions = function (collBox) {
-    return this.allCollisions(collBox, $.grep(this.wizards, function (wizard) {
+  Game.prototype.wizardCollisions = function(collBox) {
+    return this.allCollisions(collBox, $.grep(this.wizards, function(wizard) {
       return !wizard.isDead();
     }));
   };
 
-  Game.prototype.allCollisions = function (collBox, objArray) {
+  Game.prototype.allCollisions = function(collBox, objArray) {
     var collisions = [];
     for (var i = 0; i < objArray.length; i++) {
       if (collBox === objArray[i].collBox) {continue;}
+
       var collision = collBox.collision(objArray[i]);
       if (collision !== false) {
         collisions.push(collision);
       }
     }
+
     if (collisions.length === 0) {
       return false;
     } else {
@@ -186,117 +203,126 @@
     }
   };
 
-  Game.prototype.parseLevel = function (level) {
-    for (var yIndex = 0; yIndex < Game.DIMY / 32; yIndex++ ) {
+  Game.prototype.parseLevel = function(level) {
+    for (var yIndex = 0; yIndex < Game.DIMY / 32; yIndex++) {
       for (var xIndex = 0; xIndex < Game.DIMX / 32; xIndex++) {
-        if (level[yIndex][xIndex] === "right") {
+        if (level[yIndex][xIndex] === 'right') {
           var newX = xIndex + 1;
-          while (level[yIndex][newX] !== "rightEnd") {
+          while (level[yIndex][newX] !== 'rightEnd') {
             newX += 1;
           }
+
           this.tiles.push(new LW.Tile({
             pos: [16 + (xIndex + newX) * 16, 16 + yIndex * 32],
             dim: [(newX - xIndex) * 16 + 16, 16],
-            img: "./graphics/box_hard_stone.png",
-            sizeXFactor: 6.25/2,
-            sizeYFactor: 6.25/2,
-            load: true
+            img: './graphics/box_hard_stone.png',
+            sizeXFactor: 6.25 / 2,
+            sizeYFactor: 6.25 / 2,
+            load: true,
           }));
         }
-        if (level[yIndex][xIndex] === "down") {
+
+        if (level[yIndex][xIndex] === 'down') {
           var newY = yIndex + 1;
-          while (level[newY][xIndex] !== "downEnd") {
+          while (level[newY][xIndex] !== 'downEnd') {
             newY += 1;
           }
+
           this.tiles.push(new LW.Tile({
             pos: [16 + xIndex * 32, 16 + (yIndex + newY) * 16],
             dim: [16, (newY - yIndex) * 16 + 16],
-            img: "./graphics/box_hard_stone.png",
-            sizeXFactor: 6.25/2,
-            sizeYFactor: 6.25/2,
-            load: true
+            img: './graphics/box_hard_stone.png',
+            sizeXFactor: 6.25 / 2,
+            sizeYFactor: 6.25 / 2,
+            load: true,
           }));
         }
+
         if (level[yIndex][xIndex] === 1) {
           this.tiles.push(new LW.Tile({
             pos: [16 + xIndex * 32, 16 + yIndex * 32],
-            img: "./graphics/box_hard_stone.png",
-            sizeXFactor: 6.25/2,
-            sizeYFactor: 6.25/2,
-            load: true
+            img: './graphics/box_hard_stone.png',
+            sizeXFactor: 6.25 / 2,
+            sizeYFactor: 6.25 / 2,
+            load: true,
           }));
         }
+
         if (level[yIndex][xIndex] === 2) {
           this.spawnPoints.push(new LW.Tile({
             pos: [16 + xIndex * 32, 16 + yIndex * 32],
-            img: "./graphics/spawn_point.png",
-            load: true
+            img: './graphics/spawn_point.png',
+            load: true,
           }));
         }
       }
     }
   };
 
-  Game.prototype.getSpawnPointPos = function (wizard) {
-    var randomSpawn = this.spawnPoints[Math.floor(Math.random()*this.spawnPoints.length)];
-    var collisions = this.wizardCollisions(randomSpawn.collBox)
-    while (collisions && collisions.indexOf(wizard) < 0 ) {
-      randomSpawn = this.spawnPoints[Math.floor(Math.random()*this.spawnPoints.length)];
-      collisions = this.wizardCollisions(randomSpawn.collBox)
+  Game.prototype.getSpawnPointPos = function(wizard) {
+    var randomSpawn = this.spawnPoints[Math.floor(Math.random() * this.spawnPoints.length)];
+    var collisions = this.wizardCollisions(randomSpawn.collBox);
+    while (collisions && collisions.indexOf(wizard) < 0) {
+      randomSpawn = this.spawnPoints[Math.floor(Math.random() * this.spawnPoints.length)];
+      collisions = this.wizardCollisions(randomSpawn.collBox);
     }
+
     return randomSpawn.pos;
   };
 
-  Game.prototype.isOver = function () {
+  Game.prototype.isOver = function() {
     if (this.gameEnding) {return;}
+
     for (var i = 0; i < this.wizards.length; i++) {
       if (this.wizards[i].kills >= LW.Settings.WinKills) {
         this.endGame(this.wizards[i]);
         return true;
       }
     }
+
     return false;
   };
 
-  Game.prototype.endGame = function (winner) {
+  Game.prototype.endGame = function(winner) {
     this.gameEnding = true;
     this.playSE('applause.ogg', 100);
     $('#bgm').animate({volume: 0}, 4000);
-    var victoryFollow = setInterval(function () {
+    var victoryFollow = setInterval(function() {
+      var duration;
       if (this.camera.size <= 380) {
-        var duration = 60;
+        duration = 60;
       } else {
-        var duration = 30;
+        duration = 30;
       }
+
       this.camera.moveTo({
         endPos: winner.pos,
         endSize: 400,
-        moveType: "linear",
-        duration: duration
+        moveType: 'linear',
+        duration: duration,
       })
-    }.bind(this), 1000/60);
+    }.bind(this), 1000 / 60);
     setTimeout(function() {
       this.gameEnded = true;
       clearInterval(victoryFollow);
     }.bind(this), 5000);
   };
 
-
-  var ParticleTest = function () {
-    var randVel = new LW.Coord([Math.random()/4, 0]).plusAngleDeg(Math.random()*360)
+  var ParticleTest = function() {
+    var randVel = new LW.Coord([Math.random() / 4, 0]).plusAngleDeg(Math.random() * 360);
     return {
       pos: [512,256],
       vel: randVel,
       game: this,
       duration: 1800,
-      radius: Math.random()*5+15,
+      radius: Math.random() * 5 + 15,
       color: 'red',
       drawType: 'square',
       radialSize: 0.05,
       radialColor: 'white',
-      tickEvent: function () {
+      tickEvent: function() {
         this.color.hue += 3;
-      }
+      },
     };
   };
 

@@ -1,92 +1,96 @@
-(function () {
+(function() {
 
-	window.Util = {};
-	window.Mixin = {};
+  window.Util = {};
+  window.Mixin = {};
 
-	// Function Functions
+  // Function Functions
 
-	Util.inherits = function(child, parent) {
-		Util.extend(child.prototype, Object.create(parent.prototype));
-	};
+  Util.inherits = function(child, parent) {
+    Util.extend(child.prototype, Object.create(parent.prototype));
+  };
 
-	Util.include = function(child, parent) {
-		Util.extend(child.prototype, Object.create(parent));
-	}
+  Util.include = function(child, parent) {
+    Util.extend(child.prototype, Object.create(parent));
+  };
 
-	Util.args = function (fn) {
-		var slice = Array.prototype.slice;
-		var bindArgs = slice.call(arguments, 1);
-		return function () {
-			var callArgs = slice.call(arguments);
-			return fn.apply(this, bindArgs.concat(callArgs));
-		}
-	};
+  Util.args = function(fn) {
+    var slice = Array.prototype.slice;
+    var bindArgs = slice.call(arguments, 1);
+    return function() {
+      var callArgs = slice.call(arguments);
+      return fn.apply(this, bindArgs.concat(callArgs));
+    };
+  };
 
-	Util.fnExtend = function(protoProps, staticProps) {
-		var parent = this;
-		var child;
+  Util.fnExtend = function(protoProps, staticProps) {
+    var parent = this;
+    var child;
 
-		if (protoProps.constructor) {
-			child = protoProps.constructor;
-		} else {
-			child = function() { parent.apply(this, arguments); }
-		}
+    if (protoProps.constructor) {
+      child = protoProps.constructor;
+    } else {
+      child = function() { parent.apply(this, arguments); };
+    }
 
-		var Surrogate = function() {};
-		Surrogate.prototype = parent.prototype;
-		child.prototype = new Surrogate();
+    var Surrogate = function() {};
 
-		// extend static props here.
-		
-		child.__parent__ = parent;
-		return child;
-	};		
+    Surrogate.prototype = parent.prototype;
+    child.prototype = new Surrogate();
 
-	// Array Prototyping
+    // extend static props here.
 
-	// String Prototyping
+    child.__parent__ = parent;
+    return child;
+  };
 
-	Util.capitalizeDashes = function (str) {
-		var words = str.split("-");
-		return words.map(function (el) {
-			return el.charAt(0).toUpperCase() + el.slice(1);
-		}).join(" ")
-	};
+  // Array Prototyping
 
-	Util.spaceCapitalize = function (str) {
-		var str2 = str.replace(/([a-z])([A-Z])/g, '$1 $2');
-		return str2;
-	};
+  // String Prototyping
 
-	Util.makeReadable = function (str) {
-		return Util.spaceCapitalize(Util.capitalizeDashes(str));
-	};
+  Util.capitalizeDashes = function(str) {
+    var words = str.split('-');
+    return words.map(function(el) {
+      return el.charAt(0).toUpperCase() + el.slice(1);
+    }).join(' ');
+  };
 
-	// Object Prototyping
+  Util.spaceCapitalize = function(str) {
+    var str2 = str.replace(/([a-z])([A-Z])/g, '$1 $2');
+    return str2;
+  };
 
-	Util.extend = function (thisObj, otherObj) {
-		var args = [].slice.call(arguments);
-		if (args.length > 2) {
-			Util.extend.apply(this, args.slice(1));
-		}
-		for (var attr in otherObj) {
-			thisObj[attr] = otherObj[attr];
-		}
-		return thisObj;
-	};
+  Util.makeReadable = function(str) {
+    return Util.spaceCapitalize(Util.capitalizeDashes(str));
+  };
 
-	Util.clone = function (obj) {
-		return Util.extend(obj.constructor(), obj);
-	};
+  // Object Prototyping
 
-	// Mixin Functions
+  Util.extend = function(thisObj, otherObj) {
+    var args = [].slice.call(arguments);
+    if (args.length > 2) {
+      Util.extend.apply(this, args.slice(1));
+    }
 
-	Mixin.try = function (fn) {
-		if (fn instanceof Function) {
-			return fn.bind(this)();
-		} else {
-			return fn;
-		}
-	};
+    for (var attr in otherObj) {
+      if (!otherObj.hasOwnProperty(attr)) continue;
+      thisObj[attr] = otherObj[attr];
+    }
+
+    return thisObj;
+  };
+
+  Util.clone = function(obj) {
+    return Util.extend(obj.constructor(), obj);
+  };
+
+  // Mixin Functions
+
+  Mixin.try = function(fn) {
+    if (fn instanceof Function) {
+      return fn.bind(this)();
+    } else {
+      return fn;
+    }
+  };
 
 })();

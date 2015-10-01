@@ -1,4 +1,4 @@
-(function () {
+(function() {
   if (window.LW === undefined) {
     window.LW = {};
   }
@@ -6,7 +6,7 @@
   var defaults = {
     parent: null,
     pos: null,
-    img: "",
+    img: '',
     indexX: 0,
     indexXMax: 1,
     indexY: 0,
@@ -20,15 +20,15 @@
     sizeY: 100, //percent
     background: false,
     opacity: 1,
-    animationReset: function () {}
+    animationReset: function() {},
   };
 
-  var Sprite = LW.Sprite = function (options) {
+  var Sprite = LW.Sprite = function(options) {
     var item;
     Util.extend(this, item = Util.clone(defaults), options);
 
     if (this.pos) {
-      this.pos = new LW.Coord(this.pos)
+      this.pos = new LW.Coord(this.pos);
     } else {
       this.pos = this.parent.pos;
     }
@@ -36,25 +36,25 @@
     this.img = new Image();
     this.img.src = item.img;
     if (this.load) {
-      this.img.onload = function () {
+      this.img.onload = function() {
         if (this.game) {
           this.game.drawAll = true;
         } else if (this.parent) {
           this.parent.game.drawAll = true;
         }
-      }.bind(this)
+      }.bind(this);
     }
   };
 
   Sprite.WIZARDS = [
-    "./graphics/baby_wiz_cream.png",
-    "./graphics/baby_wiz_purple.png",
-    "./graphics/baby_wiz_red.png",
-    "./graphics/baby_wiz_green.png",
-    "./graphics/baby_wiz_blue.png"
+    './graphics/baby_wiz_cream.png',
+    './graphics/baby_wiz_purple.png',
+    './graphics/baby_wiz_red.png',
+    './graphics/baby_wiz_green.png',
+    './graphics/baby_wiz_blue.png',
   ];
 
-  Sprite.prototype.animate = function () {
+  Sprite.prototype.animate = function() {
     this.tickCount += 1;
     if (this.tickCount > this.buffer) {
       this.tickCount = 0;
@@ -66,21 +66,24 @@
     }
   };
 
-  Sprite.prototype.draw = function (ctx, camera) {
+  Sprite.prototype.draw = function(ctx, camera) {
     ctx.save();
     var drawPos = camera.relativePos(this.pos);
     if (this.background) {
       drawPos.minus(this.pos).divided(2).plus(this.pos);
     }
+
     drawPos.drawRound();
     ctx.translate(drawPos.x, drawPos.y);
     if (this.mirror) {
-      ctx.scale(-1,1)
+      ctx.scale(-1, 1);
     }
-    ctx.rotate((this.angle - this.baseAngle) * Math.PI/180);
+
+    ctx.rotate((this.angle - this.baseAngle) * Math.PI / 180);
     if (ctx.globalAlpha !== this.opacity) {
       ctx.globalAlpha = this.opacity;
     }
+
     // Perform special rounding for speed boost and pixel clairty
     var sWidth = (this.img.width / this.indexXMax + 0.5) | 0;
     var sHeight = (this.img.height / this.indexYMax + 0.5) | 0;
