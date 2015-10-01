@@ -10,7 +10,7 @@
   };
 
   Util.include = function(child, parent) {
-    Util.extend(child.prototype, Object.create(parent));
+    Util.extend(child.prototype, parent);
   };
 
   Util.args = function(fn) {
