@@ -3,6 +3,6 @@
     window.LW = {};
   }
 
-  var SpellList = LW.SpellList = {};
+  LW.SpellList = {};
 
 })();
