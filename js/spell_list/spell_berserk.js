@@ -8,7 +8,7 @@
   var N_GRAVITY_CHANGE = 1.1;
   var J_GRAVITY_CHANGE = 0.5;
 
-  var BerserkAilment = LW.Ailment.Berserk = LW.Ailment.extend({
+  var BerserkAilment = LW.Ailment.extend({
     sType: 'misc',
     sId: 'berserk',
     duration: 300,

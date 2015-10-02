@@ -4,14 +4,14 @@
   }
 
   var defaults = {
-    duration: -1,
-    imgBaseAngle: 0,
-    imgSizeX: 100,
-    imgSizeY: 100,
+    //duration: -1,
+    //imgBaseAngle: 0,
+    //imgSizeX: 100,
+    //imgSizeY: 100,
   };
 
   var Spell = LW.Spell = function(options) {
-    _.defaults(options, defaults);
+    //_.defaults(options, defaults);
     Util.extend(this, options);
 
     this.pos = new LW.Coord(this.pos);
@@ -28,7 +28,12 @@
     this.try(this.initialize);
   };
 
-  Spell.extend = Util.extend;
+  Spell.extend = Util.fnExtend;
+
+  Spell.prototype.imgSizeX = 100;
+  Spell.prototype.imgSizeY = 100;
+  Spell.prototype.imgBaseAngle = 0;
+  Spell.prototype.duration = -1;
 
   Spell.TOTAL_SPELL_NAMES = [
     'Crash',
