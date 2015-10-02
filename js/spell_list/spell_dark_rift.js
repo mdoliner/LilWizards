@@ -4,7 +4,6 @@
   }
 
   var DarkRiftSpell = LW.Spell.extend({
-
     img: 'graphics/spell_dark_rift.png',
     dim: [15,15],
     duration: 199,
