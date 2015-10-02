@@ -38,7 +38,7 @@
         this.vel.times(0);
         this.remove();
         var funct = function() {
-          LW.ParticleSplatter(3, TeleportParticleLine.bind(this));
+          LW.ParticleSplatter(3, TeleportParticleLine.bind(this, times));
           if (times <= 0) {
             this.caster.pos.setTo(this.pos);
             this.game.playSE('light.ogg');
@@ -74,7 +74,7 @@
     return spell;
   };
 
-  var TeleportParticleLine = function() {
+  var TeleportParticleLine = function(times) {
     var length = this.caster.pos.dup().minus(this.pos).times(times / 10).plus(this.pos);
     var offset = this.caster.pos.dup().minus(this.pos).toUnitVector().times(-4.5).plusAngleDeg(Math.random() * 120 - 60);
     var randPos = this.pos.randomBetweenLine(length).plus(offset);

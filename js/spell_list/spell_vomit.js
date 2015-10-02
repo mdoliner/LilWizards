@@ -3,68 +3,77 @@
     window.LW = {};
   }
 
+  var VomitSpell = LW.Spell.extend({
+    img: 'graphics/spell_vomit.png',
+    dim: [4,4],
+    duration: 120,
+    sType: 'ray',
+    sId: 'vomit',
+    tickEvent: function() {
+      if (this.duration < 30) {
+        this.sprite.opacity -= 0.033;
+      }
+
+      this.sprite.sizeX += 1.30;
+      this.sprite.sizeY += 1.10;
+      this.collBox.dim.plus(0.66);
+    },
+
+    initialize: function() {
+      this.game.playSE('vomit.ogg');
+      this.inflicted = [];
+      this.sprite.sizeX = 5.8;
+      this.sprite.sizeY = 4.6;
+      spraySparks.bind(this)();
+    },
+
+    spellColl: null,
+    solidColl: null,
+    wizardColl: function(wizard) {
+      if (wizard !== this.caster && this.inflicted.indexOf(wizard) < 0) {
+        wizard.addAilment(new VomitAilment({
+          victim: wizard,
+          wizard: this.caster,
+        }));
+        this.inflicted.push(wizard);
+      }
+    },
+  });
+
   LW.SpellList.Vomit = function(spellIndex) {
-    var spell = new LW.Spell({
+    var spell = new VomitSpell({
       pos: this.pos,
       vel: this.spellDirection().times(1),
-      img: 'graphics/spell_vomit.png',
-      dim: [4,4],
       game: this.game,
       caster: this,
-      duration: 120,
-      sType: 'ray',
-      sId: 'vomit',
-      tickEvent: function() {
-        if (this.duration < 30) {
-          this.sprite.opacity -= 0.033;
-        }
-
-        this.sprite.sizeX += 1.30;
-        this.sprite.sizeY += 1.10;
-        this.collBox.dim.plus(0.66);
-      },
-
-      initialize: function() {
-        this.game.playSE('vomit.ogg');
-        this.inflicted = [];
-        this.sprite.sizeX = 5.8;
-        this.sprite.sizeY = 4.6;
-        spraySparks.bind(this)();
-      },
-
-      spellColl: null,
-      solidColl: null,
-      wizardColl: function(wizard) {
-        if (wizard !== this.caster && this.inflicted.indexOf(wizard) < 0) {
-          wizard.addAilment(new LW.Ailment({
-            duration: 480,
-            victim: wizard,
-            wizard: this.caster,
-            tickEvent: greenSparks,
-            initialize: function() {
-              this.modAccelX = 0.25;
-              this.victim.accelXModifier *= this.modAccelX;
-              this.modJump = 0.25;
-              this.victim.jumpModifier *= this.modJump;
-              this.modMaxVelX = 0.25;
-              this.victim.maxVelX *= this.modMaxVelX;
-            },
-
-            removeEvent: function() {
-              this.victim.jumpModifier /= this.modJump;
-              this.victim.accelXModifier /= this.modAccelX;
-              this.victim.maxVelX /= this.modMaxVelX;
-            },
-          }));
-          this.inflicted.push(wizard);
-        }
-      },
     });
     this.game.spells.push(spell);
     this.globalCooldown = 20;
     this.cooldownList[spellIndex] = 120;
     return spell;
   };
+
+  var VomitAilment = LW.Ailment.extend({
+    duration: 480,
+    tickEvent: function () {
+      greenSparks.call(this);
+    },
+
+    initialize: function() {
+      this.modAccelX = 0.25;
+      this.victim.accelXModifier *= this.modAccelX;
+      this.modJump = 0.25;
+      this.victim.jumpModifier *= this.modJump;
+      this.modMaxVelX = 0.25;
+      this.victim.maxVelX *= this.modMaxVelX;
+    },
+
+    removeEvent: function() {
+      this.victim.jumpModifier /= this.modJump;
+      this.victim.accelXModifier /= this.modAccelX;
+      this.victim.maxVelX /= this.modMaxVelX;
+    },
+  });
 
   var greenSparks = function() {
     LW.ParticleSplatter(2, function() {
