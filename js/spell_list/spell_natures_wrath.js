@@ -3,66 +3,70 @@
     window.LW = {};
   }
 
+  var NaturesWrathSpell = LW.Spell.extend({
+    img: 'graphics/spell_natures_wrath.png',
+    dim: [7.5,7.5],
+    imgBaseAngle: -45,
+    sType: 'static',
+    sId: 'naturesWrath',
+    initialize: function() {
+      this.game.playSE('swing2.ogg');
+      this.hit = function() {
+        this.duration = 120;
+        LW.ParticleSplatter(15, plantHit.bind(this));
+        this.vel.divided(1000000);
+        this.game.playSE('bullet.ogg');
+      };
+    },
+
+    tickEvent: function() {
+      if (this.victim) {
+        if (this.victim.isDead()) {
+          this.remove();
+        }
+
+        this.pos.setTo(this.victim.pos);
+      } else if (this.solidColl) {
+        this.vel.plus([0,0.11]);
+      }
+    },
+
+    wizardColl: function(wizard) {
+      if (this.victim || this.caster === wizard) return;
+
+      this.victim = wizard;
+      this.solidColl = null;
+      this.hit.bind(this)();
+    },
+
+    solidColl: function() {
+      this.pos.minus(this.vel);
+      this.solidColl = null;
+      this.wizardColl = null;
+      this.hit.bind(this)();
+    },
+
+    removeEvent: function() {
+      if (this.victim) {
+        this.victim.kill(this.caster);
+      }
+
+      var dir = new LW.Coord([1,0]);
+      this.game.playSE('fire2.ogg');
+      for (var i = 0; i < 4; i++) {
+        FireNaturesWrathRocket.call(this.caster, this.spellIndex, dir.dup(), this.pos);
+        dir = dir.plusAngleDeg(90);
+      }
+    },
+  });
+
   LW.SpellList.NaturesWrath = function(spellIndex) {
-    var spell = new LW.Spell({
+    var spell = new NaturesWrathSpell({
       pos: this.pos,
       vel: this.spellDirection().times(6).plus(this.vel),
-      img: 'graphics/spell_natures_wrath.png',
-      dim: [7.5,7.5],
       game: this.game,
       caster: this,
-      imgBaseAngle: -45,
-      sType: 'static',
-      sId: 'naturesWrath',
-      initialize: function() {
-        this.game.playSE('swing2.ogg');
-        this.hit = function() {
-          this.duration = 120;
-          LW.ParticleSplatter(15, plantHit.bind(this));
-          this.vel.divided(1000000);
-          this.game.playSE('bullet.ogg');
-        };
-      },
-
-      tickEvent: function() {
-        if (this.victim) {
-          if (this.victim.isDead()) {
-            this.remove();
-          }
-
-          this.pos.setTo(this.victim.pos);
-        } else if (this.solidColl) {
-          this.vel.plus([0,0.11]);
-        }
-      },
-
-      wizardColl: function(wizard) {
-        if (this.victim || this.caster === wizard) return;
-
-        this.victim = wizard;
-        this.solidColl = null;
-        this.hit.bind(this)();
-      },
-
-      solidColl: function() {
-        this.pos.minus(this.vel);
-        this.solidColl = null;
-        this.wizardColl = null;
-        this.hit.bind(this)();
-      },
-
-      removeEvent: function() {
-        if (this.victim) {
-          this.victim.kill(this.caster);
-        }
-
-        var dir = new LW.Coord([1,0]);
-        this.game.playSE('fire2.ogg');
-        for (var i = 0; i < 4; i++) {
-          NaturesWrathRocket.bind(this.caster)(spellIndex, dir.dup(), this.pos);
-          dir = dir.plusAngleDeg(90);
-        }
-      },
+      spellIndex: spellIndex,
     });
     this.game.spells.push(spell);
     this.globalCooldown = 30;
@@ -70,37 +74,40 @@
     return spell;
   };
 
-  var NaturesWrathRocket = function(spellIndex, dir, pos) {
-    var spell = new LW.Spell({
+  var NaturesWrathRocket = LW.Spell.extend({
+    img: 'graphics/spell_missile.png',
+    dim: [5,5],
+    imgBaseAngle: 135,
+    sType: 'projectile',
+    sId: 'naturesWrathRocket',
+    initialize: function() {
+      this.sprite.sizeX = 50;
+      this.sprite.sizeY = 50;
+    },
+
+    tickEvent: function() {
+      this.vel.times(1.02);
+    },
+
+    wizardColl: function(wizard) {
+      if (wizard !== this.caster) {
+        this.remove();
+        wizard.kill(this.caster);
+      }
+    },
+
+    removeEvent: function() {
+      this.game.playSE('hard_explode.ogg', 0.4);
+      LW.ParticleSplatter(12, explodeHit.bind(this));
+    },
+  });
+
+  var FireNaturesWrathRocket = function(spellIndex, dir, pos) {
+    var spell = new NaturesWrathRocket({
       pos: pos,
       vel: dir.times(2),
-      img: 'graphics/spell_missile.png',
-      dim: [5,5],
       game: this.game,
       caster: this,
-      imgBaseAngle: 135,
-      sType: 'projectile',
-      sId: 'naturesWrathRocket',
-      initialize: function() {
-        this.sprite.sizeX = 50;
-        this.sprite.sizeY = 50;
-      },
-
-      tickEvent: function() {
-        this.vel.times(1.02);
-      },
-
-      wizardColl: function(wizard) {
-        if (wizard !== this.caster) {
-          this.remove();
-          wizard.kill(this.caster);
-        }
-      },
-
-      removeEvent: function() {
-        this.game.playSE('hard_explode.ogg', 0.4);
-        LW.ParticleSplatter(12, explodeHit.bind(this));
-      },
     });
     this.game.spells.push(spell);
     return spell;
