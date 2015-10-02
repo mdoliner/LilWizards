@@ -8,17 +8,21 @@
     var angleChange;
     if (dir.x !== 0) {
       dir.plusUpAngleDeg(20);
-      angleChange = LW.Coord.prototype.plusUpAngleDeg.bind(dir, -10);
+      angleChange = dir.plusUpAngleDeg.bind(dir, -10);
     } else {
       dir.plusRightAngleDeg(20);
-      angleChange = LW.Coord.prototype.plusRightAngleDeg.bind(dir, -10);
+      angleChange = dir.plusRightAngleDeg.bind(dir, -10);
     }
 
-    ToxicDartShot.bind(this)(spellIndex, dir.dup());
+    var fireDart = ToxicDartShot.bind(this, spellIndex);
+
+    fireDart(dir.dup());
+
     var nextDart = function() {
       angleChange();
-      ToxicDartShot.bind(this)(spellIndex, dir.dup());
+      fireDart(dir.dup());
     }.bind(this);
+
     setTimeout(nextDart, 1000 / 120 * 5);
     setTimeout(nextDart, 1000 / 120 * 10);
     setTimeout(nextDart, 1000 / 120 * 15);
@@ -28,61 +32,72 @@
     this.cooldownList[spellIndex] = 60;
   };
 
+  var ToxicDartSpell = LW.Spell.extend({
+    img: 'graphics/spell_dart.gif',
+    dim: [5,5],
+    imgBaseAngle: 235,
+    sType: 'projectile',
+    sId: 'toxicDart',
+    initialize: function() {
+      this.sprite.sizeX = 50;
+      this.sprite.sizeY = 50;
+      this.game.playSE('swing2.ogg', 0.4);
+    },
+
+    tickEvent: function() {
+      PurpleSit.call(this);
+    },
+
+    wizardColl: function(wizard) {
+      if (wizard !== this.caster) {
+        this.remove();
+        this.game.playSE('flesh_hit.ogg', 0.5);
+        var isKill = false;
+        wizard.ailments.forEach(function(ailment) {
+          if (ailment.id === 'toxicDartEffect') {isKill = true;}
+        });
+
+        if (isKill) {
+          wizard.kill(this.caster);
+        } else {
+          wizard.addAilment(new ToxicDarkAilment({
+            victim: wizard,
+          }));
+        }
+      }
+    },
+
+    removeEvent: function() {
+      PurplePop.call(this);
+    },
+  });
+
+  var ToxicDarkAilment = LW.Ailment.extend({
+    id: 'toxicDartEffect',
+    duration: 240,
+    tickEvent: function() {
+      PurpleFall.call(this);
+    },
+
+    initialize: function() {
+      this.modMaxVelX = 0.60;
+      this.victim.maxVelX *= this.modMaxVelX;
+      this.modJump = 0.60;
+      this.victim.jumpModifier *= this.modJump;
+    },
+
+    removeEvent: function() {
+      this.victim.jumpModifier /= this.modJump;
+      this.victim.maxVelX /= this.modMaxVelX;
+    },
+  });
+
   var ToxicDartShot = function(spellIndex, dir) {
-    var spell = new LW.Spell({
+    var spell = new ToxicDartSpell({
       pos: this.pos,
       vel: dir.times(9),
-      img: 'graphics/spell_dart.gif',
-      dim: [5,5],
       game: this.game,
       caster: this,
-      imgBaseAngle: 235,
-      sType: 'projectile',
-      sId: 'toxicDart',
-      initialize: function() {
-        this.sprite.sizeX = 50;
-        this.sprite.sizeY = 50;
-        this.game.playSE('swing2.ogg', 0.4);
-      },
-
-      tickEvent: function() {
-        PurpleSit.bind(this)();
-      },
-
-      wizardColl: function(wizard) {
-        if (wizard !== this.caster) {
-          this.remove();
-          this.game.playSE('flesh_hit.ogg', 0.5);
-          var isKill = false;
-          wizard.ailments.forEach(function(ailment) {
-            if (ailment.id === 'toxicDartEffect') {isKill = true;}
-          });
-
-          if (isKill) {
-            wizard.kill(this.caster);
-          } else {
-            wizard.addAilment(new LW.Ailment({
-              duration: 240,
-              victim: wizard,
-              tickEvent: PurpleFall,
-              id: 'toxicDartEffect',
-              initialize: function() {
-                this.modMaxVelX = 0.60;
-                this.victim.maxVelX *= this.modMaxVelX;
-                this.modJump = 0.60;
-                this.victim.jumpModifier *= this.modJump;
-              },
-
-              removeEvent: function() {
-                this.victim.jumpModifier /= this.modJump;
-                this.victim.maxVelX /= this.modMaxVelX;
-              },
-            }));
-          }
-        }
-      },
-
-      removeEvent: PurplePop,
     });
     this.game.spells.push(spell);
     return spell;
