@@ -6,11 +6,12 @@
   // Function Functions
 
   Util.inherits = function(child, parent) {
-    Util.extend(child.prototype, Object.create(parent.prototype));
+    child.prototype = Object.create(parent.prototype);
   };
 
-  Util.include = function(child, parent) {
-    Util.extend(child.prototype, parent);
+  Util.include = function(child, extra) {
+    //Util.extend(child.prototype, extra);
+    _.extend(child.prototype, extra);
   };
 
   Util.args = function(fn) {
@@ -22,24 +23,27 @@
     };
   };
 
-  Util.fnExtend = function(protoProps, staticProps) {
+  Util.fnExtend = function(instanceAttributes, classAttributes) {
     var parent = this;
     var child;
 
-    if (protoProps.constructor) {
-      child = protoProps.constructor;
+    if (instanceAttributes && instanceAttributes.hasOwnProperty('constructor')) {
+      child = instanceAttributes.constructor;
     } else {
-      child = function() { parent.apply(this, arguments); };
+      child = function() { return parent.apply(this, arguments); };
     }
 
-    var Surrogate = function() {};
+    // extend static props here.
+    _.extend(child, parent, classAttributes);
+
+    var Surrogate = function() { this.constructor = child; };
 
     Surrogate.prototype = parent.prototype;
     child.prototype = new Surrogate();
 
-    // extend static props here.
+    if (instanceAttributes) _.extend(child.prototype, instanceAttributes);
 
-    child.__parent__ = parent;
+    child.__parent__ = parent.prototype;
     return child;
   };
 

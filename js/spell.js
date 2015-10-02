@@ -3,31 +3,16 @@
     window.LW = {};
   }
 
+  var defaults = {
+    duration: -1,
+    imgBaseAngle: 0,
+    imgSizeX: 100,
+    imgSizeY: 100,
+  };
+
   var Spell = LW.Spell = function(options) {
-    var defaults = {
-      tickEvent: function() {},
-
-      wizardColl: function(wizard) {
-        if (wizard !== this.caster) {
-          wizard.kill(this.caster);
-          this.game.playSE('hit.ogg', 90);
-        }
-      },
-
-      spellColl: function() {},
-
-      solidColl: function() {
-        this.remove();
-      },
-
-      removeEvent: function() {},
-
-      duration: -1,
-      imgBaseAngle: 0,
-      imgSizeX: 100,
-      imgSizeY: 100,
-    };
-    Util.extend(this, defaults, options);
+    _.defaults(options, defaults);
+    Util.extend(this, options);
 
     this.pos = new LW.Coord(this.pos);
     this.vel = new LW.Coord(this.vel);
@@ -42,6 +27,8 @@
 
     this.try(this.initialize);
   };
+
+  Spell.extend = Util.extend;
 
   Spell.TOTAL_SPELL_NAMES = [
     'Crash',
@@ -61,15 +48,20 @@
     'Berserk',
   ];
 
-  Spell.prototype.tickEvent = function() {};
+  Spell.prototype.tickEvent = null;
+  Spell.prototype.wizardColl = function(wizard) {
+    if (wizard !== this.caster) {
+      wizard.kill(this.caster);
+      this.game.playSE('hit.ogg', 90);
+    }
+  };
 
-  Spell.prototype.wizardColl = function() {};
+  Spell.prototype.spellColl = null;
+  Spell.prototype.solidColl = function() {
+    this.remove();
+  };
 
-  Spell.prototype.spellColl = function() {};
-
-  Spell.prototype.solidColl = function() {};
-
-  Spell.prototype.removeEvent = function() {};
+  Spell.prototype.removeEvent = null;
 
   Spell.prototype.draw = function(ctx, camera) {
     this.sprite.angle = this.vel.toAngleDeg();

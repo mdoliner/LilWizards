@@ -7,19 +7,18 @@
     this.game = game;
     this.fgctx = fgctx;
     this.bgctx = bgctx;
-    this.MS = Date.now();
     this.fps = {
       startTime: 0,
       frameNumber: 0,
-      element: $('div.fps-counter'),
+      element: $('.fps-counter'),
       getFPS: function() {
         this.frameNumber++;
-        var d = new Date().getTime();
+        var d = performance.now();
         var currentTime = (d - this.startTime) / 1000;
         var result = Math.floor((this.frameNumber / currentTime));
 
         if (currentTime > 1) {
-          this.startTime = new Date().getTime();
+          this.startTime = performance.now();
           this.frameNumber = 0;
         }
 
@@ -27,8 +26,6 @@
 
       },
     };
-    this.updateFPS = 0;
-    this.isDrawFrame = true;
   };
 
   GameView.prototype.startGame = function() {

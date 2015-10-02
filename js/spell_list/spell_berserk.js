@@ -8,56 +8,59 @@
   var N_GRAVITY_CHANGE = 1.1;
   var J_GRAVITY_CHANGE = 0.5;
 
+  var BerserkAilment = LW.Ailment.Berserk = LW.Ailment.extend({
+    sType: 'misc',
+    sId: 'berserk',
+    duration: 300,
+    initialize: function() {
+      this.game.playSE('boost.ogg');
+      this.colors = ['white', 'gold', 'orange', 'papayawhip', 'orangered'];
+      this.victim.maxVelX *= MAX_VEL_X_CHANGE;
+      this.victim.accelXModifier *= ACCEL_X_CHANGE;
+      this.victim.nGravity *= N_GRAVITY_CHANGE;
+      this.victim.jGravity *= J_GRAVITY_CHANGE;
+      LW.ParticleSplatter(40, startParticles.bind(this));
+    },
+
+    tickEvent: function() {
+      if (this.victim.isDead()) {
+        this.remove();
+      } else {
+        this.victim.globalCooldown -= 3;
+        for (var i = 0; i < this.victim.cooldownList.length; i++) {
+          if (i === this.spellIndex) {continue;}
+
+          this.victim.cooldownList[i] -= 3;
+        }
+
+        LW.ParticleSplatter(2, tickParticles.bind(this));
+      }
+    },
+
+    removeEvent: function() {
+      this.victim.maxVelX /= MAX_VEL_X_CHANGE;
+      this.victim.accelXModifier /= ACCEL_X_CHANGE;
+      this.victim.nGravity /= N_GRAVITY_CHANGE;
+      this.victim.jGravity /= J_GRAVITY_CHANGE;
+      this.game.playSE('debuff.ogg');
+      this.victim.globalCooldown = 560;
+      this.victim.cooldownList[this.spellIndex] = 660;
+      var ending = setInterval(function() {
+        LW.ParticleSplatter(2, endParticles.bind(this));
+        if (this.victim.globalCooldown <= 20 || this.victim.isDead()) {
+          clearInterval(ending);
+        }
+      }.bind(this), 1000 / 60);
+    },
+  });
+
   LW.SpellList.Berserk = function(spellIndex) {
-    var ailment = new LW.Ailment({
+    var ailment = new BerserkAilment({
       game: this.game,
       wizard: this,
       victim: this,
-      sType: 'misc',
-      sId: 'berserk',
-      duration: 300,
-      initialize: function() {
-        this.game.playSE('boost.ogg');
-        this.colors = ['white', 'gold', 'orange', 'papayawhip', 'orangered'];
-        this.victim.maxVelX *= MAX_VEL_X_CHANGE;
-        this.victim.accelXModifier *= ACCEL_X_CHANGE;
-        this.victim.nGravity *= N_GRAVITY_CHANGE;
-        this.victim.jGravity *= J_GRAVITY_CHANGE;
-        LW.ParticleSplatter(40, startParticles.bind(this));
-      },
-
-      tickEvent: function() {
-        if (this.victim.isDead()) {
-          this.remove();
-        } else {
-          this.victim.globalCooldown -= 3;
-          for (var i = 0; i < this.victim.cooldownList.length; i++) {
-            if (i === spellIndex) {continue;}
-
-            this.victim.cooldownList[i] -= 3;
-          }
-
-          LW.ParticleSplatter(2, tickParticles.bind(this));
-        }
-      },
-
-      removeEvent: function() {
-        this.victim.maxVelX /= MAX_VEL_X_CHANGE;
-        this.victim.accelXModifier /= ACCEL_X_CHANGE;
-        this.victim.nGravity /= N_GRAVITY_CHANGE;
-        this.victim.jGravity /= J_GRAVITY_CHANGE;
-        this.game.playSE('debuff.ogg');
-        this.victim.globalCooldown = 560;
-        this.victim.cooldownList[spellIndex] = 660;
-        var ending = setInterval(function() {
-          LW.ParticleSplatter(2, endParticles.bind(this));
-          if (this.victim.globalCooldown <= 20 || this.victim.isDead()) {
-            clearInterval(ending);
-          }
-        }.bind(this), 1000 / 60);
-      },
+      spellIndex: spellIndex,
     });
-
     this.addAilment(ailment);
     this.globalCooldown = 0;
     this.cooldownList[spellIndex] = 360;

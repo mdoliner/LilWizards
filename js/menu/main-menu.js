@@ -8,6 +8,8 @@
     this.initializeEvent && this.initializeEvent();
   };
 
+  MainMenu.extend = Util.fnExtend;
+
   MainMenu.prototype.commandTooltips = {};
   MainMenu.prototype.commands = [];
   MainMenu.prototype.initializeEvent = function() {};

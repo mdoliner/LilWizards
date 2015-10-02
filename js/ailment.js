@@ -10,6 +10,8 @@
     this.victim = attr.victim;
   };
 
+  Ailment.extend = Util.fnExtend;
+
   Ailment.prototype.tickEvent = function() {};
 
   Ailment.prototype.removeEvent = function() {};
