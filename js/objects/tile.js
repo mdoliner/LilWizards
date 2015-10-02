@@ -3,6 +3,8 @@
     window.LW = {};
   }
 
+  LW.Objects = {};
+
   var Tile = LW.Tile = function(options) {
     this.pos = new LW.Coord(options.pos);
     options.angle = options.angle || 0;
@@ -17,6 +19,8 @@
 
     this.collBox = new LW.CollBox(this, options.dim, options.angle);
   };
+
+  Tile.extend = Util.fnExtend;
 
   Tile.prototype.draw = function(ctx, camera) {
     this.sprite.draw(ctx, camera);
