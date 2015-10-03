@@ -53,6 +53,7 @@ var backgrounds = {
   Library: 'bg_bookcase.jpg',
   Cemetery: 'bg-cemetery.png',
   Boarwarts: 'bg_boarwarts.jpg',
+  Spikes: 'bg_boarwarts.jpg',
 };
 
 LW.runGame = function(selectedLevel, nlevel, isDemo) {

@@ -33,6 +33,10 @@
       this.pos = this.parent.pos;
     }
 
+    if (item.img == null || item.img === 'undefined') {
+      throw new Error('Cannot have undefined img type of sprite.');
+    }
+
     this.img = new Image();
     this.img.src = item.img;
     if (this.load) {

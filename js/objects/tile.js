@@ -10,7 +10,7 @@
     options.angle = options.angle || 0;
     options.dim = options.dim || [16,16];
     this.sprite = new LW.Sprite({
-      img: options.img,
+      img: options.img != null ? options.img : this.img,
       parent: this,
       baseAngle: options.angle,
       sizeY: options.dim[1] * (options.sizeYFactor || 6.25),

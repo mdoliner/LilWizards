@@ -7,6 +7,7 @@
     this.wizards = [];
     this.tiles = [];
     this.spawnPoints = [];
+    this.spikes = [];
     this.spells = [];
     this.spellRemoveQueue = [];
     this.parseLevel(options.level);
@@ -156,7 +157,7 @@
   };
 
   Game.prototype.solidObjects = function() {
-    return this.tiles;
+    return this.tiles.concat(this.spikes);
   };
 
   Game.prototype.allObjects = function() {
@@ -168,7 +169,7 @@
   };
 
   Game.prototype.bgObjects = function() {
-    return this.tiles.concat(this.spawnPoints);
+    return this.tiles.concat(this.spikes).concat(this.spawnPoints);
   };
 
   Game.prototype.solidCollisions = function(collBox) {
@@ -252,6 +253,13 @@
           this.spawnPoints.push(new LW.Tile({
             pos: [16 + xIndex * 32, 16 + yIndex * 32],
             img: './graphics/spawn_point.png',
+            load: true,
+          }));
+        }
+
+        if (level[yIndex][xIndex] === 'spike') {
+          this.spikes.push(new LW.Objects.Spike({
+            pos: [16 + xIndex * 32, 16 + yIndex * 32],
             load: true,
           }));
         }
