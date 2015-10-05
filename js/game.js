@@ -189,11 +189,12 @@
   Game.prototype.allCollisions = function(collBox, objArray) {
     var collisions = [];
     for (var i = 0; i < objArray.length; i++) {
-      if (collBox === objArray[i].collBox) {continue;}
+      if (collBox === objArray[i].collBox) continue;
 
       var collision = collBox.collision(objArray[i]);
       if (collision !== false) {
         collisions.push(collision);
+        if (objArray[i].onCollision) objArray[i].onCollision(collBox.parent);
       }
     }
 

@@ -8,9 +8,14 @@
 
   LW.Objects.Spike = LW.Tile.extend({
     img: 'graphics/spike.png',
-    onWizardCollision: function(wizard) {
+    dim: [12, 12],
+    onCollision: function(wizard) {
+      if (!(wizard instanceof LW.Wizard)) return;
       wizard.kill(wizard);
     },
+    
+    sizeX: 16,
+    sizeY: 16,
   });
 
 })();
