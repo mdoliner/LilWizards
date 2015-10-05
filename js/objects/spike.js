@@ -13,7 +13,7 @@
       if (!(wizard instanceof LW.Wizard)) return;
       wizard.kill(wizard);
     },
-    
+
     sizeX: 16,
     sizeY: 16,
   });
