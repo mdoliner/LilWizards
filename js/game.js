@@ -8,6 +8,7 @@
     this.tiles = [];
     this.spawnPoints = [];
     this.spikes = [];
+    this.movingTiles = [];
     this.spells = [];
     this.spellRemoveQueue = [];
     this.parseLevel(options.level);
@@ -157,7 +158,7 @@
   };
 
   Game.prototype.solidObjects = function() {
-    return this.tiles.concat(this.spikes);
+    return this.tiles.concat(this.spikes).concat(this.movingTiles);
   };
 
   Game.prototype.allObjects = function() {
@@ -165,7 +166,7 @@
   };
 
   Game.prototype.fgObjects = function() {
-    return this.wizards.concat(this.spells).concat(this.particles);
+    return this.wizards.concat(this.spells).concat(this.particles).concat(this.movingTiles);
   };
 
   Game.prototype.bgObjects = function() {
@@ -262,6 +263,28 @@
           this.spikes.push(new LW.Objects.Spike({
             pos: [16 + xIndex * 32, 16 + yIndex * 32],
             load: true,
+          }));
+        }
+
+        if (level[yIndex][xIndex] === 'horizontal') {
+          var pos = [16 + xIndex * 32, 16 + yIndex * 32];
+          var newX = xIndex + 1;
+          var dim = [16, 16];
+          var nextTile = level[yIndex][newX];
+          while(nextTile && nextTile !== 'horizontalPath') {
+            if (nextTile === 'horizontal') {
+              dim = [(newX - xIndex) * 16 + 16, 16];
+            }
+            newX++;
+            nextTile = level[yIndex][newX];
+          }
+
+          this.movingTiles.push(new LW.Objects.MovingTile({
+            pos: pos,
+            dim: dim,
+            load: true,
+            vel: [1,0],
+            moveTo: [32 + 32 * newX - dim[0], 16 + yIndex * 32],
           }));
         }
       }

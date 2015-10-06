@@ -9,7 +9,11 @@
   var L = 'rightEnd';
   var D = 'down';
   var U = 'downEnd';
-  var S = 'spike'
+  var S = 'spike';
+  var H = 'horizontal';
+  var h = 'horizontalPath';
+  var V = 'vertical';
+  var v = 'verticalPath';
 
   LW.Levels.Library = [
               [R,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,L],

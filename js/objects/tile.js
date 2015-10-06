@@ -18,9 +18,12 @@
     });
 
     this.collBox = new LW.CollBox(this, options.dim, options.angle);
+    this.initialize(options);
   };
 
   Tile.extend = Util.fnExtend;
+
+  Tile.prototype.initialize = function() {};
 
   Tile.prototype.dim = [16, 16];
   Tile.prototype.sizeX = null;
