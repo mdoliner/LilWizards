@@ -9,14 +9,20 @@
   LW.Objects.MovingTile = LW.Tile.extend({
     img: './graphics/box.png',
     initialize: function(options) {
-      this.vel = LW.Coord(options.vel);
+      this.vel = new LW.Coord(options.vel);
       this.startPoint = this.pos.dup();
-      this.endPoint = options.moveTo;
+      this.endPoint = new LW.Coord(options.moveTo);
       this.movingTo = 'endPoint';
+
+      console.log('constructed a moving tile:', this);
     },
 
     step: function() {
-      this.pos.add(this.vel);
+      this.pos.plus(this.vel);
+      var point = this[this.movingTo];
+      if (this.pos.x === point.x && this.pos.y === point.y) {
+        this.reverse();
+      }
     },
 
     reverse: function() {

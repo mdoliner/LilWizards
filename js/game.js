@@ -48,6 +48,10 @@
       this.spells[i].move();
     }
 
+    for (i = 0; i < this.movingTiles.length; i++) {
+      this.movingTiles[i].step();
+    }
+
     this.emptyRemoveQueue();
     this.particles.move();
   };
@@ -207,6 +211,7 @@
   };
 
   Game.prototype.parseLevel = function(level) {
+    level = _.cloneDeep(level);
     for (var yIndex = 0; yIndex < Game.DIMY / 32; yIndex++) {
       for (var xIndex = 0; xIndex < Game.DIMX / 32; xIndex++) {
         if (level[yIndex][xIndex] === 'right') {
@@ -271,10 +276,14 @@
           var newX = xIndex + 1;
           var dim = [16, 16];
           var nextTile = level[yIndex][newX];
-          while(nextTile && nextTile !== 'horizontalPath') {
+
+          while(nextTile != null && nextTile !== 'horizontalPath') {
             if (nextTile === 'horizontal') {
               dim = [(newX - xIndex) * 16 + 16, 16];
+              pos = [16 + (xIndex + newX) * 16, 16 + yIndex * 32];
+              level[yIndex][newX] = 0;
             }
+
             newX++;
             nextTile = level[yIndex][newX];
           }

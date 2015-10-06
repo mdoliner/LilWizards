@@ -4,7 +4,7 @@
   }
 
   var FireballSpell = LW.Spell.extend({
-    img: 'graphics/spell_fireball.gif',
+    img: 'graphics/spell_fireball2.png',
     dim: [5,5],
     sType: 'projectile',
     sId: 'fireball',
@@ -88,7 +88,7 @@
   };
 
   var FireBallSplitSpell = LW.Spell.extend({
-    img: 'graphics/spell_fireball.gif',
+    img: 'graphics/spell_fireball2.png',
     dim: [2.5,2.5],
     sType: 'projectile',
     sId: 'fireballSplit',
