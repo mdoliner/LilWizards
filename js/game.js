@@ -40,16 +40,16 @@
     this.isOver();
     this.camera.step();
     var i;
+    for (i = 0; i < this.movingTiles.length; i++) {
+      this.movingTiles[i].step();
+    }
+
     for (i = 0; i < this.wizards.length; i++) {
       this.wizards[i].step();
     }
 
     for (i = 0; i < this.spells.length; i++) {
       this.spells[i].move();
-    }
-
-    for (i = 0; i < this.movingTiles.length; i++) {
-      this.movingTiles[i].step();
     }
 
     this.emptyRemoveQueue();
@@ -211,93 +211,11 @@
   };
 
   Game.prototype.parseLevel = function(level) {
-    level = _.cloneDeep(level);
-    for (var yIndex = 0; yIndex < Game.DIMY / 32; yIndex++) {
-      for (var xIndex = 0; xIndex < Game.DIMX / 32; xIndex++) {
-        if (level[yIndex][xIndex] === 'right') {
-          var newX = xIndex + 1;
-          while (level[yIndex][newX] !== 'rightEnd') {
-            newX += 1;
-          }
-
-          this.tiles.push(new LW.Tile({
-            pos: [16 + (xIndex + newX) * 16, 16 + yIndex * 32],
-            dim: [(newX - xIndex) * 16 + 16, 16],
-            img: './graphics/box_hard_stone.png',
-            sizeXFactor: 6.25 / 2,
-            sizeYFactor: 6.25 / 2,
-            load: true,
-          }));
-        }
-
-        if (level[yIndex][xIndex] === 'down') {
-          var newY = yIndex + 1;
-          while (level[newY][xIndex] !== 'downEnd') {
-            newY += 1;
-          }
-
-          this.tiles.push(new LW.Tile({
-            pos: [16 + xIndex * 32, 16 + (yIndex + newY) * 16],
-            dim: [16, (newY - yIndex) * 16 + 16],
-            img: './graphics/box_hard_stone.png',
-            sizeXFactor: 6.25 / 2,
-            sizeYFactor: 6.25 / 2,
-            load: true,
-          }));
-        }
-
-        if (level[yIndex][xIndex] === 1) {
-          this.tiles.push(new LW.Tile({
-            pos: [16 + xIndex * 32, 16 + yIndex * 32],
-            img: './graphics/box_hard_stone.png',
-            sizeXFactor: 6.25 / 2,
-            sizeYFactor: 6.25 / 2,
-            load: true,
-          }));
-        }
-
-        if (level[yIndex][xIndex] === 2) {
-          this.spawnPoints.push(new LW.Tile({
-            pos: [16 + xIndex * 32, 16 + yIndex * 32],
-            img: './graphics/spawn_point.png',
-            load: true,
-          }));
-        }
-
-        if (level[yIndex][xIndex] === 'spike') {
-          this.spikes.push(new LW.Objects.Spike({
-            pos: [16 + xIndex * 32, 16 + yIndex * 32],
-            load: true,
-          }));
-        }
-
-        if (level[yIndex][xIndex] === 'horizontal') {
-          var pos = [16 + xIndex * 32, 16 + yIndex * 32];
-          var newX = xIndex + 1;
-          var dim = [16, 16];
-          var nextTile = level[yIndex][newX];
-
-          while(nextTile != null && nextTile !== 'horizontalPath') {
-            if (nextTile === 'horizontal') {
-              dim = [(newX - xIndex) * 16 + 16, 16];
-              pos = [16 + (xIndex + newX) * 16, 16 + yIndex * 32];
-              level[yIndex][newX] = 0;
-            }
-
-            newX++;
-            nextTile = level[yIndex][newX];
-          }
-
-          this.movingTiles.push(new LW.Objects.MovingTile({
-            pos: pos,
-            dim: dim,
-            load: true,
-            vel: [1,0],
-            moveTo: [32 + 32 * newX - dim[0], 16 + yIndex * 32],
-          }));
-        }
-      }
-    }
+    var objects = LW.LevelParser(level);
+    this.tiles = objects.tiles;
+    this.spawnPoints = objects.spawnPoints;
+    this.movingTiles = objects.movingTiles;
+    this.spikes = objects.spikes;
   };
 
   Game.prototype.getSpawnPointPos = function(wizard) {
