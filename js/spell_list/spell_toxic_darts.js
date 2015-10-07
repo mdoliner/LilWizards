@@ -35,7 +35,7 @@
   var ToxicDartSpell = LW.Spell.extend({
     img: 'graphics/spell_dart2.png',
     dim: [5,5],
-    imgBaseAngle: 225,
+    imgBaseAngle: 45,
     sType: 'projectile',
     sId: 'toxicDart',
     initialize: function() {
@@ -138,7 +138,7 @@
     LW.ParticleSplatter(1, function() {
       var pos = this.pos || this.victim.pos;
       return {
-        pos: pos,
+        pos: pos.dup().minus(this.vel),
         vel: [0,0],
         game: this.game || this.victim.game,
         duration: Math.floor(Math.random() * 5 + 10),

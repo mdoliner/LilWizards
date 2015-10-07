@@ -23,8 +23,8 @@
   };
 
   var QuadTree = LW.QuadTree = function(level, bounds) {
-    this.level = level;
-    this.bounds = bounds;
+    this.level = level || 1;
+    this.bounds = bounds || { x: 0, y: 0, width: LW.Game.DIMX, height: LW.Game.DIMY };
     this.nodes = [];
     this.objects = [];
   };
@@ -112,7 +112,7 @@
   QuadTree.prototype.retrieve = function(rect) {
     var index = this.getIndex(rect);
     var objects = this.objects;
-    
+
     if (index != -1 && this.nodes[0] != null) {
       objects = this.nodes[index].retrieve(rect).concat(objects);
     }

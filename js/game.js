@@ -11,6 +11,9 @@
     this.movingTiles = [];
     this.spells = [];
     this.spellRemoveQueue = [];
+    this.solidQuadTree = new LW.QuadTree();
+    this.spellQuadTree = new LW.QuadTree();
+    this.wizardQuadTree = new LW.QuadTree();
     this.parseLevel(options.level);
     this.particles = new LW.ParticleLibrary;
     this.camera = new LW.Camera({
@@ -177,6 +180,31 @@
     return this.tiles.concat(this.spikes).concat(this.spawnPoints);
   };
 
+  Game.prototype.clearTrees = function() {
+    this.solidQuadTree.clear();
+    this.spellQuadTree.clear();
+    this.wizardQuadTree.clear();
+  };
+
+  Game.prototype.buildTrees = function() {
+    // TODO: Building the trees requires the rectangle class.
+    var i;
+    var solidObjects = this.solidObjects();
+    for (i = 0; i < solidObjects.length; i++) {
+      this.solidQuadTree.insert(solidObjects[i]);
+    }
+
+    for (i = 0; i < this.spells.length; i++) {
+      this.spellQuadTree.insert(this.spells[i]);
+    }
+
+    for (i = 0; i < this.wizards.length; i++) {
+      this.wizardQuadTree.insert(this.wizards[i].filter(function(wizard) {
+        return !wizard.isDead();
+      }));
+    }
+  };
+
   Game.prototype.solidCollisions = function(collBox) {
     return this.allCollisions(collBox, this.solidObjects());
   };
@@ -208,6 +236,12 @@
     } else {
       return collisions;
     }
+  };
+
+  Game.prototype.quadCollisions = function(collBox, quadTree) {
+    var collisions = [];
+    var objects = quadTree.retrieve(collbox);
+    // TODO: After writing the rectangle code, add collision detection here.
   };
 
   Game.prototype.parseLevel = function(level) {
