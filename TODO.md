@@ -1,18 +1,15 @@
 TODO LIST
 ==============
-Refactoring:
-	-	Convert Most Arrays to Hashes as Hash[ID] = object. (? Is this Faster ?)
-		-	This removes indexOf and splicing, two loops that are constantly iterated for.
-	- Clean up Classes, add proper inheritance splicing.
-		-	Make LW.SpellLists into Classes, so that functions are prototypal vs generated.
+- Create Rectangle Class
+- Implement QuadTree into collision detection.
+- Implement Separating Axis Th.
+- Create Circle Collision Box.
+- Test Performance
 
-Autosizing Canvas
-read: http://www.html5rocks.com/en/tutorials/casestudies/gopherwoord-studios-resizing-html5-games/
+- Add floor velocity to wizards.
 
 - sprite refactoring
 
-TOP LEVEL IMPORTANT:
-- Node.js
 
 Spell:
 - Meteor Shell too Stronk.
