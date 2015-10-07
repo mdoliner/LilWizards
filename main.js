@@ -23,7 +23,10 @@ app.on('ready', function() {
     width: 1600,
     height: 900,
     fullscreen: true,
+    toolbar: false,
   });
+
+  mainWindow.setMenuBarVisibility(false);
 
   // and load the index.html of the app.
   mainWindow.loadUrl('file://' + __dirname + '/index.html');

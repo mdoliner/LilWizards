@@ -4,14 +4,14 @@
   }
 
   var WreckingBallSpell = LW.Spell.extend({
-    img: 'graphics/spell_wrecking_ball.png',
+    img: 'graphics/spell_wrecking_ball2.png',
     dim: [12,12],
     duration: 90,
     sType: 'melee',
     sId: 'wreckingBall',
     initialize: function() {
-      this.sprite.sizeX = 50;
-      this.sprite.sizeY = 50;
+      this.sprite.sizeX = 100;
+      this.sprite.sizeY = 100;
       this.game.playSE('swing.ogg');
     },
 

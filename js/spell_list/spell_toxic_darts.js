@@ -33,9 +33,9 @@
   };
 
   var ToxicDartSpell = LW.Spell.extend({
-    img: 'graphics/spell_dart.gif',
+    img: 'graphics/spell_dart2.png',
     dim: [5,5],
-    imgBaseAngle: 235,
+    imgBaseAngle: 225,
     sType: 'projectile',
     sId: 'toxicDart',
     initialize: function() {
