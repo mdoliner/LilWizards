@@ -11,6 +11,39 @@
     this.angle = angle || 0;
   };
 
+  CollBox.prototype.getRect = function() {
+    return new LW.Rectangle({
+      x: this.pos.x - this.dim.x,
+      y: this.pos.y - this.dim.y,
+      width: this.dim.x * 2,
+      height: this.dim.y * 2,
+      angle: this.angle,
+      parent: this,
+    });
+  };
+
+  CollBox.prototype.collisionRect = function(otherObj) {
+    return this.getRect().collision(otherObj.getRect()) ? otherObj : false;
+
+    // var otherBox = otherObj.collBox;
+    // var otherRect = otherBox.getRect();
+    // var thisRect = this.getRect();
+    //
+    // var axis = thisRect.getAxis();
+    // if (!thisRect.sharesAxisWith(otherRect)) {
+    //   axis = axis.concat(otherRect.getAxis());
+    // }
+    //
+    // var thisRectProj;
+    // var otherRectProj;
+    // for (var i = 0; i < axis.length; i++) {
+    //   thisRectProj = thisRect.getProjectionOntoAxis(axis[i]);
+    //   otherRectProj = otherRect.getProjectionOntoAxis(axis[i]);
+    //   if (thisRectProj.max < otherRectProj.min || otherRectProj.min < thisRectProj.max) return false;
+    // }
+    // return otherObj;
+  };
+
   CollBox.prototype.collision = function(otherObj) {
     var otherBox = otherObj.collBox;
     if (otherBox.angle === 0 && this.angle === 0) {

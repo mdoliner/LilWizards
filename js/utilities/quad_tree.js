@@ -41,10 +41,10 @@
   };
 
   QuadTree.prototype.split = function() {
-    var x = bounds.x;
-    var y = bounds.y;
-    var width = bounds.width / 2;
-    var height = bounds.height / 2;
+    var x = this.bounds.x;
+    var y = this.bounds.y;
+    var width = this.bounds.width / 2;
+    var height = this.bounds.height / 2;
     var level = this.level + 1;
 
     this.nodes[0] = new QuadTree(level, createBounds(x + width, y + height, width, height));
@@ -83,7 +83,7 @@
     if (this.nodes[0] != null) {
       index = this.getIndex(rect);
 
-      if (index != -1) {
+      if (index != -1) {  
         this.nodes[index].insert(rect);
 
         return;

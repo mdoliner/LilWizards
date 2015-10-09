@@ -187,21 +187,19 @@
   };
 
   Game.prototype.buildTrees = function() {
-    // TODO: Building the trees requires the rectangle class.
     var i;
     var solidObjects = this.solidObjects();
     for (i = 0; i < solidObjects.length; i++) {
-      this.solidQuadTree.insert(solidObjects[i]);
+      this.solidQuadTree.insert(solidObjects[i].getRect());
     }
 
     for (i = 0; i < this.spells.length; i++) {
-      this.spellQuadTree.insert(this.spells[i]);
+      this.spellQuadTree.insert(this.spells[i].getRect());
     }
 
     for (i = 0; i < this.wizards.length; i++) {
-      this.wizardQuadTree.insert(this.wizards[i].filter(function(wizard) {
-        return !wizard.isDead();
-      }));
+      if (this.wizards[i].isDead()) continue;
+      this.wizardQuadTree.insert(this.wizards[i].getRect());
     }
   };
 
@@ -240,8 +238,23 @@
 
   Game.prototype.quadCollisions = function(collBox, quadTree) {
     var collisions = [];
-    var objects = quadTree.retrieve(collbox);
-    // TODO: After writing the rectangle code, add collision detection here.
+    var rect = collBox.getRect();
+    var objects = quadTree.retrieve(rect);
+    for (var i = 0; i < objects.length; i++) {
+      if (collBox.parent === objects[i].parent.parent) continue;
+
+      var collision = rect.collision(objects[i]);
+      if (collision !== false) {
+        collisions.push(collision.parent.parent);
+        if (objects[i].onCollision) objects[i].onCollision(collBox.parent);
+      }
+    }
+
+    if (collisions.length) {
+      return collisions;
+    } else {
+      return false;
+    }
   };
 
   Game.prototype.parseLevel = function(level) {

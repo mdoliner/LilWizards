@@ -13,8 +13,6 @@
       this.startPoint = this.pos.dup();
       this.endPoint = new LW.Coord(options.moveTo);
       this.movingTo = 'endPoint';
-
-      console.log('constructed a moving tile:', this);
     },
 
     step: function() {
@@ -29,6 +27,11 @@
       this.movingTo = this.movingTo === 'endPoint' ? 'startPoint' : 'endPoint';
       this.vel.times(-1);
     },
+
+    getRect: function() {
+      return this.collBox.getRect();
+    },
+
   });
 
 })();

@@ -112,12 +112,32 @@
     return this;
   };
 
+  Coord.prototype.setAngleDeg = function(newAngle) {
+    return this.setAngle(newAngle * Math.PI / 180);
+  };
+
+  Coord.prototype.dot = function(pos) {
+    pos = this.toCoord(pos);
+    return this.x * pos.x + this.y * pos.y;
+  };
+
+  Coord.prototype.projectOnToVec = function(pos) {
+    pos = this.toCoord(pos);
+    var newVec = pos.clone();
+    newVec.times(this.dot(pos) / pos.dot(pos));
+    return this.setTo(newVec);
+  };
+
+  var PI2 = Math.PI * 2;
   Coord.prototype.plusAngle = function(angle) {
+    if (angle % PI2 === 0) return this;
+
     var newAngle = this.toAngle() + angle;
     return this.setAngle(newAngle);
   };
 
   Coord.prototype.plusAngleDeg = function(angle) {
+    if (angle % 360 === 0) return this;
     return this.plusAngle(angle * Math.PI / 180);
   };
 
@@ -154,5 +174,49 @@
       return new Coord(el);
     }
   };
+
+  /**
+   * Around Point Variations
+   */
+
+  var AROUND_POINT_FNS = [
+    'plusAngle',
+    'plusAngleDeg',
+    'setAngle',
+    'setAngleDeg',
+    'toAngle',
+    'toAngleDeg',
+  ];
+
+  _.each(AROUND_POINT_FNS, function(fnName) {
+    if (!Coord.prototype[fnName]) throw new Error('Cannot AROUND_POINT the function ' + fnName + '! It doesn\'t exist!');
+    Coord.prototype[fnName + 'AroundPoint'] = function() {
+      var args = [].slice.call(arguments);
+      this.sub(args[args.length - 1])[fnName].apply(this, args).add(args[args.length - 1]);
+      return this;
+    };
+  });
+
+  /**
+   * Aliasing:
+   */
+
+  var ALIASES = {
+    plus: ['add'],
+    minus: ['sub'],
+    dup: ['clone'],
+    plusAngle: ['rotate'],
+    plusAngleDeg: ['rotateDeg'],
+    plusAngleAroundPoint: ['rotateAngleAroundPoint'],
+    plusAngleDegAroundPoint: ['rotateAngleDegAroundPoint'],
+  };
+
+  _.each(ALIASES, function(aliases, fnName) {
+    if (!Coord.prototype[fnName]) throw new Error('Cannot alias the function ' + fnName + '! It doesn\'t exist!');
+    _.each(aliases, function(alias) {
+      if (Coord.prototype[alias]) throw new Error('Cannot alias the function ' + fnName + ' to ' + alias + '! It already exists!');
+      Coord.prototype[alias] = Coord.prototype[fnName];
+    });
+  });
 
 })();

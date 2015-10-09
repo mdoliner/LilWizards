@@ -68,6 +68,12 @@
 
   Spell.prototype.removeEvent = null;
 
+
+  Spell.prototype.getRect = function() {
+    return this.collBox.getRect();
+  };
+
+
   Spell.prototype.draw = function(ctx, camera) {
     this.sprite.angle = this.vel.toAngleDeg();
     this.sprite.draw(ctx, camera);

@@ -33,4 +33,10 @@
     this.sprite.draw(ctx, camera);
   };
 
+
+  Tile.prototype.getRect = function() {
+    return this._rect || (this._rect = this.collBox.getRect());
+  };
+
+
 })();

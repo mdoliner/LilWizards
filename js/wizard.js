@@ -112,6 +112,10 @@
     }
   };
 
+  Wizard.prototype.getRect = function() {
+    return this.collBox.getRect();
+  };
+
   Wizard.prototype.remove = function(obj) {
     if (obj instanceof LW.Ailment) {
       var index = this.ailments.indexOf(obj);
