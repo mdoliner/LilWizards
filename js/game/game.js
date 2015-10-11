@@ -40,6 +40,8 @@
       this.adjustCamera();
     }
 
+    this.clearTrees();
+    this.buildTrees();
     this.isOver();
     this.camera.step();
     var i;
@@ -204,14 +206,27 @@
   };
 
   Game.prototype.solidCollisions = function(collBox) {
-    return this.allCollisions(collBox, this.solidObjects());
+    return this.quadCollisions(collBox, this.solidQuadTree);
   };
 
   Game.prototype.spellCollisions = function(collBox) {
-    return this.allCollisions(collBox, this.spells);
+    return this.quadCollisions(collBox, this.spellQuadTree);
   };
 
   Game.prototype.wizardCollisions = function(collBox) {
+    return this.quadCollisions(collBox, this.wizardQuadTree);
+  };
+
+  // Deprecated --
+  Game.prototype.solidCollisionsDeprecated = function(collBox) {
+    return this.allCollisions(collBox, this.solidObjects());
+  };
+
+  Game.prototype.spellCollisionsDeprecated = function(collBox) {
+    return this.allCollisions(collBox, this.spells);
+  };
+
+  Game.prototype.wizardCollisionsDeprecated = function(collBox) {
     return this.allCollisions(collBox, $.grep(this.wizards, function(wizard) {
       return !wizard.isDead();
     }));
@@ -235,6 +250,7 @@
       return collisions;
     }
   };
+  // --<< Deprecated
 
   Game.prototype.quadCollisions = function(collBox, quadTree) {
     var collisions = [];
@@ -245,7 +261,7 @@
 
       var collision = rect.collision(objects[i]);
       if (collision !== false) {
-        collisions.push(collision.parent.parent);
+        collisions.push(objects[i].parent.parent);
         if (objects[i].onCollision) objects[i].onCollision(collBox.parent);
       }
     }

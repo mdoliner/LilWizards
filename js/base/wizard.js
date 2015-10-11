@@ -70,21 +70,21 @@
   Wizard.AIRCONTROL = .65;
   Wizard.BASEWALLJUMPX = 3.0;
 
-  Wizard.TOTAL_SPELL_LIST = [
-    LW.SpellList.Crash,
-    LW.SpellList.FanOfKnives,
-    LW.SpellList.RayCannon,
-    LW.SpellList.Fireball,
-    LW.SpellList.EvilCandy,
-    LW.SpellList.Sword,
-    LW.SpellList.ForcePush,
-    LW.SpellList.Teleport,
-    LW.SpellList.Wave,
-    LW.SpellList.Confusion,
-    LW.SpellList.Vomit,
-    LW.SpellList.ToxicDarts,
-    LW.SpellList.WreckingBall,
-  ];
+  // Wizard.TOTAL_SPELL_LIST = [
+  //   LW.SpellList.Crash,
+  //   LW.SpellList.FanOfKnives,
+  //   LW.SpellList.RayCannon,
+  //   LW.SpellList.Fireball,
+  //   LW.SpellList.EvilCandy,
+  //   LW.SpellList.Sword,
+  //   LW.SpellList.ForcePush,
+  //   LW.SpellList.Teleport,
+  //   LW.SpellList.Wave,
+  //   LW.SpellList.Confusion,
+  //   LW.SpellList.Vomit,
+  //   LW.SpellList.ToxicDarts,
+  //   LW.SpellList.WreckingBall,
+  // ];
 
   Wizard.prototype.draw = function(ctx, camera) {
     if (this.isDead()) return;
