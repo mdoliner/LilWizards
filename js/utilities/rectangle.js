@@ -77,7 +77,7 @@
     for (var i = 0; i < axis.length; i++) {
       thisProj = this.getProjectionOntoAxis(axis[i]);
       rectProj = rect.getProjectionOntoAxis(axis[i]);
-      if (thisProj.max < rectProj.min || rectProj.max < thisProj.min) return false;
+      if (thisProj.max <= rectProj.min || rectProj.max <= thisProj.min) return false;
     }
 
     return true;

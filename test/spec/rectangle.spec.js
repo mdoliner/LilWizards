@@ -107,10 +107,22 @@
         var rect2;
         for (var i = -1; i < 2; i++) {
           for (var j = -1; j < 2; j++) {
-            if (i === 1 && j === 1) continue;
+            if (i === 0 && j === 0) continue;
 
             rect2 = createRect(i * 10 + 5, j * 10 + 5, 10, 10);
-            expect(!!rect.collision(rect2), 'collsion of ' + rectString(rect) + ' vs ' + rectString(rect2)).to.equal(true);
+            expect(!!rect.collision(rect2), 'collsion of ' + rectString(rect) + ' vs ' + rectString(rect2)).to.equal(false);
+          }
+        }
+      });
+
+      it('should correctly determine that it is not colliding with something larger', function() {
+        var rect2;
+        for (var i = -1; i < 2; i++) {
+          for (var j = -1; j < 2; j++) {
+            if (i === 0 && j === 0) continue;
+
+            rect2 = createRect((-2 - i) * 10 + 5, (-2 - j) * 10 + 5, 10 * (i + 2), 10 * (j + 2));
+            expect(!!rect.collision(rect2), 'collsion of ' + rectString(rect) + ' vs ' + rectString(rect2)).to.equal(false);
           }
         }
       });
@@ -119,10 +131,10 @@
         var rect2;
         for (var i = -1; i < 2; i++) {
           for (var j = -1; j < 2; j++) {
-            if (i === 1 && j === 1) continue;
+            if (i === 0 && j === 0) continue;
 
-            rect2 = createRect(i * 10 + 5, j * 10 + 5, 5, 5, 45);
-            expect(!!rect.collision(rect2), 'collsion of ' + rectString(rect) + ' vs ' + rectString(rect2)).to.equal(true);
+            rect2 = createRect(i * 20, j * 20, 3, 3, 45);
+            expect(!!rect.collision(rect2), 'collsion of ' + rectString(rect) + ' vs ' + rectString(rect2)).to.equal(false);
           }
         }
       });

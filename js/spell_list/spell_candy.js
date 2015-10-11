@@ -6,9 +6,9 @@
   var EvilCandy = LW.Spell.extend({
     pos: this.pos,
     vel: [0,0],
-    img: 'graphics/spell_candy.png',
-    imgSizeX: 10,
-    imgSizeY: 10,
+    img: 'graphics/spell_candy2.png',
+    imgSizeX: 22.5,
+    imgSizeY: 22.5,
     dim: [18, 18],
     sType: 'static',
     sId: 'candy',
@@ -21,8 +21,8 @@
       if (this.mineBuffer <= 0) {
         this.sprite.baseAngle += 1;
       } else {
-        this.sprite.sizeX += 0.25;
-        this.sprite.sizeY += 0.25;
+        this.sprite.sizeX += 0.75;
+        this.sprite.sizeY += 0.75;
       }
     },
 
