@@ -10,6 +10,11 @@
     <script>
         var expect = chai.expect;
         mocha.setup("bdd");
+
+        window.__TEST__ = true;
+        window.onload = function () {
+            (window.mochaPhantomJS || mocha).run();
+        }
     </script>
 
     <!-- Load the built files -->
@@ -23,5 +28,21 @@
 </head>
 <body>
 <div id="mocha"></div>
+<article class="game" style="display:none;">
+  <section class="main-menu">
+    <h1 class="menu-title"></h1>
+    <p class="menu-tooltip"></p>
+    <ul class="main-menu-quads groups">
+    </ul>
+    <ul class="main-menu-items">
+    </ul>
+  </section>
+  <canvas id="game-bg-canvas" width="1024" height="576"></canvas>
+  <canvas id="game-fg-canvas" width="1024" height="576"></canvas>
+</article>
+<div class="fps-counter" style="display:none;"></div>
+<div class="audio-tags" style="display:none;">
+  <audio id="bgm" loop></audio>
+</div>
 </body>
 </html>

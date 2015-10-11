@@ -207,8 +207,8 @@
     dup: ['clone'],
     plusAngle: ['rotate'],
     plusAngleDeg: ['rotateDeg'],
-    plusAngleAroundPoint: ['rotateAngleAroundPoint'],
-    plusAngleDegAroundPoint: ['rotateAngleDegAroundPoint'],
+    plusAngleAroundPoint: ['rotateAroundPoint'],
+    plusAngleDegAroundPoint: ['rotateDegAroundPoint'],
   };
 
   _.each(ALIASES, function(aliases, fnName) {
