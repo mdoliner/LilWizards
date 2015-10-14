@@ -62,6 +62,8 @@
     this.controllerType = options.controllerType;
   };
 
+  _.extend(Wizard.prototype, LW.EventSystem);
+
   //Wizard.BASEBOOST = 0.3;
   Wizard.ACCELTIME = 6;
   Wizard.BASEBOOST = 4;
@@ -136,10 +138,12 @@
     this.onGround = false;
     this.wallJumpBuffer -= 1;
     this.dynamicJumpTimer -= 1;
+    var extraVel = this.enviroVel.dup();
+    this.enviroVel.setTo(0);
     var _this = this;
     var onAdjWall = false;
 
-    this.collBox.removeCollision('x', this.vel.x, {
+    this.collBox.removeCollision('x', this.vel.x + extraVel.x, {
       isCollision: function() {
         _this.vel.x = 0;
         onAdjWall = true;
@@ -168,9 +172,9 @@
       this.boosted = false;
     }
 
-    this.collBox.removeCollision('y', this.vel.y, {
+    this.collBox.removeCollision('y', this.vel.y + extraVel.y, {
       isCollision: function() {
-        _this.vel.y = 0.1;
+        _this.vel.y = 0.01;
       },
 
       bottomCollision: function() {
@@ -187,6 +191,7 @@
     }
 
     this.gravity.y = this.nGravity;
+    this.trigger('after:move');
   };
 
   Wizard.prototype.isOnWall = function() {
@@ -244,7 +249,6 @@
 
   Wizard.prototype.jump = function(val) {
     val *= this.jumpModifier;
-    console.log('jump val:', val);
     this.dynamicJumpTimer = Wizard.BASEJUMPTIME;
     var offset;
     if (this.onGround) {

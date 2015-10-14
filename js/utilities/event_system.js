@@ -19,11 +19,20 @@
     return this;
   };
 
+  EventSystem.once = function(event, callback) {
+    var actual
+    return this.on(event, actual = function() {
+      callback.apply(this, arguments);
+      this.off(event, actual);
+    });
+  };
+
   EventSystem.trigger = function(event) {
     var args = [].slice.call(arguments, 1);
     if (!this._events || !this._events[event]) return;
-    for (var i = 0, n = this._events[event].length; i < n; i++) {
-      var cb = this._events[event][i];
+    var allEvents = this._events[event].slice();
+    for (var i = 0, n = allEvents.length; i < n; i++) {
+      var cb = allEvents[i];
       cb.apply(this, args);
     }
 
@@ -37,7 +46,7 @@
       this._events[event] = [];
     } else {
       var idx = this._events[event].indexOf(cb);
-      if (~idx) return;
+      if (!~idx) return;
       this._events[event].splice(idx, 1);
     }
 

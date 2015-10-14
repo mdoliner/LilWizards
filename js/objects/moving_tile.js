@@ -32,6 +32,23 @@
       return this.collBox.getRect();
     },
 
+    onCollision: function(wizard) {
+      if (!(wizard instanceof LW.Wizard)) return;
+
+      wizard.pos.plus(this.vel);
+      // var dir = this.vel.x === 0 ? 'y' : 'x';
+      // var vel = this.vel;
+      // var killSelf = function() { wizard.kill(wizard) };
+      // wizard.once('after:move', function() {
+      //   wizard.collBox.removeCollision(dir, 0, {
+      //     leftCollision: vel.x < 0 ? killSelf : null,
+      //     rightCollision: vel.x > 0 ? killSelf : null,
+      //     bottomCollision: vel.y > 0 ? killSelf : null,
+      //     topCollision: vel.y < 0 ? killSelf : null,
+      //   });
+      // })
+    },
+
   });
 
 })();
