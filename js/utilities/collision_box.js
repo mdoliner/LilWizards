@@ -78,9 +78,9 @@
   };
 
   CollBox.prototype.removeCollision = function(dir, move, options) {
-    // this function doesn't have a case for if an angle box is hitting a solid object
-    this.pos[dir] += move;
+    // TODO: this function doesn't have a case for if an angle box is hitting a solid object
     options = options || {};
+    this.pos[dir] += move;
     var collisions = this.game.solidCollisions(this);
     if (collisions) {
       for (var i = 0; i < collisions.length; i++) {
@@ -91,6 +91,7 @@
         // If the other collision box is not angled, handle it simply.
         if (oB.angle === 0) {
           depth = (this.dim[dir] + oB.dim[dir]) - Math.abs(this.pos[dir] - oB.pos[dir]);
+          if (Math.abs(depth) > 60) debugger;
           if (this.pos[dir] > oB.pos[dir]) {
             this.pos[dir] += depth;
             options.leftCollision && options.leftCollision(collision);
@@ -101,16 +102,7 @@
             options.bottomCollision && options.bottomCollision();
           }
         } else {
-          // else find the correct depth of the straight obj in the rotated obj
-          // THIS CODE NEEDS MORE WORK.
-          depth = (this.dim[dir] + oB.dim[dir]) - Math.abs(this.pos[dir] - oB.pos[dir]);
-          if (this.pos[dir] > oB.pos[dir]) {
-            this.pos[dir] += depth;
-            options.leftSlope && options.leftSlope(collision);
-          } else {
-            this.pos[dir] -= depth;
-            options.rightSlope && options.leftSlope(collision);
-          }
+          console.error('not implemented');
         }
 
         options.isCollision && options.isCollision();

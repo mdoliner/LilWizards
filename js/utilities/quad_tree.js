@@ -67,7 +67,7 @@
       } else if (isBotQuad) {
         index = 1;
       }
-    } else if (rect.x > horMid) {
+    } else if (rect.x > verMid) {
       if (isTopQuad) {
         index = 3;
       } else if (isBotQuad) {
@@ -83,7 +83,7 @@
     if (this.nodes[0] != null) {
       index = this.getIndex(rect);
 
-      if (index != -1) {  
+      if (index != -1) {
         this.nodes[index].insert(rect);
 
         return;

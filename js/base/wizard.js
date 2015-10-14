@@ -243,6 +243,7 @@
 
   Wizard.prototype.jump = function(val) {
     val *= this.jumpModifier;
+    console.log('jump val:', val);
     this.dynamicJumpTimer = Wizard.BASEJUMPTIME;
     var offset;
     if (this.onGround) {
