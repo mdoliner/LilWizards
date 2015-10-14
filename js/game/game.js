@@ -257,12 +257,13 @@
     var rect = collBox.getRect();
     var objects = quadTree.retrieve(rect);
     for (var i = 0; i < objects.length; i++) {
-      if (collBox.parent === objects[i].parent.parent) continue;
+      var grandParent = objects[i].parent.parent;
+      if (collBox.parent === grandParent) continue;
 
       var collision = rect.collision(objects[i]);
       if (collision !== false) {
-        collisions.push(objects[i].parent.parent);
-        if (objects[i].onCollision) objects[i].onCollision(collBox.parent);
+        collisions.push(grandParent);
+        if (grandParent.onCollision) grandParent.onCollision(collBox.parent);
       }
     }
 

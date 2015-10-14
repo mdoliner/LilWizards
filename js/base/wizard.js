@@ -6,6 +6,7 @@
   var Wizard = LW.Wizard = function(options) {
     this.pos = new LW.Coord(options.pos);
     this.vel = new LW.Coord(options.vel);
+    this.enviroVel = new LW.Coord([0, 0]);
     this.horFacing = options.horFacing;
     this.verFacing = null;
     this.maxVelX = Wizard.BASEBOOST;
