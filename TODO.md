@@ -1,15 +1,14 @@
 TODO LIST
 ==============
-- Create Rectangle Class
-- Implement QuadTree into collision detection.
-- Implement Separating Axis Th.
+- Revamp Menu System.
+	- Easily Create Menus and SubMenus
+	- Easily Create Listeners to those menus.
+
 - Create Circle Collision Box.
 - Test Performance
 
-- Add floor velocity to wizards.
-
 - sprite refactoring
-
+- Add squish detection to wizards on moving blocks.
 
 Spell:
 - Meteor Shell too Stronk.

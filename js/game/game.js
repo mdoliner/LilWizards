@@ -14,6 +14,7 @@
     this.solidQuadTree = new LW.QuadTree();
     this.spellQuadTree = new LW.QuadTree();
     this.wizardQuadTree = new LW.QuadTree();
+    this.bounds = {};
     this.parseLevel(options.level);
     this.particles = new LW.ParticleLibrary;
     this.camera = new LW.Camera({
@@ -34,9 +35,10 @@
   Game.DIMX = 1024;
   Game.DIMY = 576;
   Game.MAX_ZOOM = 125;
+  Game.LEVEL_PADDING = 200;
 
   Game.prototype.step = function() {
-    if (false && this.camera.move.time <= 0) {
+    if (this.camera.move.time <= 0) {
       this.adjustCamera();
     }
 
@@ -87,7 +89,7 @@
       endPos: [avgX, avgY],
       endSize: mag,
       moveType: 'linear',
-      duration: 20,
+      duration: 10,
     });
   };
 
@@ -280,14 +282,24 @@
     this.spawnPoints = objects.spawnPoints;
     this.movingTiles = objects.movingTiles;
     this.spikes = objects.spikes;
+    this.bounds = {
+      x: -Game.LEVEL_PADDING,
+      y: -Game.LEVEL_PADDING,
+      width: level[0].length * 32 + Game.LEVEL_PADDING,
+      height: level.length * 32 + Game.LEVEL_PADDING
+    }
   };
 
   Game.prototype.getSpawnPointPos = function(wizard) {
-    var randomSpawn = this.spawnPoints[Math.floor(Math.random() * this.spawnPoints.length)];
-    var collisions = this.wizardCollisions(randomSpawn.collBox);
-    while (collisions && collisions.indexOf(wizard) < 0) {
-      randomSpawn = this.spawnPoints[Math.floor(Math.random() * this.spawnPoints.length)];
-      collisions = this.wizardCollisions(randomSpawn.collBox);
+    var tries = 1;
+    var randomIdx = Math.floor(Math.random() * this.spawnPoints.length);
+    var randomSpawn = this.spawnPoints[randomIdx];
+    var collisions = this.wizardCollisionsDeprecated(randomSpawn.collBox);
+    while (collisions && tries <= this.spawnPoints.length) {
+      tries++;
+      randomIdx = (randomIdx + 1) % this.spawnPoints.length;
+      randomSpawn = this.spawnPoints[randomIdx];
+      collisions = this.wizardCollisionsDeprecated(randomSpawn.collBox);
     }
 
     return randomSpawn.pos;
