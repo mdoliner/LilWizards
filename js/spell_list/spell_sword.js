@@ -4,7 +4,7 @@
   }
 
   var SwordSpell = LW.Spell.extend({
-    img: 'graphics/spell_sword.png',
+    img: 'graphics/spell_sword2.png',
     dim: [17,6],
     duration: 20,
     imgBaseAngle: 225,

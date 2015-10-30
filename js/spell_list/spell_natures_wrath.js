@@ -4,13 +4,15 @@
   }
 
   var NaturesWrathSpell = LW.Spell.extend({
-    img: 'graphics/spell_natures_wrath.png',
+    img: 'graphics/spell_natures_wrath2.png',
     dim: [7.5,7.5],
     imgBaseAngle: -45,
     sType: 'static',
     sId: 'naturesWrath',
     initialize: function() {
       this.game.playSE('swing2.ogg');
+      this.sprite.sizeX = 50;
+      this.sprite.sizeY = 50;
       this.hit = function() {
         this.duration = 120;
         LW.ParticleSplatter(15, plantHit.bind(this));
