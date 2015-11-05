@@ -5,8 +5,9 @@
 
   var CrashSpell = LW.Spell.extend({
     vel: [0,15],
-    img: 'graphics/spell_crash.png',
+    img: 'graphics/spell_crash2.png',
     dim: [10,5],
+    imgBaseAngle: 90,
     duration: -1,
     sType: 'melee',
     sId: 'crash',
@@ -14,7 +15,8 @@
       if (this.impact) {
         this.collBox.dim.x += 3;
         this.collBox.dim.y += 0.2;
-        this.sprite.sizeY += 60;
+        this.sprite.sizeY += 10;
+        this.sprite.sizeX += 10;
       } else {
         this.caster.vel.y = 10;
         this.pos.x = this.caster.pos.x;
@@ -63,7 +65,7 @@
     });
 
     spell.sprite.sizeY = 100;
-    spell.sprite.sizeX = 50;
+    spell.sprite.sizeX = 100;
     this.game.playSE('fire.ogg');
     this.wallHangOveride = true;
     this.game.spells.push(spell);
