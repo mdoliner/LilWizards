@@ -3,9 +3,10 @@
     window.LW = {};
   }
 
+// TODO: needs to be adjusted for new sprite.
   var RayCannon = LW.Spell.extend({
     vel: [0,0],
-    img: 'graphics/spell_ray_cannon.png',
+    img: 'graphics/spell_purp_ray_cannon.png',
     dim: [5,5],
     duration: 120,
     sType: 'ray',
@@ -32,7 +33,7 @@
           this.collBox.dim.plus(spellDir.abs());
 
           // this.vel.plus(spellDir);
-          this.sprite.sizeX += 9;
+          this.sprite.sizeX += 15;
           collisions = this.game.solidCollisions(this.collBox);
         }
 
