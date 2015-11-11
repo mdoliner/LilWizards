@@ -4,13 +4,13 @@
   }
 
   var FanOfKnivesSpell = LW.Spell.extend({
-    img: 'graphics/spell_shuriken.gif',
+    img: 'graphics/spell_sun_shuriken.png',
     dim: [2,2],
     duration: -1,
     sType: 'melee',
     sId: 'fanOfKnives',
     tickEvent: function() {
-      this.sprite.baseAngle += 1;
+      this.sprite.baseAngle -= 2;
       if (this.isFired) {
         return;
       }
@@ -56,6 +56,9 @@
       spellIndex: spellIndex,
       isChild: isChild,
     });
+
+    spell.sprite.sizeX = 60;
+    spell.sprite.sizeY = 60;
     this.game.playSE('swing.ogg');
     this.game.spells.push(spell);
     this.globalCooldown = 30;
