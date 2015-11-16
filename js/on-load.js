@@ -2,6 +2,11 @@ if (window.require) {
   window.$ = window.jQuery = require('./js/vendor/jquery-2.1.3.js');
 }
 
+var LEVEL_XML;
+$.get('data/levels.xml', function(resp) {
+  LEVEL_XML = $.parseXML(resp);
+});
+
 $(function() {
   mixinEverything();
 

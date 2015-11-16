@@ -38,7 +38,7 @@
   Game.LEVEL_PADDING = 200;
 
   Game.prototype.step = function() {
-    if (this.camera.move.time <= 0) {
+    if (false && this.camera.move.time <= 0) {
       this.adjustCamera();
     }
 
