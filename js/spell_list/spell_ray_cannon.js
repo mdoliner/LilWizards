@@ -3,11 +3,14 @@
     window.LW = {};
   }
 
-// TODO: needs to be adjusted for new sprite.
+  // FIXME: Collision bug going through QUADS.
+  var IMAGE_X = 32;
+  var IMAGE_Y = 32;
+  var DIM = 5;
   var RayCannon = LW.Spell.extend({
     vel: [0,0],
     img: 'graphics/spell_purp_ray_cannon.png',
-    dim: [5,5],
+    dim: [DIM, DIM],
     duration: 120,
     sType: 'ray',
     sId: 'rayCannon',
@@ -23,7 +26,7 @@
       } else {
         this.isFired = true;
         this.game.playSE('thunder.ogg');
-        this.sprite.sizeX = 100;
+        this.sprite.sizeX = DIM / IMAGE_X * 200;
         this.sprite.sizeY = 100;
         var collisions = this.game.solidCollisions(this.collBox);
         var spellDir = this.caster.spellDirection().times(3);
@@ -33,7 +36,7 @@
           this.collBox.dim.plus(spellDir.abs());
 
           // this.vel.plus(spellDir);
-          this.sprite.sizeX += 15;
+          this.sprite.sizeX += 600 / IMAGE_X;
           collisions = this.game.solidCollisions(this.collBox);
         }
 
