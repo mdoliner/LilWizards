@@ -1,4 +1,4 @@
-var Gamepad = (function(self) {
+window.Gamepad = (function(self) {
 
   self.supported = (navigator.webkitGetGamepads && navigator.webkitGetGamepads()) ||
   !!navigator.webkitGamepads || !!navigator.mozGamepads ||

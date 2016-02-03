@@ -1,5 +1,5 @@
 if (window.require) {
-  window.$ = window.jQuery = require('./js/vendor/jquery-2.1.3.js');
+  window.$ = window.jQuery = require('./vendor/jquery-2.1.3.js');
 }
 
 var LEVEL_XML;
