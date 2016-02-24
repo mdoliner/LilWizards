@@ -7,7 +7,9 @@ $.get('data/levels.xml', function(resp) {
   LEVEL_XML = $.parseXML(resp);
 });
 
+console.log('getting here');
 $(function() {
+  console.log('getting here2');
   mixinEverything();
 
   if (window.__TEST__) return;

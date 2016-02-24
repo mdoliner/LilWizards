@@ -4,7 +4,6 @@
   }
 
   var EvilCandy = LW.Spell.extend({
-    pos: this.pos,
     vel: [0,0],
     img: 'graphics/spell_candy2.png',
     imgSizeX: 22.5,

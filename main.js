@@ -29,7 +29,11 @@ app.on('ready', function() {
   mainWindow.setMenuBarVisibility(false);
 
   // and load the index.html of the app.
-  mainWindow.loadUrl('file://' + __dirname + '/index.html');
+  if (process.env.NOVE_ENV === 'production') {
+    mainWindow.loadUrl('file://' + __dirname + '/index.production.html');
+  } else {
+    mainWindow.loadUrl('file://' + __dirname + '/index.html');
+  }
 
   // Open the devtools.
   // mainWindow.openDevTools();

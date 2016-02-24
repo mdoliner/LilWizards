@@ -30,7 +30,7 @@
     $('.menu-title').html(this.title);
     $('.menu-tooltip').html(this.tooltip);
     for (var i = 0; this.commands.length > i; i++) {
-      command = this.commands[i];
+      var command = this.commands[i];
       var $li = $('<li>');
       $li.addClass('menu-item');
       $li.addClass(command);
