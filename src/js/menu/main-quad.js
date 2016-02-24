@@ -3,6 +3,7 @@
     window.LW = {};
   }
 
+  'use strict';
   var playerSpellButtons = {
     keyboard: [
       ['O', 'I', 'U'],
@@ -65,7 +66,7 @@
 
   QuadView.prototype.addItems = function() {
     for (var i = 0; this.commands.length > i; i++) {
-      command = this.commands[i];
+      var command = this.commands[i];
       var $li = $('<li>');
       $li.addClass('quad-menu-item');
       $li.addClass(command);
