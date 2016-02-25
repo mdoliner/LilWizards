@@ -12,4 +12,3 @@ export default Storage.get('settings') || {
 export function setSettings() {
   Storage.set('settings', LW.Settings);
 }
-  
