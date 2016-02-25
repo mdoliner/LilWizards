@@ -1,32 +1,29 @@
-(function() {
-  if (window.LW === undefined) {
-    window.LW = {};
-  }
+'use strict';
+import MainMenu from './main-menu';
+import QuadMenu from './main-quad';
+import CharacterMenu from './menu-character';
+import Util from '../utilities/utils';
 
-  if (window.LW.Menus === undefined) {
-    window.LW.Menus = {};
-  }
+var events = {};
+var commands = [];
+for (var level in LW.Levels) {
+  if (!LW.Levels.hasOwnProperty(level)) continue;
 
-  var events = {};
-  var commands = [];
-  for (var level in LW.Levels) {
-    if (!LW.Levels.hasOwnProperty(level)) continue;
+  events[level] = Util.args(function (nlevel) {
+    LW.runGame(LW.Levels[nlevel], nlevel, false);
+    this.remove();
+  }, level);
 
-    events[level] = Util.args(function(nlevel) {
-      LW.runGame(LW.Levels[nlevel], nlevel, false);
-      this.remove();
-    }, level);
+  commands.push(level);
+}
 
-    commands.push(level);
-  }
+const Level = new MainMenu({
+  title: 'Level Select',
+  tooltip: 'Choose a level to begin playing!',
+  commands: commands,
+  events: events,
+  parentMenu: CharacterMenu,
+  selector: '.main-menu-items',
+});
 
-  var Level = LW.Menus.Level = new LW.MainMenu({
-    title: 'Level Select',
-    tooltip: 'Choose a level to begin playing!',
-    commands: commands,
-    events: events,
-    parentMenu: LW.Menus.Character,
-    selector: '.main-menu-items',
-  });
-
-})();
+export default Level;

@@ -2,7 +2,7 @@
  * Particle Class
  */
 'use strict';
-const Coord = require('../utilities/coord');
+import Coord from '../utilities/coord';
 
 function Particle(options) {
   this.pos = new Coord(options.pos);
@@ -51,7 +51,7 @@ function Particle(options) {
   options.initialize && options.initialize();
 }
 
-Particle.prototype.draw = function(ctx, camera) {
+Particle.prototype.draw = function (ctx, camera) {
   ctx.beginPath();
   this.color.alpha = Math.min(1, this.duration * 2 / this.maxDuration);
   var newPos = camera.relativePos(this.pos);
@@ -67,11 +67,11 @@ Particle.prototype.draw = function(ctx, camera) {
   ctx.fill();
 };
 
-Particle.prototype.square = function(ctx, radius, pos) {
+Particle.prototype.square = function (ctx, radius, pos) {
   ctx.fillStyle = parseColor(this.color);
 };
 
-Particle.prototype.radial = function(ctx, radius, pos) {
+Particle.prototype.radial = function (ctx, radius, pos) {
   var hR = (radius / 2) | 0;
   pos.plus(hR);
   var inRad = (hR * this.radialSize) | 0;
@@ -83,7 +83,7 @@ Particle.prototype.radial = function(ctx, radius, pos) {
   ctx.fillStyle = gradiant;
 };
 
-Particle.prototype.outerRadial = function(ctx, radius, pos) {
+Particle.prototype.outerRadial = function (ctx, radius, pos) {
   var hR = (radius / 2) | 0;
   pos.plus(hR);
   var inRad = (hR * this.radialSize) | 0;
@@ -98,7 +98,7 @@ Particle.prototype.outerRadial = function(ctx, radius, pos) {
   this.color.alpha = oldAlpha;
 };
 
-Particle.prototype.move = function() {
+Particle.prototype.move = function () {
   if (this.duration <= 0) {
     this.game.remove(this);
   }
@@ -128,12 +128,12 @@ var colorMap = {
   whitesmoke: [0, 0, 96],
   floralwhite: [40, 100, 97],
   crimson: [348, 83, 47],
-  papayawhip: [37,16,100],
-  orangered: [8,100,50],
+  papayawhip: [37, 16, 100],
+  orangered: [8, 100, 50],
 };
 
 function parseColor(color) {
   return 'hsla(' + color.hue + ',' + color.sat + '%,' + color.light + '%,' + color.alpha + ')';
 }
 
-module.exports = Particle;
+export default Particle;

@@ -10,12 +10,12 @@ function Library() {
 
 Library.MAXPARTICLES = 10000;
 
-Library.prototype.push = function(particle) {
+Library.prototype.push = function (particle) {
   this.particles[this.length] = particle;
   this.length++;
 };
 
-Library.prototype.spliceOne = function(index) {
+Library.prototype.spliceOne = function (index) {
   if (!this.length) return;
 
   while (index < this.length) {
@@ -26,7 +26,7 @@ Library.prototype.spliceOne = function(index) {
   this.length--;
 };
 
-Library.prototype.indexOf = function(particle) {
+Library.prototype.indexOf = function (particle) {
   for (var i = 0; i < this.length; i++) {
     if (this.particles[i] === particle) return i;
   }
@@ -34,16 +34,16 @@ Library.prototype.indexOf = function(particle) {
   return -1;
 };
 
-Library.prototype.move = function() {
+Library.prototype.move = function () {
   for (var i = 0; i < this.length; i++) {
     this.particles[i].move();
   }
 };
 
-Library.prototype.draw = function(ctx, camera) {
+Library.prototype.draw = function (ctx, camera) {
   for (var i = 0; i < this.length; i++) {
     this.particles[i].draw(ctx, camera);
   }
 };
 
-module.exports = Library;
+export default Library;

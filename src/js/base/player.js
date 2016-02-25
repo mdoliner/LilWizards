@@ -3,11 +3,11 @@
  *  Digests actions from the gamepads or keyboards.
  */
 'use strict';
-const Wizard = require('./wizard');
-const Players = require('./players');
-const Sprite = require('./sprite');
-const SpellList = require('./spell_list');
-const Spell = require('./spell');
+import Wizard from './wizard';
+import Players from './players';
+import Sprite from './sprite';
+import SpellList from './spell_list';
+import Spell from './spell';
 
 const KeyboardControlScheme = [
   {
@@ -42,7 +42,7 @@ function Player(options) {
   }
 }
 
-Player.prototype.makeWizard = function(options) {
+Player.prototype.makeWizard = function (options) {
   return this.wizard = new Wizard({
     pos: options.game.getSpawnPointPos(),
     vel: [0,0],
@@ -58,16 +58,16 @@ Player.prototype.makeWizard = function(options) {
   });
 };
 
-Player.prototype.makeSpellList = function() {
+Player.prototype.makeSpellList = function () {
   var spells = [];
-  this.spellList.forEach(function(spellName) {
+  this.spellList.forEach(function (spellName) {
     spells.push(SpellList[spellName]);
   });
 
   return spells;
 };
 
-Player.randomSpellList = function() {
+Player.randomSpellList = function () {
   var spells = [];
   while (spells.length < 3) {
     var spell = Spell.TOTAL_SPELL_NAMES[Math.floor(Math.random() * Spell.TOTAL_SPELL_NAMES.length)];
@@ -79,12 +79,12 @@ Player.randomSpellList = function() {
   return spells;
 };
 
-Player.prototype.nextSprite = function(dir) {
+Player.prototype.nextSprite = function (dir) {
   var index = Sprite.WIZARDS.indexOf(this.wizardGraphic);
   index = (index + dir + Sprite.WIZARDS.length) % Sprite.WIZARDS.length;
   this.wizardGraphic = null;
-  var spriteTaken = function(graphic) {
-    return Players.some(function(player) {
+  var spriteTaken = function (graphic) {
+    return Players.some(function (player) {
       return player.wizardGraphic === graphic;
     });
   };
@@ -96,7 +96,7 @@ Player.prototype.nextSprite = function(dir) {
   return this.wizardGraphic = Sprite.WIZARDS[index];
 };
 
-Player.prototype.checkControllerActions = function() {
+Player.prototype.checkControllerActions = function () {
   if (!this.wizard) return;
 
   if (this.controllerType === 'keyboard') {
@@ -110,7 +110,7 @@ Player.prototype.checkControllerActions = function() {
   }
 };
 
-Player.prototype.cyclePress = function(action) {
+Player.prototype.cyclePress = function (action) {
   if (action === 'none') return 'tap';
 
   if (action === 'tap') return 'hold';
@@ -120,7 +120,7 @@ Player.prototype.cyclePress = function(action) {
   if (action === 'release') return 'tap';
 };
 
-Player.prototype.cycleRelease = function(action) {
+Player.prototype.cycleRelease = function (action) {
   if (action === 'none') return 'none';
 
   if (action === 'tap') return 'release';
@@ -130,7 +130,7 @@ Player.prototype.cycleRelease = function(action) {
   if (action === 'release') return 'none';
 };
 
-Player.prototype.checkGamepadActions = function() {
+Player.prototype.checkGamepadActions = function () {
   var boost = Wizard.BASEBOOST;
   var i = this.controllerIndex;
   var leftX = Gamepad.moved(i, 'LEFT_X');
@@ -188,7 +188,7 @@ Player.prototype.checkGamepadActions = function() {
   }
 };
 
-Player.prototype.checkKeyboardActions = function() {
+Player.prototype.checkKeyboardActions = function () {
   var boost = Wizard.BASEBOOST;
 
   //var boost = 5;
@@ -243,7 +243,7 @@ Player.prototype.checkKeyboardActions = function() {
 
 var COMPUTER_ACTIONS = ['up', 'down', 'left', 'right', 'jump', 'spells0', 'spells1', 'spells2'];
 
-Player.prototype.checkComputerActions = function() {
+Player.prototype.checkComputerActions = function () {
   this.actionTimer = this.actionTimer - 1 || Math.floor(Math.random() * 30) + 45;
   var boost = Wizard.BASEBOOST;
   var actionIndex = Math.floor(Math.random() * COMPUTER_ACTIONS.length);
@@ -293,4 +293,4 @@ Player.prototype.checkComputerActions = function() {
 
 };
 
-module.exports = Player;
+export default Player;

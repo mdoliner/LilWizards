@@ -14,8 +14,8 @@ function PseudoWizard() {
   };
 }
 
-PseudoWizard.prototype.accelX = function() {};
+PseudoWizard.prototype.accelX = function () {};
 
-PseudoWizard.prototype.faceDir = function() {};
+PseudoWizard.prototype.faceDir = function () {};
 
-module.exports = PseudoWizard;
+export default PseudoWizard;

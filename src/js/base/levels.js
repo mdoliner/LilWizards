@@ -1,9 +1,11 @@
+//jscs:disable
 /**
  * Javascript Levels
  * @type {{}}
  */
 'use strict';
-const Levels = module.exports = {};
+const Levels = {};
+export default Levels;
 
 var R = 'right';
 var L = 'rightEnd';

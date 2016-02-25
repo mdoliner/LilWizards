@@ -1,8 +1,5 @@
-(function () {
-  if (window.LW === undefined) {
-    window.LW = {};
-  }
-
-  LW.SpellList = {};
-
-})();
+/**
+ * The Spells Container
+ */
+'use strict';
+export default {};

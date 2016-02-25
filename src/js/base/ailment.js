@@ -2,8 +2,8 @@
  * Ailment class.
  */
 'use strict';
-const _ = require('lodash');
-const Util = require('../utilities/utils');
+import _ from 'lodash';
+import Util from '../utilities/utils';
 
 function Ailment(attr) {
   _.extend(this, attr);
@@ -14,11 +14,11 @@ function Ailment(attr) {
 
 Ailment.extend = Util.fnExtend;
 
-Ailment.prototype.tickEvent = function() {};
+Ailment.prototype.tickEvent = function () {};
 
-Ailment.prototype.removeEvent = function() {};
+Ailment.prototype.removeEvent = function () {};
 
-Ailment.prototype.step = function() {
+Ailment.prototype.step = function () {
   this.tickEvent && this.tickEvent();
   this.time -= 1;
   if (this.time === 0) {
@@ -26,9 +26,9 @@ Ailment.prototype.step = function() {
   }
 };
 
-Ailment.prototype.remove = function() {
+Ailment.prototype.remove = function () {
   this.victim.remove(this);
   this.removeEvent && this.removeEvent();
 };
 
-module.exports = Ailment;
+export default Ailment;
