@@ -12,21 +12,24 @@ function srcPathTo(dir) {
 }
 
 module.exports = {
-  conext: srcPath,
-  target: 'electron',
+  cache: true,
+  contentBase: './src',
+  context: srcPath,
+  //target: 'electron',
   devtool: 'eval-cheap-module-source-map',
   entry: {
     bundle: [
-      'webpack-dev-server/client?http://localhost:3000',
-      'webpack/hot/only-dev-server',
-      './src/js/core.js',
+      //'webpack-dev-server/client?http://localhost:3000',
+      //'webpack/hot/only-dev-server',
+      'webpack-hot-middleware/client?path=http://localhost:3000/__webpack_hmr',
+      './js/core.js',
     ],
   },
 
   output: {
     path: path.resolve(__dirname, 'build'),
-    publicPath: `http://localhost:3000/build/`,
-    filename: 'bundle.js',
+    publicPath: 'http://localhost:3000/build/',
+    filename: '[name].js',
   },
 
   resolve: {
@@ -55,21 +58,22 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loader: 'style-loader!css-loader!sass-loader!postcss-loader',
+        loader: 'style-loader!css-loader!postcss-loader!sass-loader?outputStyle=expanded',
       },
       {
         test: /\.(ttf|eot|svg|woff(2)?|png|jpg|gif|mp3|ogg)$/,
-        loader: 'file-loader?name=[path][name].[ext]',
+        loader: 'file-loader',
       },
     ],
   },
 
-  postcss: function() {
+  postcss: function () {
     return [autoprefixer];
   },
 
   plugins: [
+    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
-  ]
+  ],
 };

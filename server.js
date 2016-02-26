@@ -1,24 +1,36 @@
 /**
- * Created by Justin on 2016-02-23.
+ * Created by Justin on 2016-02-25.
  */
+'use strict';
+
+const path = require('path');
+const express = require('express');
 const webpack = require('webpack');
-const WebpackDevServer = require('webpack-dev-server');
-const webpackConfig = require('./webpack.config');
+const config = require('./webpack.config');
+
+const app = express();
+const compiler = webpack(config);
+
 const PORT = 3000;
 
-const compiler = webpack(webpackConfig);
-const server = new WebpackDevServer(compiler, {
-  publicPath: webpackConfig.output.publicPath,
-  hot: true,
-  historyApiFallback: true,
+app.use(require('webpack-dev-middleware')(compiler, {
+  publicPath: config.output.publicPath,
   stats: {
-    color: true,
+    colors: true,
   },
+}));
+
+app.use(require('webpack-hot-middleware')(compiler));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-server.listen(PORT, err => {
-  if (err) console.log(err);
+app.listen(PORT, 'localhost', err => {
+  if (err) {
+    console.log(err);
+    return;
+  }
 
-  console.log('Lil-Wizards webpack server started at localhost:' + PORT);
-  console.log('Please open another tab and run `npm run electron`');
+  console.log(`Listening at http://localhost:${PORT}`);
 });
