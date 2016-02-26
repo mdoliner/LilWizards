@@ -1,62 +1,42 @@
-if (window.require) {
-  window.$ = window.jQuery = require('./vendor/jquery-2.1.3.js');
-}
+'use strict';
+import { GlobalSL } from './utilities/sound_library';
+import Player from './base/player';
+import { AllPlayers } from './base/players';
+import PseudoWizard from './base/pseudo_wizard';
+import TopMenu from './menu/menu-top';
+import $ from 'jquery';
 
-//var LEVEL_XML = $.parseXML(require('data/levels.xml'));
-
-$(function() {
-  mixinEverything();
-
+$(function () {
   if (window.__TEST__) return;
 
-  LW.GlobalSL.playBGM('Dig-It.mp3');
-  LW.AllPlayers = [
-    new LW.Player({
+  GlobalSL.getEls();
+  GlobalSL.playBGM('Dig-It.mp3');
+  AllPlayers.push(
+    new Player({
       controllerType: 'keyboard',
       controllerIndex: 0,
-      wizard: new LW.PseudoWizard(),
+      wizard: new PseudoWizard(),
     }),
-    new LW.Player({
+    new Player({
       controllerType: 'keyboard',
       controllerIndex: 1,
-      wizard: new LW.PseudoWizard(),
-    }),
-  ];
-  LW.Menus.TopMenu.swapTo({selector: '.main-menu-items'});
+      wizard: new PseudoWizard(),
+    })
+  );
+
+  TopMenu.swapTo({ selector: '.main-menu-items' });
   var gamepadLength = 0;
-  LW.getAllPlayers = setInterval(function() {
+  setInterval(function () {
     if (Gamepad.gamepads.length > gamepadLength) {
       for (var i = gamepadLength; i < Gamepad.gamepads.length; i++) {
-        LW.AllPlayers.push(new LW.Player({
+        AllPlayers.push(new Player({
           controllerType: 'gamepad',
           controllerIndex: i,
-          wizard: new LW.PseudoWizard(),
+          wizard: new PseudoWizard(),
         }));
+
         gamepadLength++;
       }
     }
   }, 1000);
 });
-
-var mixinEverything = function() {
-  for (var attr in LW) {
-    if (!LW.hasOwnProperty(attr)) continue;
-    var fn = LW[attr];
-    if (fn instanceof Function) {
-      Util.include(fn, Mixin);
-    }
-  }
-};
-
-var songs = [
-  'Castlemania.mp3',
-  'Full-Circle.mp3',
-  'battle.mp3',
-];
-
-var backgrounds = {
-  Library: require('graphics/bg_bookcase.jpg'),
-  Cemetery: require('graphics/bg-cemetery.png'),
-  Boarwarts: require('graphics/bg_boarwarts.jpg'),
-  Spikes: require('graphics/bg_boarwarts.jpg'),
-};

@@ -1,100 +1,100 @@
-(function() {
+'use strict';
 
-  window.Util = {};
-  window.Mixin = {};
+const Util = {};
+export const Mixin = {};
 
-  // Function Functions
+// Function Functions
 
-  Util.inherits = function(child, parent) {
-    child.prototype = Object.create(parent.prototype);
+Util.inherits = function (child, parent) {
+  child.prototype = Object.create(parent.prototype);
+};
+
+Util.include = function (child, extra) {
+  //Util.extend(child.prototype, extra);
+  _.extend(child.prototype, extra);
+};
+
+Util.args = function (fn) {
+  var slice = Array.prototype.slice;
+  var bindArgs = slice.call(arguments, 1);
+  return function () {
+    var callArgs = slice.call(arguments);
+    return fn.apply(this, bindArgs.concat(callArgs));
   };
+};
 
-  Util.include = function(child, extra) {
-    //Util.extend(child.prototype, extra);
-    _.extend(child.prototype, extra);
-  };
+Util.fnExtend = function (instanceAttributes, classAttributes) {
+  var _this = this;
+  var child;
 
-  Util.args = function(fn) {
-    var slice = Array.prototype.slice;
-    var bindArgs = slice.call(arguments, 1);
-    return function() {
-      var callArgs = slice.call(arguments);
-      return fn.apply(this, bindArgs.concat(callArgs));
-    };
-  };
+  if (instanceAttributes && instanceAttributes.hasOwnProperty('constructor')) {
+    child = instanceAttributes.constructor;
+  } else {
+    child = function () { return _this.apply(this, arguments); };
+  }
 
-  Util.fnExtend = function(instanceAttributes, classAttributes) {
-    var parent = this;
-    var child;
+  // extend static props here.
+  _.extend(child, _this, classAttributes);
 
-    if (instanceAttributes && instanceAttributes.hasOwnProperty('constructor')) {
-      child = instanceAttributes.constructor;
-    } else {
-      child = function() { return parent.apply(this, arguments); };
-    }
+  var Surrogate = function () { this.constructor = child; };
 
-    // extend static props here.
-    _.extend(child, parent, classAttributes);
+  Surrogate.prototype = _this.prototype;
+  child.prototype = new Surrogate();
 
-    var Surrogate = function() { this.constructor = child; };
+  if (instanceAttributes) _.extend(child.prototype, instanceAttributes);
 
-    Surrogate.prototype = parent.prototype;
-    child.prototype = new Surrogate();
+  child.__parent__ = _this.prototype;
+  return child;
+};
 
-    if (instanceAttributes) _.extend(child.prototype, instanceAttributes);
+// Array Prototyping
 
-    child.__parent__ = parent.prototype;
-    return child;
-  };
+// String Prototyping
 
-  // Array Prototyping
+Util.capitalizeDashes = function (str) {
+  var words = str.split('-');
+  return words.map(function (el) {
+    return el.charAt(0).toUpperCase() + el.slice(1);
+  }).join(' ');
+};
 
-  // String Prototyping
+Util.spaceCapitalize = function (str) {
+  var str2 = str.replace(/([a-z])([A-Z])/g, '$1 $2');
+  return str2;
+};
 
-  Util.capitalizeDashes = function(str) {
-    var words = str.split('-');
-    return words.map(function(el) {
-      return el.charAt(0).toUpperCase() + el.slice(1);
-    }).join(' ');
-  };
+Util.makeReadable = function (str) {
+  return Util.spaceCapitalize(Util.capitalizeDashes(str));
+};
 
-  Util.spaceCapitalize = function(str) {
-    var str2 = str.replace(/([a-z])([A-Z])/g, '$1 $2');
-    return str2;
-  };
+// Object Prototyping
 
-  Util.makeReadable = function(str) {
-    return Util.spaceCapitalize(Util.capitalizeDashes(str));
-  };
+Util.extend = function (thisObj, otherObj) {
+  var args = [].slice.call(arguments);
+  if (args.length > 2) {
+    Util.extend.apply(this, args.slice(1));
+  }
 
-  // Object Prototyping
+  for (var attr in otherObj) {
+    if (!otherObj.hasOwnProperty(attr)) continue;
+    thisObj[attr] = otherObj[attr];
+  }
 
-  Util.extend = function(thisObj, otherObj) {
-    var args = [].slice.call(arguments);
-    if (args.length > 2) {
-      Util.extend.apply(this, args.slice(1));
-    }
+  return thisObj;
+};
 
-    for (var attr in otherObj) {
-      if (!otherObj.hasOwnProperty(attr)) continue;
-      thisObj[attr] = otherObj[attr];
-    }
+Util.clone = function (obj) {
+  return Util.extend(obj.constructor(), obj);
+};
 
-    return thisObj;
-  };
+// Mixin Functions
 
-  Util.clone = function(obj) {
-    return Util.extend(obj.constructor(), obj);
-  };
+Mixin.try = function (fn) {
+  if (fn instanceof Function) {
+    return fn.bind(this)();
+  } else {
+    return fn;
+  }
+};
 
-  // Mixin Functions
-
-  Mixin.try = function(fn) {
-    if (fn instanceof Function) {
-      return fn.bind(this)();
-    } else {
-      return fn;
-    }
-  };
-
-})();
+export default Util;

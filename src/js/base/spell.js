@@ -23,7 +23,7 @@ function Spell(options) {
     sizeY: this.imgSizeY,
   });
 
-  this.try(this.initialize);
+  if (this.initialize) this.initialize();
 }
 
 Spell.extend = Util.fnExtend;

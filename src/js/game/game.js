@@ -2,6 +2,7 @@
  * Core Game object. Handles the state of the game.
  */
 'use strict';
+import _ from 'lodash';
 import Camera from './camera';
 import Coord from '../utilities/coord';
 import CollBox from '../utilities/collision_box';
@@ -45,7 +46,7 @@ function Game(options) {
     game: this,
   });
   this.drawAll = true;
-};
+}
 
 Game.DIMX = 1024;
 Game.DIMY = 576;
@@ -244,7 +245,7 @@ Game.prototype.spellCollisionsDeprecated = function (collBox) {
 };
 
 Game.prototype.wizardCollisionsDeprecated = function (collBox) {
-  return this.allCollisions(collBox, $.grep(this.wizards, function (wizard) {
+  return this.allCollisions(collBox, _.filter(this.wizards, function (wizard) {
     return !wizard.isDead();
   }));
 };
@@ -266,7 +267,7 @@ Game.prototype.allCollisions = function (collBox, objArray) {
   } else {
     return collisions;
   }
-};
+}
 // --<< Deprecated
 
 Game.prototype.quadCollisions = function (collBox, quadTree) {
@@ -302,7 +303,7 @@ Game.prototype.parseLevel = function (level) {
     y: -Game.LEVEL_PADDING,
     width: level[0].length * 32 + Game.LEVEL_PADDING,
     height: level.length * 32 + Game.LEVEL_PADDING
-  }
+  };
 };
 
 Game.prototype.getSpawnPointPos = function (wizard) {
@@ -336,7 +337,7 @@ Game.prototype.isOver = function () {
 Game.prototype.endGame = function (winner) {
   this.gameEnding = true;
   this.playSE('applause.ogg', 100);
-  $('#bgm').animate({volume: 0}, 4000);
+  this.audio.$bgm.animate({ volume: 0 }, 4000);
   var victoryFollow = setInterval(function () {
     var duration;
     if (this.camera.size <= 380) {
@@ -377,3 +378,5 @@ var ParticleTest = function () {
 };
 
 export default Game;
+export const DIMX = Game.DIMX;
+export const DIMY = Game.DIMY;

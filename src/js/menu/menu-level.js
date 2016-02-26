@@ -3,14 +3,16 @@ import MainMenu from './main-menu';
 import QuadMenu from './main-quad';
 import CharacterMenu from './menu-character';
 import Util from '../utilities/utils';
+import runGame from '../run-game';
+import Levels from '../base/levels';
 
 var events = {};
 var commands = [];
-for (var level in LW.Levels) {
-  if (!LW.Levels.hasOwnProperty(level)) continue;
+for (var level in Levels) {
+  if (!Levels.hasOwnProperty(level)) continue;
 
   events[level] = Util.args(function (nlevel) {
-    LW.runGame(LW.Levels[nlevel], nlevel, false);
+    runGame(Levels[nlevel], nlevel, false);
     this.remove();
   }, level);
 

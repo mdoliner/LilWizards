@@ -2,6 +2,7 @@
 import Coord from '../utilities/coord';
 import CollBox from '../utilities/collision_box';
 import Sprite from './sprite';
+import Util from '../utilities/utils';
 
 function Tile(options) {
   this.pos = new Coord(options.pos);

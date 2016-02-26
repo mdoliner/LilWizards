@@ -1,44 +1,41 @@
 /**
  * Created by Justin on 2015-09-18.
  */
-(function() {
-  if (window.LW == null) {
-    window.LW = {};
+'use strict';
+
+var typeConversion = function (str) {
+  if (str == null) {
+    return str;
   }
 
-  var typeConversion = function(str) {
-    if (str == null) {
-      return str;
-    }
+  if (Number(str) == str) {
+    return Number(str);
+  }
 
-    if (Number(str) == str) {
-      return Number(str);
-    }
+  var val;
+  try {
+    val = JSON.parse(str);
+  } catch (e) {
+    val = str;
+  }
 
-    var val;
-    try {
-      val = JSON.parse(str);
-    } catch (e) {
-      val = str;
-    }
+  return val;
+};
 
-    return val;
-  };
+Storage = {
+  data: {},
+};
 
-  LW.Storage = {
-    data: {},
-  };
+Storage.get = function (str) {
+  return typeConversion(localStorage.getItem(str));
+};
 
-  LW.Storage.get = function(str) {
-    return typeConversion(localStorage.getItem(str));
-  };
+Storage.set = function (str, val) {
+  if (_.isObject(val)) {
+    val = JSON.stringify(val);
+  }
 
-  LW.Storage.set = function(str, val) {
-    if (_.isObject(val)) {
-      val = JSON.stringify(val);
-    }
+  localStorage.setItem(str, val);
+};
 
-    localStorage.setItem(str, val);
-  };
-
-})();
+export default Storage;

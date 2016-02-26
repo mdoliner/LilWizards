@@ -19,17 +19,25 @@ requireAllSounds(require.context('../../audio', true, /\.(mp3|ogg)$/));
 
 function SoundLibrary() {
   this.audioTags = [];
+  this.bgmVol = Settings.BGMVolume;
+
+  this.currentIndex = 0;
+  this.getEls();
+}
+
+SoundLibrary.prototype.getEls = function () {
   this.$audio = $('div.audio-tags');
   this.$bgm = $('#bgm');
-  this.bgmVol = Settings.BGMVolume;
+
+  if (this.generatedTags && this.$audio[0]) return;
+
+  this.generatedTags = true;
   for (var i = SoundLibrary.MAXTAGS - 1; i >= 0; i--) {
     var $newTag = $('<audio>');
     this.$audio.append($newTag);
     this.audioTags.push($newTag);
   }
-
-  this.currentIndex = 0;
-}
+};
 
 SoundLibrary.prototype.playSE = function (src, volume) {
   if (volume > 1) {

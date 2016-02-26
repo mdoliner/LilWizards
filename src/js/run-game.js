@@ -10,6 +10,19 @@ import GameView from './game/game_view';
 import Game from './game/game';
 import Sprite from './base/sprite';
 
+const songs = [
+  'Castlemania.mp3',
+  'Full-Circle.mp3',
+  'battle.mp3',
+];
+
+const backgrounds = {
+  Library: require('graphics/bg_bookcase.jpg'),
+  Cemetery: require('graphics/bg-cemetery.png'),
+  Boarwarts: require('graphics/bg_boarwarts.jpg'),
+  Spikes: require('graphics/bg_boarwarts.jpg'),
+};
+
 export default function runGame(selectedLevel, nlevel, isDemo) {
   GlobalSL.playSE('menu-select.ogg', 100);
 
