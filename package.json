@@ -4,7 +4,9 @@
   "main": "main.js",
   "scripts": {
     "start": "nodemon server.js",
-    "electron": "electron ./"
+    "electron": "electron ./",
+    "test": "karma start",
+    "test:watch": "karma start --autoWatch=true --singleRun=false"
   },
   "dependencies": {
     "electron": "~0.4.0"
@@ -20,10 +22,20 @@
     "file-loader": "^0.8.5",
     "jquery": "^2.2.1",
     "json-loader": "^0.5.4",
+    "karma": "^0.13.21",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^0.2.2",
+    "karma-coverage": "^0.5.3",
+    "karma-mocha": "^0.2.2",
+    "karma-mocha-reporter": "^1.2.2",
+    "karma-phantomjs-launcher": "^1.0.0",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^1.7.0",
     "lodash": "^4.5.1",
     "mocha": "^2.2.5",
     "mocha-phantomjs": "^3.5.3",
     "node-sass": "^3.4.2",
+    "phantomjs-prebuilt": "^2.1.4",
     "postcss-loader": "^0.8.1",
     "sass-loader": "^3.1.2",
     "sinon": "^1.15.3",
