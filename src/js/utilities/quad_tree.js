@@ -113,8 +113,12 @@ QuadTree.prototype.retrieve = function (rect) {
   var index = this.getIndex(rect);
   var objects = this.objects;
 
-  if (index != -1 && this.nodes[0] != null) {
+  if (index !== -1 && this.nodes[0] != null) {
     objects = this.nodes[index].retrieve(rect).concat(objects);
+  } else if (index === -1 && this.nodes[0] != null) {
+    for (let i = 0; i < 4; i++) {
+      objects = this.nodes[i].retrieve(rect).concat(objects);
+    }
   }
 
   return objects;

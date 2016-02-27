@@ -16,7 +16,9 @@ module.exports = {
   contentBase: './src',
   context: srcPath,
   //target: 'electron',
+  //devtool: 'source-map',
   devtool: 'eval-cheap-module-source-map',
+
   entry: {
     bundle: [
       //'webpack-dev-server/client?http://localhost:3000',
