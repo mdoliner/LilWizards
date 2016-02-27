@@ -49,6 +49,22 @@ describe('Quad Trees', function () {
       expect(objs.length).to.be.equal(1);
     });
 
+    it('should retrieve only objects that it is close to when in middle', () => {
+      _.times(15, () => {
+        quad.insert(createRect(55, 55, 2, 2));
+      });
+      const objs = quad.retrieve(createRect(40, 40, 20, 20));
+      expect(objs.length).to.be.equal(15);
+    });
+
+    it('should correctly retrieve out of bounds collisions', () => {
+      const objs = quad.retrieve(createRect(-10, -10, 5, 5));
+      expect(objs.length).to.be.equal(15);
+
+      const objs2 = quad.retrieve(createRect(105, 105, 5, 5));
+      expect(objs2.length).to.be.equal(0);
+    });
+
   });
 
 });
