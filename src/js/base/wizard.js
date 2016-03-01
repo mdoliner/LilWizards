@@ -4,7 +4,6 @@
 'use strict';
 import Coord from '../utilities/coord';
 import CollBox from '../utilities/collision_box';
-import EventSystem from '../utilities/event_system';
 import SpellList from './spell_list';
 import Sprite from './sprite';
 import ParticleSplatter from '../utilities/particle_splatter';
@@ -68,8 +67,6 @@ function Wizard(options) {
   };
   this.controllerType = options.controllerType;
 }
-
-_.extend(Wizard.prototype, EventSystem);
 
 //Wizard.BASEBOOST = 0.3;
 Wizard.ACCELTIME = 6;

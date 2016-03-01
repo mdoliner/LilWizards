@@ -6,7 +6,6 @@ import _ from 'lodash';
 import Camera from './camera';
 import Coord from '../utilities/coord';
 import CollBox from '../utilities/collision_box';
-import EventSystem from '../utilities/event_system';
 import SpellList from '../base/spell_list';
 import Sprite from '../base/sprite';
 import Spell from '../base/spell';

@@ -3,11 +3,15 @@
  *  Digests actions from the gamepads or keyboards.
  */
 'use strict';
+import _ from 'lodash';
 import Wizard from './wizard';
 import Players from './players';
 import Sprite from './sprite';
 import SpellList from './spell_list';
 import Spell from './spell';
+import EventEmitter from 'event-emitter';
+
+window.EE = EventEmitter;
 
 const KeyboardControlScheme = [
   {
@@ -41,6 +45,8 @@ function Player(options) {
     }
   }
 }
+
+_.extend(Player.prototype, EventEmitter.methods);
 
 Player.prototype.makeWizard = function (options) {
   return this.wizard = new Wizard({
@@ -110,24 +116,8 @@ Player.prototype.checkControllerActions = function () {
   }
 };
 
-Player.prototype.cyclePress = function (action) {
-  if (action === 'none') return 'tap';
+Player.prototype.cycleAction = function (action, cond) {
 
-  if (action === 'tap') return 'hold';
-
-  if (action === 'hold') return 'hold';
-
-  if (action === 'release') return 'tap';
-};
-
-Player.prototype.cycleRelease = function (action) {
-  if (action === 'none') return 'none';
-
-  if (action === 'tap') return 'release';
-
-  if (action === 'hold') return 'release';
-
-  if (action === 'release') return 'none';
 };
 
 Player.prototype.checkGamepadActions = function () {
@@ -137,54 +127,54 @@ Player.prototype.checkGamepadActions = function () {
   if (Gamepad.pressed(i, 'PAD_LEFT') || leftX < 0) {
     this.wizard.accelX(leftX * boost || -boost);
     this.wizard.faceDir('left');
-    this.wizard.actions.left = this.cyclePress(this.wizard.actions.left);
+    this.wizard.actions.left = cyclePress(this.wizard.actions.left);
   } else {
-    this.wizard.actions.left = this.cycleRelease(this.wizard.actions.left);
+    this.wizard.actions.left = cycleRelease(this.wizard.actions.left);
   }
 
   if (Gamepad.pressed(i, 'PAD_RIGHT') || leftX > 0) {
     this.wizard.accelX(leftX * boost || boost);
     this.wizard.faceDir('right');
-    this.wizard.actions.right = this.cyclePress(this.wizard.actions.right);
+    this.wizard.actions.right = cyclePress(this.wizard.actions.right);
   } else {
-    this.wizard.actions.right = this.cycleRelease(this.wizard.actions.right);
+    this.wizard.actions.right = cycleRelease(this.wizard.actions.right);
   }
 
   var leftY = Gamepad.moved(i, 'LEFT_Y');
   if (Gamepad.pressed(i, 'PAD_UP') || leftY < -0.5) {
-    this.wizard.actions.up = this.cyclePress(this.wizard.actions.up);
+    this.wizard.actions.up = cyclePress(this.wizard.actions.up);
   } else {
-    this.wizard.actions.up = this.cycleRelease(this.wizard.actions.up);
+    this.wizard.actions.up = cycleRelease(this.wizard.actions.up);
   }
 
   if (Gamepad.pressed(i, 'PAD_DOWN') || leftY > 0.5) {
-    this.wizard.actions.down = this.cyclePress(this.wizard.actions.down);
+    this.wizard.actions.down = cyclePress(this.wizard.actions.down);
   } else {
-    this.wizard.actions.down = this.cycleRelease(this.wizard.actions.down);
+    this.wizard.actions.down = cycleRelease(this.wizard.actions.down);
   }
 
   if (Gamepad.pressed(i, 'FACE_1') || Gamepad.pressed(i, 'LEFT_SHOULDER')) {
-    this.wizard.actions.jump = this.cyclePress(this.wizard.actions.jump);
+    this.wizard.actions.jump = cyclePress(this.wizard.actions.jump);
   } else {
-    this.wizard.actions.jump = this.cycleRelease(this.wizard.actions.jump);
+    this.wizard.actions.jump = cycleRelease(this.wizard.actions.jump);
   }
 
   if (Gamepad.pressed(i, 'FACE_3') || Gamepad.pressed(i, 'RIGHT_SHOULDER')) {
-    this.wizard.actions.spells[0] = this.cyclePress(this.wizard.actions.spells[0]);
+    this.wizard.actions.spells[0] = cyclePress(this.wizard.actions.spells[0]);
   } else {
-    this.wizard.actions.spells[0] = this.cycleRelease(this.wizard.actions.spells[0]);
+    this.wizard.actions.spells[0] = cycleRelease(this.wizard.actions.spells[0]);
   }
 
   if (Gamepad.pressed(i, 'FACE_4') || Gamepad.pressed(i, 'LEFT_SHOULDER_BOTTOM')) {
-    this.wizard.actions.spells[1] = this.cyclePress(this.wizard.actions.spells[1]);
+    this.wizard.actions.spells[1] = cyclePress(this.wizard.actions.spells[1]);
   } else {
-    this.wizard.actions.spells[1] = this.cycleRelease(this.wizard.actions.spells[1]);
+    this.wizard.actions.spells[1] = cycleRelease(this.wizard.actions.spells[1]);
   }
 
   if (Gamepad.pressed(i, 'FACE_2') || Gamepad.pressed(i, 'RIGHT_SHOULDER_BOTTOM')) {
-    this.wizard.actions.spells[2] = this.cyclePress(this.wizard.actions.spells[2]);
+    this.wizard.actions.spells[2] = cyclePress(this.wizard.actions.spells[2]);
   } else {
-    this.wizard.actions.spells[2] = this.cycleRelease(this.wizard.actions.spells[2]);
+    this.wizard.actions.spells[2] = cycleRelease(this.wizard.actions.spells[2]);
   }
 };
 
@@ -195,48 +185,48 @@ Player.prototype.checkKeyboardActions = function () {
   var wizard = this.wizard;
   var buttons = KeyboardControlScheme[this.controllerIndex];
   if (key.isPressed(buttons.left)) {
-    wizard.actions.left = this.cyclePress(wizard.actions.left);
+    wizard.actions.left = cyclePress(wizard.actions.left);
     wizard.accelX(-boost);
 
     //wizard.moveX(-boost);
     wizard.faceDir('left');
   } else {
-    wizard.actions.left = this.cycleRelease(wizard.actions.left);
+    wizard.actions.left = cycleRelease(wizard.actions.left);
   }
 
   if (key.isPressed(buttons.right)) {
-    wizard.actions.right = this.cyclePress(wizard.actions.right);
+    wizard.actions.right = cyclePress(wizard.actions.right);
     wizard.accelX(boost);
 
     //wizard.moveX(boost);
     wizard.faceDir('right');
   } else {
-    wizard.actions.right = this.cycleRelease(wizard.actions.right);
+    wizard.actions.right = cycleRelease(wizard.actions.right);
   }
 
   if (key.isPressed(buttons.down)) {
-    wizard.actions.down = this.cyclePress(wizard.actions.down);
+    wizard.actions.down = cyclePress(wizard.actions.down);
   } else {
-    wizard.actions.down = this.cycleRelease(wizard.actions.down);
+    wizard.actions.down = cycleRelease(wizard.actions.down);
   }
 
   if (key.isPressed(buttons.up)) {
-    wizard.actions.up = this.cyclePress(wizard.actions.up);
+    wizard.actions.up = cyclePress(wizard.actions.up);
   } else {
-    wizard.actions.up = this.cycleRelease(wizard.actions.up);
+    wizard.actions.up = cycleRelease(wizard.actions.up);
   }
 
   if (key.isPressed(buttons.jump)) {
-    wizard.actions.jump = this.cyclePress(wizard.actions.jump);
+    wizard.actions.jump = cyclePress(wizard.actions.jump);
   } else {
-    wizard.actions.jump = this.cycleRelease(wizard.actions.jump);
+    wizard.actions.jump = cycleRelease(wizard.actions.jump);
   }
 
   for (var spellIndex = 0; spellIndex < wizard.actions.spells.length; spellIndex++) {
     if (key.isPressed(buttons.spells[spellIndex])) {
-      wizard.actions.spells[spellIndex] = this.cyclePress(wizard.actions.spells[spellIndex]);
+      wizard.actions.spells[spellIndex] = cyclePress(wizard.actions.spells[spellIndex]);
     } else {
-      wizard.actions.spells[spellIndex] = this.cycleRelease(wizard.actions.spells[spellIndex]);
+      wizard.actions.spells[spellIndex] = cycleRelease(wizard.actions.spells[spellIndex]);
     }
   }
 };
@@ -269,9 +259,9 @@ Player.prototype.checkComputerActions = function () {
     if (this.heldButtons[action]) {
       if (action.match(/spells/)) {
         spellIndex = action.slice(6);
-        wizard.actions.spells[spellIndex] = this.cyclePress(wizard.actions.spells[spellIndex]);
+        wizard.actions.spells[spellIndex] = cyclePress(wizard.actions.spells[spellIndex]);
       } else {
-        wizard.actions[action] = this.cyclePress(wizard.actions[action]);
+        wizard.actions[action] = cyclePress(wizard.actions[action]);
       }
 
       if (action === 'left') {
@@ -284,13 +274,34 @@ Player.prototype.checkComputerActions = function () {
     } else {
       if (action.match(/spells/)) {
         spellIndex = action.slice(6);
-        wizard.actions.spells[spellIndex] = this.cycleRelease(wizard.actions.spells[spellIndex]);
+        wizard.actions.spells[spellIndex] = cycleRelease(wizard.actions.spells[spellIndex]);
       } else {
-        wizard.actions[action] = this.cycleRelease(wizard.actions[action]);
+        wizard.actions[action] = cycleRelease(wizard.actions[action]);
       }
     }
   }
 
 };
+
+
+function cyclePress(action) {
+  if (action === 'none') return 'tap';
+
+  if (action === 'tap') return 'hold';
+
+  if (action === 'hold') return 'hold';
+
+  if (action === 'release') return 'tap';
+}
+
+function cycleRelease(action) {
+  if (action === 'none') return 'none';
+
+  if (action === 'tap') return 'release';
+
+  if (action === 'hold') return 'release';
+
+  if (action === 'release') return 'none';
+}
 
 export default Player;
