@@ -5,6 +5,7 @@ import React, {
   Component,
   PropTypes
 } from 'react';
+import _ from 'lodash';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Main from '../components/Main';
@@ -18,9 +19,7 @@ class App extends Component {
 }
 
 function mapStateToProps(state) {
-  return {
-    menu: state.menu,
-  };
+  return state;
 }
 
 function mapDispatchToProps(dispatch) {
