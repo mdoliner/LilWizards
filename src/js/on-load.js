@@ -3,8 +3,10 @@ import { GlobalSL } from './utilities/sound_library';
 import Player from './base/player';
 import { AllPlayers } from './base/players';
 import PseudoWizard from './base/pseudo_wizard';
-import TopMenu from './menu/menu-top';
 import $ from 'jquery';
+import './menu';
+
+//import TopMenu from './menu/menu-top';
 
 $(function () {
   if (window.__TEST__) return;
@@ -24,7 +26,7 @@ $(function () {
     })
   );
 
-  TopMenu.swapTo({ selector: '.main-menu-items' });
+  //TopMenu.swapTo({ selector: '.main-menu-items' });
   var gamepadLength = 0;
   setInterval(function () {
     if (Gamepad.gamepads.length > gamepadLength) {
