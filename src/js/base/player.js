@@ -116,128 +116,65 @@ Player.prototype.checkControllerActions = function () {
   }
 };
 
-Player.prototype.cycleAction = function (action, cond) {
+Player.prototype.cycleAction = function (action, cond, isSpell) {
+  const actionMap = isSpell ? this.wizard.actions : this.wizard.actions.spells;
+  actionMap[action] = cond ? cyclePress(actionMap[action]) : cycleRelease(actionMap[action]);
 
+  if (actionMap[action] === 'tap') {
+    console.log('tapppped');
+    this.emit(`input:${isSpell ? 'spell:' + action : action}`);
+  }
+
+  return cond;
+};
+
+Player.prototype.moveWizard = function (amount) {
+  if (amount < 0) {
+    this.wizard.accelX(amount * Wizard.BASEBOOST);
+    this.wizard.faceDir('left');
+  } else if (amount > 0) {
+    this.wizard.accelX(amount * Wizard.BASEBOOST);
+    this.wizard.faceDir('right');
+  }
 };
 
 Player.prototype.checkGamepadActions = function () {
-  var boost = Wizard.BASEBOOST;
   var i = this.controllerIndex;
   var leftX = Gamepad.moved(i, 'LEFT_X');
-  if (Gamepad.pressed(i, 'PAD_LEFT') || leftX < 0) {
-    this.wizard.accelX(leftX * boost || -boost);
-    this.wizard.faceDir('left');
-    this.wizard.actions.left = cyclePress(this.wizard.actions.left);
-  } else {
-    this.wizard.actions.left = cycleRelease(this.wizard.actions.left);
-  }
-
-  if (Gamepad.pressed(i, 'PAD_RIGHT') || leftX > 0) {
-    this.wizard.accelX(leftX * boost || boost);
-    this.wizard.faceDir('right');
-    this.wizard.actions.right = cyclePress(this.wizard.actions.right);
-  } else {
-    this.wizard.actions.right = cycleRelease(this.wizard.actions.right);
-  }
+  this.cycleAction('left', Gamepad.pressed(i, 'PAD_LEFT') || leftX < 0);
+  this.cycleAction('right', Gamepad.pressed(i, 'PAD_RIGHT') || leftX > 0);
+  this.moveWizard(leftX);
 
   var leftY = Gamepad.moved(i, 'LEFT_Y');
-  if (Gamepad.pressed(i, 'PAD_UP') || leftY < -0.5) {
-    this.wizard.actions.up = cyclePress(this.wizard.actions.up);
-  } else {
-    this.wizard.actions.up = cycleRelease(this.wizard.actions.up);
-  }
+  this.cycleAction('up', Gamepad.pressed(i, 'PAD_UP') || leftY < -0.5);
+  this.cycleAction('down', Gamepad.pressed(i, 'PAD_DOWN') || leftY > 0.5);
 
-  if (Gamepad.pressed(i, 'PAD_DOWN') || leftY > 0.5) {
-    this.wizard.actions.down = cyclePress(this.wizard.actions.down);
-  } else {
-    this.wizard.actions.down = cycleRelease(this.wizard.actions.down);
-  }
-
-  if (Gamepad.pressed(i, 'FACE_1') || Gamepad.pressed(i, 'LEFT_SHOULDER')) {
-    this.wizard.actions.jump = cyclePress(this.wizard.actions.jump);
-  } else {
-    this.wizard.actions.jump = cycleRelease(this.wizard.actions.jump);
-  }
-
-  if (Gamepad.pressed(i, 'FACE_3') || Gamepad.pressed(i, 'RIGHT_SHOULDER')) {
-    this.wizard.actions.spells[0] = cyclePress(this.wizard.actions.spells[0]);
-  } else {
-    this.wizard.actions.spells[0] = cycleRelease(this.wizard.actions.spells[0]);
-  }
-
-  if (Gamepad.pressed(i, 'FACE_4') || Gamepad.pressed(i, 'LEFT_SHOULDER_BOTTOM')) {
-    this.wizard.actions.spells[1] = cyclePress(this.wizard.actions.spells[1]);
-  } else {
-    this.wizard.actions.spells[1] = cycleRelease(this.wizard.actions.spells[1]);
-  }
-
-  if (Gamepad.pressed(i, 'FACE_2') || Gamepad.pressed(i, 'RIGHT_SHOULDER_BOTTOM')) {
-    this.wizard.actions.spells[2] = cyclePress(this.wizard.actions.spells[2]);
-  } else {
-    this.wizard.actions.spells[2] = cycleRelease(this.wizard.actions.spells[2]);
-  }
+  this.cycleAction('jump', Gamepad.pressed(i, 'FACE_1') || Gamepad.pressed(i, 'LEFT_SHOULDER'));
+  this.cycleAction(0, Gamepad.pressed(i, 'FACE_3') || Gamepad.pressed(i, 'RIGHT_SHOULDER'), true);
+  this.cycleAction(1, Gamepad.pressed(i, 'FACE_4') || Gamepad.pressed(i, 'LEFT_SHOULDER_BOTTOM'), true);
+  this.cycleAction(1, Gamepad.pressed(i, 'FACE_2') || Gamepad.pressed(i, 'RIGHT_SHOULDER_BOTTOM'), true);
 };
 
 Player.prototype.checkKeyboardActions = function () {
-  var boost = Wizard.BASEBOOST;
-
-  //var boost = 5;
-  var wizard = this.wizard;
   var buttons = KeyboardControlScheme[this.controllerIndex];
-  if (key.isPressed(buttons.left)) {
-    wizard.actions.left = cyclePress(wizard.actions.left);
-    wizard.accelX(-boost);
+  this.cycleAction('left', key.isPressed(buttons.left));
+  this.cycleAction('right', key.isPressed(buttons.right));
+  this.moveWizard(0 - key.isPressed(buttons.left) + key.isPressed(buttons.right));
 
-    //wizard.moveX(-boost);
-    wizard.faceDir('left');
-  } else {
-    wizard.actions.left = cycleRelease(wizard.actions.left);
-  }
+  this.cycleAction('up', key.isPressed(buttons.up));
+  this.cycleAction('down', key.isPressed(buttons.down));
 
-  if (key.isPressed(buttons.right)) {
-    wizard.actions.right = cyclePress(wizard.actions.right);
-    wizard.accelX(boost);
-
-    //wizard.moveX(boost);
-    wizard.faceDir('right');
-  } else {
-    wizard.actions.right = cycleRelease(wizard.actions.right);
-  }
-
-  if (key.isPressed(buttons.down)) {
-    wizard.actions.down = cyclePress(wizard.actions.down);
-  } else {
-    wizard.actions.down = cycleRelease(wizard.actions.down);
-  }
-
-  if (key.isPressed(buttons.up)) {
-    wizard.actions.up = cyclePress(wizard.actions.up);
-  } else {
-    wizard.actions.up = cycleRelease(wizard.actions.up);
-  }
-
-  if (key.isPressed(buttons.jump)) {
-    wizard.actions.jump = cyclePress(wizard.actions.jump);
-  } else {
-    wizard.actions.jump = cycleRelease(wizard.actions.jump);
-  }
-
-  for (var spellIndex = 0; spellIndex < wizard.actions.spells.length; spellIndex++) {
-    if (key.isPressed(buttons.spells[spellIndex])) {
-      wizard.actions.spells[spellIndex] = cyclePress(wizard.actions.spells[spellIndex]);
-    } else {
-      wizard.actions.spells[spellIndex] = cycleRelease(wizard.actions.spells[spellIndex]);
-    }
+  this.cycleAction('jump', key.isPressed(buttons.jump));
+  for (let spellIndex = 0; spellIndex < 3; spellIndex++) {
+    this.cycleAction(spellIndex, key.isPressed(buttons.spells[spellIndex]), true);
   }
 };
 
-var COMPUTER_ACTIONS = ['up', 'down', 'left', 'right', 'jump', 'spells0', 'spells1', 'spells2'];
+var COMPUTER_ACTIONS = ['up', 'down', 'left', 'right', 'jump', 0, 1, 2];
 
 Player.prototype.checkComputerActions = function () {
   this.actionTimer = this.actionTimer - 1 || Math.floor(Math.random() * 30) + 45;
-  var boost = Wizard.BASEBOOST;
   var actionIndex = Math.floor(Math.random() * COMPUTER_ACTIONS.length);
-  var wizard = this.wizard;
 
   if (this.actionTimer < 2) {
     while (this.heldButtons[COMPUTER_ACTIONS[actionIndex]]) {
@@ -251,56 +188,26 @@ Player.prototype.checkComputerActions = function () {
     this.heldButtons[COMPUTER_ACTIONS[offActionIndex]] = false;
   }
 
-  // TODO: Fix this code.
-
   for (var i = 0; i < COMPUTER_ACTIONS.length; i++) {
     var action = COMPUTER_ACTIONS[i];
-    var spellIndex;
+    this.cycleAction(action, this.heldButtons[action], !!action.length);
     if (this.heldButtons[action]) {
-      if (action.match(/spells/)) {
-        spellIndex = action.slice(6);
-        wizard.actions.spells[spellIndex] = cyclePress(wizard.actions.spells[spellIndex]);
-      } else {
-        wizard.actions[action] = cyclePress(wizard.actions[action]);
-      }
-
-      if (action === 'left') {
-        wizard.accelX(-boost);
-        wizard.faceDir('left');
-      } else if (action === 'right') {
-        wizard.accelX(boost);
-        wizard.faceDir('right');
-      }
-    } else {
-      if (action.match(/spells/)) {
-        spellIndex = action.slice(6);
-        wizard.actions.spells[spellIndex] = cycleRelease(wizard.actions.spells[spellIndex]);
-      } else {
-        wizard.actions[action] = cycleRelease(wizard.actions[action]);
-      }
+      this.moveWizard(0 - (action === 'left') + (action === 'right'));
     }
   }
-
 };
-
 
 function cyclePress(action) {
   if (action === 'none') return 'tap';
-
   if (action === 'tap') return 'hold';
-
   if (action === 'hold') return 'hold';
-
   if (action === 'release') return 'tap';
 }
 
 function cycleRelease(action) {
   if (action === 'none') return 'none';
-
   if (action === 'tap') return 'release';
-
   if (action === 'hold') return 'release';
-
   if (action === 'release') return 'none';
 }
 
