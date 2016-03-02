@@ -9,6 +9,7 @@ import Menus from './containers/Menus';
 import $ from 'jquery';
 
 const store = configureStore();
+export default store;
 
 $(() => {
   render(

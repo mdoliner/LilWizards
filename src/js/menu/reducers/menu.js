@@ -7,7 +7,7 @@ const initialState = [];
 export default function menuReducer(state = initialState, action) {
   state = _.cloneDeep(state);
   switch (action.type) {
-    case 'ACTION': {
+    case 'INPUT': {
 
       return state;
     }

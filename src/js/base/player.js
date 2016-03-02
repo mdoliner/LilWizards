@@ -122,7 +122,13 @@ Player.prototype.cycleAction = function (action, cond, isSpell) {
 
   if (actionMap[action] === 'tap') {
     console.log('tapppped');
-    this.emit(`input:${isSpell ? 'spell:' + action : action}`);
+    if (isSpell) {
+      this.emit(`input:spell:${action}`);
+    } else {
+      this.emit(`input:${action}`);
+    }
+
+    this.emit('input', action);
   }
 
   return cond;
