@@ -10,20 +10,29 @@ export default function menuReducer(state = initialState, action) {
   state = _.cloneDeep(state);
   const current = _.last(state);
   const menu = getLayer(current.layer);
+  const { columns, commands } = menu;
+  const numCommands = commands.length;
+
+  const { direction, location, player } = action.parameter;
 
   switch (action.type) {
     case 'SELECT': {
-      const { direction } = action.parameter;
+      current.index = (current.index + direction + numCommands) % numCommands;
 
-      current.index = (current.index + direction + menu.commands.length) % menu.commands.length;
+      console.log('selected:', commands[current.index].name);
 
-      console.log('selected:', menu.commands[current.index].name);
+      return state;
+    }
+
+    case 'SELECT_COLUMN': {
+      current.index = (current.index + direction * (columns || 1) + numCommands) % numCommands;
+
+      console.log('selected:', commands[current.index].name);
 
       return state;
     }
 
     case 'GO_TO': {
-      const { location } = action.parameter;
       state.push({ layer: location, index: 0 });
 
       console.log('went to:', location);
@@ -50,5 +59,5 @@ function createMenu(location) {
     layer: location,
     index: 0,
     subMenus: {},
-  }
+  };
 }

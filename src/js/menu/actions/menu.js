@@ -5,6 +5,10 @@ export function select(parameter) {
   return { type: 'SELECT', parameter };
 }
 
+export function selectColumn(parameter) {
+  return { type: 'SELECT_COLUMN', parameter };
+}
+
 export function confirm(parameter) {
   return { type: 'CONFIRM', parameter };
 }

@@ -2,7 +2,7 @@
  * Created by Justin on 2016-03-02.
  */
 import _ from 'lodash';
-import { select, confirm, back, goTo } from './menu';
+import { select, selectColumn, confirm, back, goTo } from './menu';
 import getLayer from '../get_layer';
 
 export default function inputAction({ input, player }) {
@@ -14,9 +14,16 @@ export default function inputAction({ input, player }) {
 
     // Branch out depending on the input given.
     if (input === 'up' || input === 'down') {
+      // Upon Up or Down, move the menu selector
       dispatch(select({
         player,
         direction: 0 - (input === 'up') + (input === 'down'),
+      }));
+    } else if (input === 'left' || input === 'right') {
+      // Upon Left or Right, move the menu selector horizontally
+      dispatch(selectColumn({
+        player,
+        direction: 0 - (input === 'left') + (input === 'right'),
       }));
     } else if (input === 'jump') {
       const command = layer.commands[menu.index];

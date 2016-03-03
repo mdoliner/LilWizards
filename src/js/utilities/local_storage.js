@@ -2,6 +2,7 @@
  * Created by Justin on 2015-09-18.
  */
 'use strict';
+import _ from 'lodash';
 
 var typeConversion = function (str) {
   if (str == null) {
