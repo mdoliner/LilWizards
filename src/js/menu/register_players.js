@@ -8,9 +8,9 @@ import { AllPlayers } from '../base/players';
 export default function listenToPlayer(player) {
   if (player._isBeingListenedTo) return;
   player._isBeingListenedTo = true;
-  player.on('input', (action) => {
+  player.on('input', (input) => {
     if (store.getState().game.phase === 'menu') {
-      store.dispatch(inputAction(action));
+      store.dispatch(inputAction({ input, player: player.id }));
     }
   });
 

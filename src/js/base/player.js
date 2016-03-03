@@ -33,6 +33,7 @@ const KeyboardControlScheme = [
 ];
 
 function Player(options) {
+  this.id = _.uniqueId('player_');
   this.controllerType = options.controllerType; // "keyboard" or "gamepad"
   this.controllerIndex = options.controllerIndex;
   this.spellList = options.spellList || [null, null, null];
@@ -121,7 +122,7 @@ Player.prototype.cycleAction = function (action, cond, isSpell) {
   actionMap[action] = cond ? cyclePress(actionMap[action]) : cycleRelease(actionMap[action]);
 
   if (actionMap[action] === 'tap') {
-    console.log('tapppped');
+    console.log('Tap Test:', action);
     if (isSpell) {
       this.emit(`input:spell:${action}`);
     } else {
@@ -208,6 +209,7 @@ function cyclePress(action) {
   if (action === 'tap') return 'hold';
   if (action === 'hold') return 'hold';
   if (action === 'release') return 'tap';
+  return 'none';
 }
 
 function cycleRelease(action) {
@@ -215,6 +217,7 @@ function cycleRelease(action) {
   if (action === 'tap') return 'release';
   if (action === 'hold') return 'release';
   if (action === 'release') return 'none';
+  return 'none';
 }
 
 export default Player;
