@@ -4,10 +4,7 @@
 import _ from 'lodash';
 import getLayer from '../get_layer';
 
-const initialState = [{
-  layer: 'top',
-  index: 0,
-}];
+const initialState = [createMenu('top')];
 
 export default function menuReducer(state = initialState, action) {
   state = _.cloneDeep(state);
@@ -20,6 +17,8 @@ export default function menuReducer(state = initialState, action) {
 
       current.index = (current.index + direction + menu.commands.length) % menu.commands.length;
 
+      console.log('selected:', menu.commands[current.index].name);
+
       return state;
     }
 
@@ -27,10 +26,15 @@ export default function menuReducer(state = initialState, action) {
       const { location } = action.parameter;
       state.push({ layer: location, index: 0 });
 
+      console.log('went to:', location);
+
       return state;
     }
 
     case 'BACK': {
+      if (state.length > 1) state.pop();
+
+      console.log('went back');
 
       return state;
     }
@@ -40,3 +44,11 @@ export default function menuReducer(state = initialState, action) {
     }
   }
 };
+
+function createMenu(location) {
+  return {
+    layer: location,
+    index: 0,
+    subMenus: {},
+  }
+}
