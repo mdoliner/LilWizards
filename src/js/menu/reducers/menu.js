@@ -13,6 +13,7 @@ export default function menuReducer(state = initialState, action) {
   const { columns, commands } = menu;
   const numCommands = commands.length;
 
+  action.parameter = action.parameter || {};
   const { direction, location, player } = action.parameter;
 
   switch (action.type) {
@@ -25,7 +26,9 @@ export default function menuReducer(state = initialState, action) {
     }
 
     case 'SELECT_COLUMN': {
-      current.index = (current.index + direction * (columns || 1) + numCommands) % numCommands;
+      const mathFn = Math[direction < 0 ? 'ceil' : 'floor'];
+      const columnAdjust = mathFn(direction *  numCommands / (columns || 1));
+      current.index = (current.index + columnAdjust + numCommands) % numCommands;
 
       console.log('selected:', commands[current.index].name);
 

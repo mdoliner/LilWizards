@@ -1,0 +1,6 @@
+.menu-command-item {
+  list-style: none;
+  &.is-selected {
+    color: #00b;
+  }
+}
