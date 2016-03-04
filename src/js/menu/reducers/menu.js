@@ -43,6 +43,14 @@ export default function menuReducer(state = initialState, action) {
       return state;
     }
 
+    case 'ADD_CHILD': {
+      current.subMenus[player.id] = [createMenu(menu.subMenus)];
+
+      console.log('add child:', player.id);
+
+      return state;
+    }
+
     case 'BACK': {
       if (state.length > 1) state.pop();
 

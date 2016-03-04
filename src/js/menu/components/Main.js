@@ -5,6 +5,7 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import TopComponent from './Top';
+import SettingsComponent from './Settings';
 
 class Main extends Component {
   render() {
@@ -16,6 +17,8 @@ class Main extends Component {
     let menuToRender;
     if (menu.layer === 'top') {
       menuToRender = <TopComponent {...menuProps} />;
+    } else if (menu.layer === 'settings') {
+      menuToRender = <SettingsComponent {...menuProps} />;
     }
 
     return (

@@ -20,3 +20,7 @@ export function back(parameter) {
 export function goTo(parameter) {
   return { type: 'GO_TO', parameter };
 }
+
+export function addChild(parameter) {
+  return { type: 'ADD_CHILD', parameter };
+}
