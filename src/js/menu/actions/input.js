@@ -2,7 +2,7 @@
  * Created by Justin on 2016-03-02.
  */
 import _ from 'lodash';
-import { select, selectColumn, confirm, back, goTo } from './menu';
+import { select, selectColumn, confirm, back, goTo, addChild } from './menu';
 import getLayer from '../get_layer';
 
 export default function inputAction({ input, player }) {
@@ -20,18 +20,13 @@ export default function inputAction({ input, player }) {
       dispatch,
     };
 
-    switch (layer.type) {
-      case 'parent': {
-        return parentMenu(branchingOptions);
-      }
-
-      case 'child': {
-        return basicMenu(branchingOptions);
-      }
-
-      case 'basic': {
-        return basicMenu(branchingOptions);
-      }
+    const subMenus = menu.subMenus;
+    console.log('menu', menu);
+    if (layer.type === 'parent' && subMenus && !subMenus[player]) {
+      // If the layer is a parent layer, and the player isn't registered.
+      return parentMenu(branchingOptions);
+    } else {
+      return basicMenu(branchingOptions);
     }
   };
 }
@@ -64,12 +59,9 @@ function basicMenu({ input, player, state, menu, layer, dispatch }) {
 
 function parentMenu({ input, player, state, menu, layer, dispatch }) {
   // Branch out depending on the input given.
-  if (input === 'up' || input === 'down') {
-    // Empty for Now
-  } else if (input === 'left' || input === 'right') {
-    // Empty for Now
-  } else if (input === 'jump') {
+  if (input === 'jump') {
     // Add a child menu
+    dispatch(addChild({ player }));
   } else if (input === 2) {
     dispatch(back({ player }));
   }

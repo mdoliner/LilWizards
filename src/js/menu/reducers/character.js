@@ -7,9 +7,16 @@ const initialState = {
 };
 
 export default function characterReducer(state = initialState, action) {
+  // Ensure the state is safely mutable
   state = _.cloneDeep(state);
+
+  // Resolve the parameters
+  const parameter = action.parameter || {};
+  const { player } = parameter;
+
   switch (action.type) {
-    case 'ACTION': {
+    case 'ADD_CHILD': {
+      state[player] = createPlayer();
 
       return state;
     }
@@ -19,3 +26,14 @@ export default function characterReducer(state = initialState, action) {
     }
   }
 };
+
+function createPlayer() {
+  return {
+    character: null,
+    spells: {
+      0: null,
+      1: null,
+      2: null,
+    },
+  };
+}

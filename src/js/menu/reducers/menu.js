@@ -7,15 +7,20 @@ import getLayer from '../get_layer';
 const initialState = [createMenu('top')];
 
 export default function menuReducer(state = initialState, action) {
+  // Ensure that state is mutable
   state = _.cloneDeep(state);
+
+  // Resolve the state
   const current = _.last(state);
   const menu = getLayer(current.layer);
   const { columns, commands } = menu;
-  const numCommands = commands.length;
+  const numCommands = commands && commands.length;
 
-  action.parameter = action.parameter || {};
-  const { direction, location, player } = action.parameter;
+  // Resolve the parameters
+  const parameter = action.parameter || {};
+  const { direction, location, player } = parameter;
 
+  // Detect the action types
   switch (action.type) {
     case 'SELECT': {
       current.index = (current.index + direction + numCommands) % numCommands;
@@ -36,7 +41,7 @@ export default function menuReducer(state = initialState, action) {
     }
 
     case 'GO_TO': {
-      state.push({ layer: location, index: 0 });
+      state.push(createMenu(location));
 
       console.log('went to:', location);
 
@@ -44,9 +49,14 @@ export default function menuReducer(state = initialState, action) {
     }
 
     case 'ADD_CHILD': {
-      current.subMenus[player.id] = [createMenu(menu.subMenus)];
+      if (_.size(current.subMenus) > 3) {
+        console.log('too many children');
+        return state;
+      }
 
-      console.log('add child:', player.id);
+      current.subMenus[player] = [createMenu(menu.subMenus)];
+
+      console.log('add child:', player);
 
       return state;
     }
