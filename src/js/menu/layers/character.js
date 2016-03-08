@@ -3,7 +3,7 @@
  */
 const characterMenu = {
   type: 'parent',
-  subMenus: 'playerCharacter',
+  subMenuEntry: 'playerCharacter',
 };
 
 export default characterMenu;

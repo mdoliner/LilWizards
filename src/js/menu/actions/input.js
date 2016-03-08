@@ -48,7 +48,9 @@ function basicMenu({ input, player, state, menu, layer, dispatch }) {
   } else if (input === 'jump') {
     const command = layer.commands[menu.index];
     if (command.type === 'goTo') {
-      dispatch(goTo({ player, location: command.goTo }));
+      dispatch(goTo({player, location: command.goTo}));
+    } else if (command.type === 'action') {
+      dispatch(layer.action({ player, command }))
     } else if (command.type === 'back') {
       dispatch(back({ player }));
     }
