@@ -15,8 +15,8 @@ const playerCharacterMenu = {
 
   action({ player, command }) {
     return (dispatch) => {
-      dispatch({ type: 'CHARACTER_SPRITE', parameter: { player, sprite: command.sprite } });
-      dispatch(goTo({ player, location: 'playerSpells' }));
+      dispatch({ type: 'CHARACTER_SELECT_SPRITE', parameter: { player, sprite: command.sprite } });
+      dispatch(goTo({ player, location: 'playerSlots' }));
     };
   },
 };
