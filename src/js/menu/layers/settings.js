@@ -9,8 +9,8 @@ const settingsMenu = {
   type: 'basic',
   commands: [
     { name: 'Kills', type: 'action', effect: 'kills' },
-    { name: 'Music Volume', type: 'action', effect: 'sound' },
-    { name: 'Sound Volume', type: 'action', effect: 'music' },
+    { name: 'Sound Volume', type: 'action', effect: 'sound' },
+    { name: 'Music Volume', type: 'action', effect: 'music' },
     { name: 'Back', type: 'back' },
   ],
 
@@ -18,14 +18,17 @@ const settingsMenu = {
     return () => {
       switch (command.effect) {
         case 'kills': {
+          Settings.set('WinKills', getNextValue(KILLS_SELECTION, Settings.get('WinKills')));
           break;
         }
 
         case 'sound': {
+          Settings.set('SEVolume', getNextValue(VOL_SELECTION, Settings.get('SEVolume')));
           break;
         }
 
         case 'music': {
+          Settings.set('BGMVolume', getNextValue(VOL_SELECTION, Settings.get('BGMVolume')));
           break;
         }
       }
@@ -34,3 +37,9 @@ const settingsMenu = {
 };
 
 export default settingsMenu;
+
+function getNextValue(array, val) {
+  const idx = array.indexOf(val);
+  const next = (idx + 1) % array.length;
+  return array[next];
+}

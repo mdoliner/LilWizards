@@ -21,6 +21,7 @@ export default EventEmitter({
     if (changeable.indexOf(attr) === -1) throw new Error('Setting doesn\'t exist: ' + attr);
 
     settings[attr] = val;
+    console.log(`Settings["${attr}"] = ${val}`);
     setSettings();
     this.emit(attr, val);
   },

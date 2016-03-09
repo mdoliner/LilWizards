@@ -19,7 +19,8 @@ requireAllSounds(require.context('../../audio', true, /\.(mp3|ogg)$/));
 
 function SoundLibrary() {
   this.audioTags = [];
-  this.bgmVol = Settings.BGMVolume;
+  this.bgmVol = Settings.get('BGMVolume');
+  Settings.on('BGMVolume', () => this.adjustBGMVolume());
 
   this.currentIndex = 0;
   this.getEls();
@@ -44,7 +45,7 @@ SoundLibrary.prototype.playSE = function (src, volume) {
     volume /= 100;
   }
 
-  volume *= Settings.SEVolume;
+  volume *= Settings.get('SEVolume');
   var $audio = this.audioTags[this.currentIndex];
   var audio = $audio[0];
   audio.src = ALL_SOUNDS[src];
@@ -65,7 +66,7 @@ SoundLibrary.prototype.playBGM = function (src, volume) {
 SoundLibrary.prototype.adjustBGMVolume = function () {
   var vol = this.$bgm[0].volume;
   vol /= this.bgmVol;
-  this.bgmVol = Settings.BGMVolume;
+  this.bgmVol = Settings.get('BGMVolume');
   if (this.bgmVol === 0) {
     this.bgmVol += 0.000001;
   }
