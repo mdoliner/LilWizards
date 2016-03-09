@@ -1,7 +1,7 @@
 /**
  * Created by Justin on 2016-03-03.
  */
-import { Map, Record } from 'Immutable';
+import { Map, Record } from 'immutable';
 
 const initialState = Map({});
 

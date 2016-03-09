@@ -3,7 +3,7 @@
  */
 import _ from 'lodash';
 import getLayer from '../get_layer';
-import { List, fromJS } from 'Immutable';
+import { List, fromJS } from 'immutable';
 
 const initialState = List([createMenu('top')]);
 
