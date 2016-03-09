@@ -9,7 +9,7 @@ export default function listenToPlayer(player) {
   if (player._isBeingListenedTo) return;
   player._isBeingListenedTo = true;
   player.on('input', (input) => {
-    if (store.getState().game.phase === 'menu') {
+    if (store.getState().game.get('phase') === 'menu') {
       store.dispatch(inputAction({ input, player: player.id }));
     }
   });
@@ -23,9 +23,9 @@ listenToAllPlayers();
 store.subscribe(() => {
   const state = store.getState();
 
-  if (!inputListener && state.game.phase === 'menu') {
+  if (!inputListener && state.game.get('phase') === 'menu') {
     listenToAllPlayers();
-  } else if (inputListener && state.game.phase !== 'menu') {
+  } else if (inputListener && state.game.get('phase') !== 'menu') {
     clearInterval(inputListener);
   }
 });

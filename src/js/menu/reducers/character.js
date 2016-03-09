@@ -1,44 +1,33 @@
 /**
  * Created by Justin on 2016-03-03.
  */
-import _ from 'lodash';
-const initialState = {
+import { Map, Record } from 'Immutable';
 
-};
+const initialState = Map({});
 
 export default function characterReducer(state = initialState, action) {
-  // Ensure the state is safely mutable
-  state = _.cloneDeep(state);
-
   // Resolve the parameters
   const parameter = action.parameter || {};
   const { player, spell, slot, sprite } = parameter;
 
   switch (action.type) {
     case 'ADD_CHILD': {
-      state[player] = createPlayer();
-
-      return state;
+      return state.set(player, createPlayer());
     }
 
     case 'CHARACTER_SELECT_SLOT': {
-      state[player].selectedSlot = slot;
-
-      return state;
+      return state.setIn([player, 'selectedSlot'], slot);
     }
 
     case 'CHARACTER_SELECT_SPELL': {
-      const char = state[player];
-      char.spells[char.selectedSlot] = spell;
-      char.selectedSlot = null;
-
-      return state;
+      return state.update(player, (char) => {
+        return char.setIn(['spells', String(char.selectedSlot)], spell)
+          .set('selectedSlot', null);
+      });
     }
 
     case 'CHARACTER_SELECT_SPRITE': {
-      state[player].sprite = sprite;
-
-      return state;
+      return state.setIn(['player', 'sprite'], sprite);
     }
 
     default: {
@@ -47,14 +36,16 @@ export default function characterReducer(state = initialState, action) {
   }
 };
 
+const Player = Record({
+  sprite: null,
+  selectedSlot: null,
+  spells: Map({
+    0: null,
+    1: null,
+    2: null,
+  }),
+});
+
 function createPlayer() {
-  return {
-    sprite: null,
-    selectedSlot: null,
-    spells: {
-      0: null,
-      1: null,
-      2: null,
-    },
-  };
+  return new Player();
 }

@@ -3,9 +3,10 @@
  */
 import _ from 'lodash';
 import getLayer from '../get_layer';
+import { fromJS } from 'Immutable';
 
 export default function menuReducer(state, action) {
-  const layer = getLayer(state.layer);
+  const layer = getLayer(state.get('layerName'));
   const { columns, commands } = layer;
   const numCommands = commands && commands.length;
 
@@ -16,33 +17,22 @@ export default function menuReducer(state, action) {
   // Detect action types
   switch (action.type) {
     case 'SELECT': {
-      return _.extend({}, state, {
-        index: (state.index + direction + numCommands) % numCommands,
-      });
+      return state.update('index', idx => (idx + direction + numCommands) % numCommands);
     }
 
     case 'SELECT_COLUMN': {
       const mathFn = Math[direction < 0 ? 'ceil' : 'floor'];
       const columnAdjust = mathFn(direction *  numCommands / (columns || 1));
-
-      return _.extend({}, state, {
-        index: (state.index + columnAdjust + numCommands) % numCommands,
-      });
+      return state.update('index', idx => (idx + columnAdjust + numCommands) % numCommands);
     }
 
     case 'ADD_CHILD': {
-      if (_.size(state.subMenus) > 3) {
+      if (state.get('subMenus').size > 3) {
         console.log('too many children');
         return state;
       }
 
-      const subMenus = _.extend({}, state.subMenus, {
-        [player]: [createMenu(layer.subMenuEntry)],
-      });
-
-      return _.extend({}, state, {
-        subMenus,
-      });
+      return state.setIn(['subMenus', player], [createMenu(layer.subMenuEntry)]);
     }
 
     default: {
@@ -52,9 +42,9 @@ export default function menuReducer(state, action) {
 }
 
 export function createMenu(location) {
-  return {
-    layer: location,
+  return fromJS({
+    layerName: location,
     index: 0,
     subMenus: {},
-  };
+  });
 }

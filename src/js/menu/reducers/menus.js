@@ -4,17 +4,13 @@
 import _ from 'lodash';
 import getLayer from '../get_layer';
 import menuReducer, { createMenu } from './menu';
+import { List } from 'Immutable';
 
-const initialState = [createMenu('top')];
+const initialState = List([createMenu('top')]);
 
 export default function menusReducer(state = initialState, action) {
-  // Resolve the state
-  const current = _.last(state);
-  const newCurrent = menuReducer(current, action);
-
-  if (current !== newCurrent) {
-    state = _.dropRight(state).concat(newCurrent);
-  }
+  // Update the current menu
+  state = state.update(-1, current => menuReducer(current, action));
 
   // Resolve the parameters
   const parameter = action.parameter || {};
@@ -23,15 +19,11 @@ export default function menusReducer(state = initialState, action) {
   // Detect the action types
   switch (action.type) {
     case 'GO_TO': {
-      state = state.concat(createMenu(location));
-
-      return state;
+      return state.push(createMenu(location));
     }
 
     case 'BACK': {
-      if (state.length > 1) state = _.dropRight(state);
-
-      return state;
+      return state.pop();
     }
 
     default: {

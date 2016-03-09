@@ -9,15 +9,15 @@ import SettingsComponent from './Settings';
 
 class Main extends Component {
   render() {
-    const menu = _.last(this.props.menu);
+    const menu = this.props.menu.last();
     const menuProps = {
       menu: menu,
     };
 
     let menuToRender;
-    if (menu.layer === 'top') {
+    if (menu.get('layerName') === 'top') {
       menuToRender = <TopComponent {...menuProps} />;
-    } else if (menu.layer === 'settings') {
+    } else if (menu.get('layerName') === 'settings') {
       menuToRender = <SettingsComponent {...menuProps} />;
     }
 

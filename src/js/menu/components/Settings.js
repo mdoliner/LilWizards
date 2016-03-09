@@ -9,12 +9,12 @@ import CommandsComponent from './Commands';
 class SettingsComponent extends Component {
   render() {
     const menu = this.props.menu;
-    const layer = getLayer(menu.layer);
+    const layer = getLayer(menu.get('layerName'));
 
     return (
       <div className="main">
         <h1>Settings</h1>
-        <CommandsComponent layer={layer} index={menu.index} />
+        <CommandsComponent layer={layer} index={menu.get('index')} />
       </div>
     );
   }
