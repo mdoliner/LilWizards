@@ -21,7 +21,6 @@ export default function inputAction({ input, player }) {
     };
 
     const subMenus = menu.get('subMenus');
-    console.log('menu', menu.toJS());
     if (layer.type === 'parent' && subMenus && !subMenus.get(player)) {
       // If the layer is a parent layer, and the player isn't registered.
       return parentMenu(branchingOptions);
@@ -46,11 +45,16 @@ function basicMenu({ input, player, state, menu, layer, dispatch }) {
       direction: 0 - (input === 'left') + (input === 'right'),
     }));
   } else if (input === 'jump') {
+    if (menu.hasIn(['subMenus', player])) {
+      menu = menu.getIn(['subMenus', player, -1]);
+      layer = getLayer(menu.get('layerName'));
+    }
+
     const command = layer.commands[menu.get('index')];
     if (command.type === 'goTo') {
-      dispatch(goTo({player, location: command.goTo}));
+      dispatch(goTo({ player, location: command.goTo }));
     } else if (command.type === 'action') {
-      dispatch(layer.action({ player, command }))
+      dispatch(layer.action({ player, command }));
     } else if (command.type === 'back') {
       dispatch(back({ player }));
     }

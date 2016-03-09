@@ -10,3 +10,5 @@ function requireAll(r) {
 }
 
 requireAll(require.context('./spell_list', true, /\.js$/));
+
+window.Immutable = require('immutable');
