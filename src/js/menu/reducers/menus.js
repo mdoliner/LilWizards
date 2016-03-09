@@ -21,6 +21,10 @@ export default function menusReducer(state = initialState, action) {
   const parameter = action.parameter || {};
   const { location, player } = parameter;
 
+  if (state.hasIn([-1, 'subMenus', player])) {
+    return state;
+  }
+
   // Detect the action types
   switch (action.type) {
     case 'GO_TO': {
@@ -52,6 +56,10 @@ function menuReducer(state, action) {
   const parameter = action.parameter || {};
   const { direction, player } = parameter;
 
+  if (state.hasIn(['subMenus', player])) {
+    return state.updateIn(['subMenus', player], subCurrent => menusReducer(subCurrent, action));
+  }
+
   // Detect action types
   switch (action.type) {
     case 'SELECT': {
@@ -70,7 +78,7 @@ function menuReducer(state, action) {
         return state;
       }
 
-      return state.setIn(['subMenus', player], [createMenu(layer.subMenuEntry)]);
+      return state.setIn(['subMenus', player], List([createMenu(layer.subMenuEntry)]));
     }
 
     default: {
