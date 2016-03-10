@@ -3,12 +3,23 @@
  */
 import { goTo, back } from '../actions/menu';
 import _ from 'lodash';
-import SpellList from '../../base/spell_list';
+
+const spellsByCategory = {
+  Brawler: ['Crash', 'MeteorShell', 'Updraft', 'Wave', 'WreckingBall'],
+  Eldritch: ['Berserk', 'Candy', 'DarkRift', 'Vomit'],
+  Elemental: ['Fireball', 'ForcePush', 'NaturesWrath', 'RayCannon'],
+  Ninja: ['FanOfKnives', 'Sword', 'Teleport', 'ToxicDarts'],
+};
 
 const playerSpellMenu = {
-  type: 'child',
-  commands: _.map(SpellList, (spell, spellName) => {
-    return { name: spellName, type: 'action', spell: spellName };
+  type: 'categories',
+  categories: _.map(spellsByCategory, (spells, categoryName) => {
+    return {
+      category: categoryName,
+      commands: _.map(spells, (spellName) => {
+        return { name: spellName, type: 'action', spell: spellName };
+      }),
+    };
   }),
 
   action({ player, command }) {

@@ -49,7 +49,7 @@ export default function menusReducer(state = initialState, action) {
  */
 function menuReducer(state, action) {
   const layer = getLayer(state.get('layerName'));
-  const { columns, commands } = layer;
+  const { columns, commands, categories } = layer;
   const numCommands = commands && commands.length;
 
   // Resolve the parameters
@@ -63,13 +63,32 @@ function menuReducer(state, action) {
   // Detect action types
   switch (action.type) {
     case 'SELECT': {
-      return state.update('index', idx => (idx + direction + numCommands) % numCommands);
+      if (layer.type === 'categories') {
+        return state.update('index', (idx) => {
+          const catCommands = categories[state.get('colIndex')].commands.length;
+          return (idx + direction + catCommands) % catCommands;
+        });
+      } else {
+        return state.update('index', idx => (idx + direction + numCommands) % numCommands);
+      }
     }
 
     case 'SELECT_COLUMN': {
-      const mathFn = Math[direction < 0 ? 'ceil' : 'floor'];
-      const columnAdjust = mathFn(direction *  numCommands / (columns || 1));
-      return state.update('index', idx => (idx + columnAdjust + numCommands) % numCommands);
+      if (layer.type === 'categories') {
+        // Update the column index, then the row index.
+        return state.update('colIndex', (idx) => {
+          return (idx + direction + categories.length) % categories.length;
+        }).update((newState) => {
+          return newState.update('index', (idx) => {
+            return Math.min(idx, categories[newState.get('colIndex')].commands.length - 1);
+          });
+        });
+      } else {
+        /// Update the index based on the number of columns.
+        const mathFn = Math[direction < 0 ? 'ceil' : 'floor'];
+        const columnAdjust = mathFn(direction *  numCommands / (columns || 1));
+        return state.update('index', idx => (idx + columnAdjust + numCommands) % numCommands);
+      }
     }
 
     case 'ADD_CHILD': {
@@ -96,6 +115,7 @@ function createMenu(location) {
   return fromJS({
     layerName: location,
     index: 0,
+    colIndex: 0,
     subMenus: {},
   });
 }

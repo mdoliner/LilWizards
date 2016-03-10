@@ -50,7 +50,13 @@ function basicMenu({ input, player, state, menu, layer, dispatch }) {
       layer = getLayer(menu.get('layerName'));
     }
 
-    const command = layer.commands[menu.get('index')];
+    let command;
+    if (layer.type === 'categories') {
+      command = getCategoryCommand(menu, layer);
+    } else {
+      command = getBasicCommand(menu, layer);
+    }
+
     if (command.type === 'goTo') {
       dispatch(goTo({ player, location: command.goTo }));
     } else if (command.type === 'action') {
@@ -61,6 +67,14 @@ function basicMenu({ input, player, state, menu, layer, dispatch }) {
   } else if (input === 2) {
     dispatch(back({ player }));
   }
+}
+
+function getBasicCommand(menu, layer) {
+  return layer.commands[menu.get('index')];
+}
+
+function getCategoryCommand(menu, layer) {
+  return layer.categories[menu.get('colIndex')].commands[menu.get('index')];
 }
 
 function parentMenu({ input, player, state, menu, layer, dispatch }) {
