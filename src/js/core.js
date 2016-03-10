@@ -5,10 +5,7 @@ require('./vendor/gamepad');
 require('./vendor/keymaster');
 require('./on-load');
 
-function requireAll(r) {
-  r.keys().forEach(r);
-}
-
-requireAll(require.context('./spell_list', true, /\.js$/));
+const spellListContext = require.context('./spell_list', true, /\.js$/);
+spellListContext.keys().forEach(spellListContext);
 
 window.Immutable = require('immutable');

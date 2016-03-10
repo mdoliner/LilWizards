@@ -2,14 +2,14 @@
  * Created by Justin on 2016-03-02.
  */
 import { goTo, back } from '../actions/menu';
+import _ from 'lodash';
+import SpellList from '../../base/spell_list';
 
 const playerSpellMenu = {
   type: 'child',
-  commands: [
-    { name: 'Fireball', type: 'action', spell: 'Fireball' },
-    { name: 'Sword', type: 'action', spell: 'Sword' },
-    { name: 'Crash', type: 'action', spell: 'Crash' },
-  ],
+  commands: _.map(SpellList, (spell, spellName) => {
+    return { name: spellName, type: 'action', spell: spellName };
+  }),
 
   action({ player, command }) {
     return (dispatch) => {
