@@ -74,6 +74,11 @@ Player.prototype.makeSpellList = function () {
   return spells;
 };
 
+Player.prototype.applyCharacterConfiguration = function (character) {
+  this.spellList = character.get('spells').toArray();
+  this.wizardGraphic = character.get('sprite');
+};
+
 Player.randomSpellList = function () {
   var spells = [];
   while (spells.length < 3) {
