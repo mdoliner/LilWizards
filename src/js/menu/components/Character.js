@@ -18,7 +18,7 @@ const compMap = {
 
 class CharacterComponent extends Component {
   render() {
-    const menu = this.props.menu;
+    const { menu, characters } = this.props;
 
     return (
       <div className="main">
@@ -26,7 +26,7 @@ class CharacterComponent extends Component {
         {menu.get('subMenus').map((subMenu, key) => {
           const curr = subMenu.last();
           const Comp = compMap[curr.get('layerName')];
-          return <Comp menu={curr} key={key}/>;
+          return <Comp menu={curr} key={key} character={characters.get(key)}/>;
         }).toArray()}
       </div>
     );

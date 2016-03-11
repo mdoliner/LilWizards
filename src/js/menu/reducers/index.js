@@ -4,12 +4,12 @@
 import { combineReducers } from 'redux';
 import menusReducer from './menus';
 import gameReducer from './game';
-import characterReducer from './character';
+import charactersReducer from './characters';
 
 const reducers = {
   menu: menusReducer,
   game: gameReducer,
-  character: characterReducer,
+  characters: charactersReducer,
 };
 
 module.exports = combineReducers(reducers);

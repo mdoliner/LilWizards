@@ -24,3 +24,11 @@ export function goTo(parameter) {
 export function addChild(parameter) {
   return { type: 'ADD_CHILD', parameter };
 }
+
+export function playerReady(parameter) {
+  return { type: 'PLAYER_READY', parameter };
+}
+
+export function playerUnready(parameter) {
+  return { type: 'PLAYER_UNREADY', parameter };
+}

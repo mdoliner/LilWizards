@@ -5,7 +5,7 @@ import { Map, Record } from 'immutable';
 
 const initialState = Map({});
 
-export default function characterReducer(state = initialState, action) {
+export default function charactersReducer(state = initialState, action) {
   // Resolve the parameters
   const parameter = action.parameter || {};
   const { player, spell, slot, sprite } = parameter;

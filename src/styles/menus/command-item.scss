@@ -3,4 +3,10 @@
   &.is-selected {
     color: #00b;
   }
+  &.disabled {
+    color: #888;
+    &.is-selected {
+      color: #55b;
+    }
+  }
 }

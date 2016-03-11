@@ -12,6 +12,7 @@ class CommandItemComponent extends Component {
     const { command, isSelected } = this.props;
 
     const className = classNames('menu-command-item', {
+      disabled: command.disabled,
       'is-selected': isSelected,
     });
 

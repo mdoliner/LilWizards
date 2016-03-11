@@ -14,6 +14,7 @@ class Main extends Component {
     const layerName = menu.get('layerName');
     const menuProps = {
       menu: menu,
+      characters: this.props.characters,
     };
 
     let menuToRender;

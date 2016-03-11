@@ -22,8 +22,25 @@ const playerSpellMenu = {
     };
   }),
 
+  display(character) {
+    const base = _.cloneDeep(playerSpellMenu.categories);
+    const spells = character.get('spells');
+    _.each(base, (category) => {
+      _.each(category.commands, (command) => {
+        command.disabled = spells.includes(command.spell);
+      });
+    });
+
+    return base;
+  },
+
   action({ player, command }) {
-    return (dispatch) => {
+    return (dispatch, getState) => {
+      const character = getState().characters.get(player);
+      if (character.get('spells').includes(command.spell)) {
+        return;
+      }
+
       dispatch({ type: 'CHARACTER_SELECT_SPELL', parameter: { player, spell: command.spell } });
       dispatch(back({ player }));
     };

@@ -4,14 +4,21 @@
 'use strict';
 import getLayer from '../../get_layer';
 import React, { Component } from 'react';
+import CategoriesComponent from '../input/Categories';
 
 class PlayerSpellsComponent extends Component {
   render() {
-    const menu = this.props.menu;
+    const { character, menu } = this.props;
+    const layer = getLayer(menu.get('layerName'));
 
     return (
       <div className="player-spells">
-        Player Spells
+        <CategoriesComponent
+          layer={layer}
+          character={character}
+          index={menu.get('index')}
+          colIndex={menu.get('colIndex')}
+        />
       </div>
     );
   }

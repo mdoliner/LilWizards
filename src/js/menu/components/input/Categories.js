@@ -10,12 +10,13 @@ require('styles/menus/commands.scss');
 
 class CategoriesComponent extends Component {
   render() {
-    const index = this.props.index;
-    const colIndex = this.props.colIndex;
-    const categories = _.map(this.props.layer.categories, (category, column) => {
+    const { index, colIndex, character, layer } = this.props;
+    const categories = layer.display && character ? layer.display(character) : layer.categories;
+
+    const categoryComponents = _.map(categories, (category, column) => {
       return (
-        <li>
-          <h3 className="category-name">{category.name}</h3>
+        <li key={column}>
+          <h3 className="category-name">{category.category}</h3>
           <ul className="menu-commands">
             {_.map(category.commands, (command, i) => {
               return <CommandsItemComponent
@@ -31,7 +32,7 @@ class CategoriesComponent extends Component {
 
     return (
       <ul className="menu-categories">
-        {categories}
+        {categoryComponents}
       </ul>
     );
   }
