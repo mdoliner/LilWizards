@@ -25,6 +25,7 @@ const backgrounds = {
 
 export default function runGame(selectedLevel, nlevel, isDemo) {
   GlobalSL.playSE('menu-select.ogg', 100);
+  document.getElementById('menu');
 
   $('.main-menu').addClass('hidden');
 

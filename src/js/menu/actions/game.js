@@ -3,14 +3,15 @@
  */
 import Levels from '../../base/levels';
 import runGame from '../../run-game';
-import Players from '../../base/players';
+import { AllPlayers } from '../../base/players';
 import _ from 'lodash';
 
 export function startGame({ levelName }) {
   return (dispatch, getState) => {
     dispatch(enterGame());
     getState().characters.forEach((character, id) => {
-      const player = _.find(Players, { id });
+      console.log('id:', id);
+      const player = _.find(AllPlayers, { id });
       player.applyCharacterConfiguration(character);
     });
 

@@ -2,7 +2,7 @@
  * Created by Justin on 2016-03-02.
  */
 'use strict';
-import startGame from '../actions/game';
+import { startGame } from '../actions/game';
 
 const levelsMenu = {
   type: 'basic',
@@ -16,7 +16,7 @@ const levelsMenu = {
   action({ command }) {
     return (dispatch) => {
       const levelName = command.level;
-      dispatch(startGame(levelName));
+      dispatch(startGame({ levelName }));
     };
   },
 };

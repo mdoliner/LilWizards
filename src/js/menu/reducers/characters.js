@@ -27,7 +27,15 @@ export default function charactersReducer(state = initialState, action) {
     }
 
     case 'CHARACTER_SELECT_SPRITE': {
-      return state.setIn(['player', 'sprite'], sprite);
+      return state.setIn([player, 'sprite'], sprite);
+    }
+
+    case 'PLAYER_READY': {
+      return state.setIn([player, 'ready'], true);
+    }
+
+    case 'PLAYER_UNREADY': {
+      return state.setIn([player, 'ready'], false);
     }
 
     default: {
@@ -39,6 +47,7 @@ export default function charactersReducer(state = initialState, action) {
 const Player = Record({
   sprite: null,
   selectedSlot: null,
+  ready: false,
   spells: Map({
     0: null,
     1: null,

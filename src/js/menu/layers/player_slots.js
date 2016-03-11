@@ -41,6 +41,10 @@ const playerSlotMenu = {
         if (!character.get('spells').includes(null)) {
           dispatch(playerReady({ player }));
           dispatch(goTo({ player, location: 'playerReady' }));
+
+          if (!getState().characters.filter((char) => !char.get('ready')).size) {
+            dispatch(goTo({ location: 'levels' }));
+          }
         }
 
         return;

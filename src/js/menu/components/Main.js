@@ -7,6 +7,7 @@ import React, { Component } from 'react';
 import TopComponent from './Top';
 import SettingsComponent from './Settings';
 import CharacterComponent from './Character';
+import LevelsComponent from './Levels';
 
 class Main extends Component {
   render() {
@@ -24,6 +25,8 @@ class Main extends Component {
       menuToRender = <SettingsComponent {...menuProps} />;
     } else if (layerName === 'character') {
       menuToRender = <CharacterComponent {...menuProps} />;
+    } else if (layerName === 'levels') {
+      menuToRender = <LevelsComponent {...menuProps} />;
     }
 
     return (

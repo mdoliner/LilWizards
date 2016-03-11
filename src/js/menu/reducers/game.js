@@ -10,9 +10,8 @@ const initialState = Map({
 
 export default function gameReducer(state = initialState, action) {
   switch (action.type) {
-    case 'ACTION': {
-
-      return state;
+    case 'ENTER_GAME': {
+      return state.set('phase', 'game');
     }
 
     default: {
