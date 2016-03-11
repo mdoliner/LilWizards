@@ -4,7 +4,7 @@
 'use strict';
 import getLayer from '../get_layer';
 import React, { Component } from 'react';
-import CommandsComponent from './Commands';
+import CommandsComponent from './input/Commands';
 
 class SettingsComponent extends Component {
   render() {
