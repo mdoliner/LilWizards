@@ -40,7 +40,7 @@ const playerSlotMenu = {
       if (command.ready) {
         if (!character.get('spells').includes(null)) {
           dispatch(playerReady({ player }));
-          dispatch(goTo({ player, location: 'playerSpells' }));
+          dispatch(goTo({ player, location: 'playerReady' }));
         }
 
         return;

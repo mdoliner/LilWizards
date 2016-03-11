@@ -7,6 +7,7 @@ import characterMenu from './character';
 import playerCharacterMenu from './player_character';
 import playerSlotMenu from './player_slots';
 import playerSpellMenu from './player_spells';
+import playerReadyMenu from './player_ready';
 
 const layers = {
   top: topMenu,
@@ -15,6 +16,7 @@ const layers = {
   playerCharacter: playerCharacterMenu,
   playerSlots: playerSlotMenu,
   playerSpells: playerSpellMenu,
+  playerReady: playerReadyMenu,
 };
 
 module.exports = layers;

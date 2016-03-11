@@ -9,11 +9,13 @@ import React, { Component } from 'react';
 import PlayerCharacterComponent from './character/PlayerCharacter';
 import PlayerSlotsComponent from './character/PlayerSlots';
 import PlayerSpellsComponent from './character/PlayerSpells';
+import PlayerReadyComponent from './character/PlayerReady';
 
 const compMap = {
   playerCharacter: PlayerCharacterComponent,
   playerSlots: PlayerSlotsComponent,
   playerSpells: PlayerSpellsComponent,
+  playerReady: PlayerReadyComponent,
 };
 
 class CharacterComponent extends Component {
