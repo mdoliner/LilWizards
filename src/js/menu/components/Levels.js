@@ -12,8 +12,8 @@ class LevelsComponent extends Component {
     const layer = getLayer(menu.get('layerName'));
 
     return (
-      <div className="menu-levels">
-        <h1>Levels</h1>
+      <div className="menu-levels full">
+        <h1 className="menu-title">Levels</h1>
         <CommandsComponent layer={layer} index={menu.get('index')} />
       </div>
     );

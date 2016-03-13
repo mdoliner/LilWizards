@@ -1,7 +1,25 @@
+@import '../colors';
+
 .menu-command-item {
   list-style: none;
+  position: relative;
+  padding: 10px 20px;
+
+  background: $main-accent;
+  border: 1px solid $main-accent-dark;
+  border-radius: 5px;
+
   &.is-selected {
-    color: #00b;
+    color: $main-color-dark;
+    &:before {
+      $arrow-width: 9px;
+      content: "";
+      border-top: $arrow-width solid transparent;
+      border-bottom: $arrow-width solid transparent;
+      border-left: $arrow-width solid $main-color;
+      position: absolute;
+      left: 5px;
+    }
   }
   &.disabled {
     color: #888;

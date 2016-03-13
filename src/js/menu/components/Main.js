@@ -2,7 +2,7 @@
  * Created by Justin on 2016-02-29.
  */
 'use strict';
-require('styles/menu/main');
+require('styles/menus/main.scss');
 
 import _ from 'lodash';
 import React, { Component } from 'react';
@@ -32,7 +32,7 @@ class Main extends Component {
     }
 
     return (
-      <div className="main">
+      <div className="main full">
         {menuToRender}
       </div>
     );

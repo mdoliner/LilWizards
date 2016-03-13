@@ -12,8 +12,8 @@ class TopComponent extends Component {
     const layer = getLayer(menu.get('layerName'));
 
     return (
-      <div className="main">
-        <h1>Lil Wizards!</h1>
+      <div className="main full">
+        <h1 className="menu-title">Lil Wizards!</h1>
         <CommandsComponent layer={layer} index={menu.get('index')} />
       </div>
     );

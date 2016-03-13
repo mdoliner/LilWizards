@@ -22,10 +22,8 @@ class CharacterComponent extends Component {
   render() {
     const { menu, characters } = this.props;
 
-    console.log('size:', menu.get('subMenus').size);
     return (
-      <div className="main">
-        <h1>Character</h1>
+      <div className="parent-menu full">
         {menu.get('subMenus').map((subMenu, key) => {
           const curr = subMenu.last();
           const Comp = compMap[curr.get('layerName')];

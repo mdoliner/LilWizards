@@ -12,7 +12,7 @@ class PlayerReadyComponent extends Component {
     const layer = getLayer(menu.get('layerName'));
 
     return (
-      <div className="player-character">
+      <div className="player-ready">
         You are readied up!
         <CommandsComponent layer={layer} index={menu.get('index')} />
       </div>

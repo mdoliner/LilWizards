@@ -6,7 +6,7 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import CommandsItemComponent from './CommandItem';
 
-require('styles/menus/commands.scss');
+require('styles/menus/categories.scss');
 
 class CategoriesComponent extends Component {
   render() {
@@ -17,7 +17,7 @@ class CategoriesComponent extends Component {
       return (
         <li key={column}>
           <h3 className="category-name">{category.category}</h3>
-          <ul className="menu-commands">
+          <ul className="menu-category">
             {_.map(category.commands, (command, i) => {
               return <CommandsItemComponent
                 command={command}
