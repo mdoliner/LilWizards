@@ -15,6 +15,10 @@ export default function charactersReducer(state = initialState, action) {
       return state.set(player, createPlayer());
     }
 
+    case 'REMOVE_CHILD': {
+      return state.delete(player);
+    }
+
     case 'CHARACTER_SELECT_SLOT': {
       return state.setIn([player, 'selectedSlot'], slot);
     }

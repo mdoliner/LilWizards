@@ -25,6 +25,10 @@ export function addChild(parameter) {
   return { type: 'ADD_CHILD', parameter };
 }
 
+export function removeChild(parameter) {
+  return { type: 'REMOVE_CHILD', parameter };
+}
+
 export function playerReady(parameter) {
   return { type: 'PLAYER_READY', parameter };
 }

@@ -1,0 +1,26 @@
+@import '../colors';
+#menu {
+  background: $main-background;
+  color: $main-color;
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  box-sizing: border-box;
+  z-index: 10;
+}
+
+.menu-title {
+  text-align: center;
+  -webkit-text-stroke: 2px #556270;
+  font-family: sans-serif;
+  font-size: 88px;
+  text-shadow: 2px 2px #888;
+  -webkit-animation: zoomIn 0.428s infinite both;
+}
+
+@-webkit-keyframes zoomIn {
+  0% {transform: scale(0.9);}
+  50% {transform: scale(1.1);}
+  100% {transform: scale(0.9);}
+}

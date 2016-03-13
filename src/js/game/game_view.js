@@ -4,15 +4,15 @@
 'use strict';
 import $ from 'jquery';
 import { GlobalSL } from '../utilities/sound_library';
-import Players from '../base/players';
 import Wizard from '../base/wizard';
 import TopMenu from '../menu/menu-top';
 import CharacterMenu from '../menu/menu-character';
 
-function GameView(bgctx, fgctx, game) {
+function GameView(bgctx, fgctx, game, players) {
   this.game = game;
   this.fgctx = fgctx;
   this.bgctx = bgctx;
+  this.players = players;
   this.fps = {
     startTime: 0,
     frameNumber: 0,
@@ -55,24 +55,20 @@ GameView.prototype.remove = function () {
   var $bgm = $('#bgm');
   $bgm[0].pause();
   GlobalSL.playBGM('Dig-It.mp3');
-  for (var i = 0; i < Players.length; i++) {
-    if (Players[i].controllerType === 'computer') {
-      Players.splice(i, 1);
+  for (var i = 0; i < this.players.length; i++) {
+    if (this.players[i].controllerType === 'computer') {
+      this.players.splice(i, 1);
       i--;
     }
   }
 
   $('.main-menu').removeClass('hidden');
-  if (this.isDemo) {
-    TopMenu.swapTo();
-  } else {
-    CharacterMenu.swapTo();
-  }
+  console.error('Implement me.');
 };
 
 GameView.prototype.checkPlayerActions = function () {
-  for (var i = 0; i < Players.length; i++) {
-    Players[i].checkControllerActions();
+  for (var i = 0; i < this.players.length; i++) {
+    this.players[i].checkControllerActions();
   }
 };
 
@@ -80,7 +76,7 @@ GameView.prototype.wizardActions = function () {
   var wizards = this.game.wizards;
   for (var i = 0; i < wizards.length; i++) {
     var wizard = wizards[i];
-    if (wizard.isDead()) {continue;}
+    if (wizard.isDead()) continue;
 
     if (wizard.actions.jump === 'tap') {
       wizard.jump(Wizard.BASEJUMP);

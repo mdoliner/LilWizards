@@ -22,6 +22,7 @@ class CharacterComponent extends Component {
   render() {
     const { menu, characters } = this.props;
 
+    console.log('size:', menu.get('subMenus').size);
     return (
       <div className="main">
         <h1>Character</h1>

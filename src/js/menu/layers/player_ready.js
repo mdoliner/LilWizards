@@ -4,7 +4,7 @@
 import { back, playerUnready } from '../actions/menu';
 
 const playerCharacterMenu = {
-  type: 'child',
+  type: 'basic',
   commands: [
     { name: 'Unready', type: 'action' },
   ],

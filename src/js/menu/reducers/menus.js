@@ -56,7 +56,13 @@ function menuReducer(state, action) {
   const parameter = action.parameter || {};
   const { direction, player } = parameter;
 
+  // Recursion Case, handle submenus.
   if (state.hasIn(['subMenus', player])) {
+    // Short Circuit: if the action is to remove a child, prioritize it.
+    if (action.type === 'REMOVE_CHILD') {
+      return state.deleteIn(['subMenus', player]);
+    }
+
     return state.updateIn(['subMenus', player], subCurrent => menusReducer(subCurrent, action));
   }
 

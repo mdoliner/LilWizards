@@ -2,8 +2,9 @@
  * Created by Justin on 2016-03-02.
  */
 import _ from 'lodash';
-import { select, selectColumn, confirm, back, goTo, addChild } from './menu';
+import { select, selectColumn, confirm, back, goTo, addChild, removeChild } from './menu';
 import getLayer from '../get_layer';
+import Players, { AllPlayers } from '../../base/players';
 
 export default function inputAction({ input, player }) {
   return (dispatch, getState) => {
@@ -31,6 +32,11 @@ export default function inputAction({ input, player }) {
 }
 
 function basicMenu({ input, player, state, menu, layer, dispatch }) {
+  if (menu.hasIn(['subMenus', player])) {
+    menu = menu.getIn(['subMenus', player, -1]);
+    layer = getLayer(menu.get('layerName'));
+  }
+
   // Branch out depending on the input given.
   if (input === 'up' || input === 'down') {
     // Upon Up or Down, move the menu selector
@@ -45,11 +51,6 @@ function basicMenu({ input, player, state, menu, layer, dispatch }) {
       direction: 0 - (input === 'left') + (input === 'right'),
     }));
   } else if (input === 'jump') {
-    if (menu.hasIn(['subMenus', player])) {
-      menu = menu.getIn(['subMenus', player, -1]);
-      layer = getLayer(menu.get('layerName'));
-    }
-
     let command;
     if (layer.type === 'categories') {
       command = getCategoryCommand(menu, layer);
@@ -65,7 +66,11 @@ function basicMenu({ input, player, state, menu, layer, dispatch }) {
       dispatch(back({ player }));
     }
   } else if (input === 2) {
-    dispatch(back({ player }));
+    if (layer.type === 'child') {
+      dispatch(removeChild({ player }));
+    } else {
+      dispatch(back({ player }));
+    }
   }
 }
 
@@ -82,6 +87,7 @@ function parentMenu({ input, player, state, menu, layer, dispatch }) {
   if (input === 'jump') {
     // Add a child menu
     dispatch(addChild({ player }));
+    Players.push(_.find(AllPlayers, { id: player }));
   } else if (input === 2) {
     dispatch(back({ player }));
   }

@@ -179,7 +179,6 @@ Wizard.prototype.move = function () {
   }
 
   this.gravity.y = this.nGravity;
-  this.trigger('after:move');
 };
 
 Wizard.prototype.isOnWall = function () {

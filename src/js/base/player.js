@@ -123,11 +123,10 @@ Player.prototype.checkControllerActions = function () {
 };
 
 Player.prototype.cycleAction = function (action, cond, isSpell) {
-  const actionMap = isSpell ? this.wizard.actions : this.wizard.actions.spells;
+  const actionMap = isSpell ? this.wizard.actions.spells : this.wizard.actions;
   actionMap[action] = cond ? cyclePress(actionMap[action]) : cycleRelease(actionMap[action]);
 
   if (actionMap[action] === 'tap') {
-    console.log('Tap Test:', action);
     if (isSpell) {
       this.emit(`input:spell:${action}`);
     } else {
@@ -153,8 +152,8 @@ Player.prototype.moveWizard = function (amount) {
 Player.prototype.checkGamepadActions = function () {
   var i = this.controllerIndex;
   var leftX = Gamepad.moved(i, 'LEFT_X');
-  this.cycleAction('left', Gamepad.pressed(i, 'PAD_LEFT') || leftX < 0);
-  this.cycleAction('right', Gamepad.pressed(i, 'PAD_RIGHT') || leftX > 0);
+  this.cycleAction('left', Gamepad.pressed(i, 'PAD_LEFT') || leftX < -0.2);
+  this.cycleAction('right', Gamepad.pressed(i, 'PAD_RIGHT') || leftX > 0.2);
   this.moveWizard(leftX);
 
   var leftY = Gamepad.moved(i, 'LEFT_Y');

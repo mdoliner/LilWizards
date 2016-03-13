@@ -4,7 +4,6 @@
 'use strict';
 import $ from 'jquery';
 import { GlobalSL } from './utilities/sound_library';
-import Players from './base/players';
 import Player from './base/player';
 import GameView from './game/game_view';
 import Game from './game/game';
@@ -23,11 +22,10 @@ const backgrounds = {
   Spikes: require('graphics/bg_boarwarts.jpg'),
 };
 
-export default function runGame(selectedLevel, nlevel, isDemo) {
+export default function runGame(selectedLevel, nlevel, players) {
   GlobalSL.playSE('menu-select.ogg', 100);
-  document.getElementById('menu');
 
-  $('.main-menu').addClass('hidden');
+  $('#menu').addClass('hidden');
 
   var song = songs[Math.floor(songs.length * Math.random())];
   GlobalSL.playBGM(song);
@@ -40,38 +38,37 @@ export default function runGame(selectedLevel, nlevel, isDemo) {
     background: backgrounds[nlevel],
   });
 
-  if (Players.length === 1) {
-    Players.push(new Player({
+  if (players.length === 1) {
+    players.push(new Player({
       controllerType: 'computer',
       controllerIndex: 0,
       spellList: Player.randomSpellList(),
       wizardGraphic: Sprite.WIZARDS[0],
     }));
-    Players.push(new Player({
+    players.push(new Player({
       controllerType: 'computer',
       controllerIndex: 1,
       spellList: Player.randomSpellList(),
       wizardGraphic: Sprite.WIZARDS[0],
     }));
-    Players.push(new Player({
+    players.push(new Player({
       controllerType: 'computer',
       controllerIndex: 2,
       spellList: Player.randomSpellList(),
       wizardGraphic: Sprite.WIZARDS[0],
     }));
-    Players.slice(1).forEach(function (player) {
+    players.slice(1).forEach(function (player) {
       player.nextSprite(1);
     });
   }
 
-  for (var i = 0; i < Players.length; i++) {
-    game.wizards.push(Players[i].makeWizard({
+  for (var i = 0; i < players.length; i++) {
+    game.wizards.push(players[i].makeWizard({
       game: game,
     }));
   }
 
-  var gameView = new GameView(bgctx, fgctx, game);
-  gameView.isDemo = isDemo;
+  var gameView = new GameView(bgctx, fgctx, game, players);
   gameView.startGame();
   bgm.play();
 }

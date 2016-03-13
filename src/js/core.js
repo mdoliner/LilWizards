@@ -1,5 +1,4 @@
 require('../styles/game.scss');
-require('../styles/instructions.scss');
 
 require('./vendor/gamepad');
 require('./vendor/keymaster');
