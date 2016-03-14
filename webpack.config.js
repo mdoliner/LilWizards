@@ -63,7 +63,7 @@ module.exports = {
         loader: 'style-loader!css-loader!postcss-loader!sass-loader?outputStyle=expanded',
       },
       {
-        test: /\.(ttf|eot|svg|woff(2)?|png|jpg|gif|mp3|ogg)$/,
+        test: /\.(ttf|eot|svg|woff(2)?|png|jpg|gif|mp3|ogg|wav)$/,
         loader: 'file-loader',
       },
     ],

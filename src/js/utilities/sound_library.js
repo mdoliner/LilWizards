@@ -15,7 +15,7 @@ function requireAllSounds(r) {
   });
 }
 
-requireAllSounds(require.context('../../audio', true, /\.(mp3|ogg)$/));
+requireAllSounds(require.context('../../audio', true, /\.(mp3|ogg|wav)$/));
 
 function SoundLibrary() {
   this.audioTags = [];
@@ -41,6 +41,7 @@ SoundLibrary.prototype.getEls = function () {
 };
 
 SoundLibrary.prototype.playSE = function (src, volume) {
+  if (volume == null) volume = 1;
   if (volume > 1) {
     volume /= 100;
   }

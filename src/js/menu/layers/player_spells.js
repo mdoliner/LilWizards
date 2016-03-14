@@ -5,7 +5,7 @@ import { goTo, back } from '../actions/menu';
 import _ from 'lodash';
 
 const spellsByCategory = {
-  Brawler: ['Crash', 'MeteorShell', 'Updraft', 'Wave', 'WreckingBall'],
+  Brawler: ['Crash', 'MeteorShield', 'Updraft', 'Wave', 'WreckingBall'],
   Eldritch: ['Berserk', 'Candy', 'DarkRift', 'Vomit'],
   Elemental: ['Fireball', 'ForcePush', 'NaturesWrath', 'RayCannon'],
   Ninja: ['FanOfKnives', 'Sword', 'Teleport', 'ToxicDarts'],
