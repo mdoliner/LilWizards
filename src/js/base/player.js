@@ -163,7 +163,7 @@ Player.prototype.checkGamepadActions = function () {
   this.cycleAction('jump', Gamepad.pressed(i, 'FACE_1') || Gamepad.pressed(i, 'LEFT_SHOULDER'));
   this.cycleAction(0, Gamepad.pressed(i, 'FACE_3') || Gamepad.pressed(i, 'RIGHT_SHOULDER'), true);
   this.cycleAction(1, Gamepad.pressed(i, 'FACE_4') || Gamepad.pressed(i, 'LEFT_SHOULDER_BOTTOM'), true);
-  this.cycleAction(1, Gamepad.pressed(i, 'FACE_2') || Gamepad.pressed(i, 'RIGHT_SHOULDER_BOTTOM'), true);
+  this.cycleAction(2, Gamepad.pressed(i, 'FACE_2') || Gamepad.pressed(i, 'RIGHT_SHOULDER_BOTTOM'), true);
 };
 
 Player.prototype.checkKeyboardActions = function () {
