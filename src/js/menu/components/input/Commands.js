@@ -10,14 +10,15 @@ require('styles/menus/commands.scss');
 
 class CommandsComponent extends Component {
   render() {
-    const index = this.props.index;
-    const commands = _.map(this.props.layer.commands, (command, i) => {
+    const { index, layer } = this.props;
+    const commands = layer.display && character ? layer.display(character) : layer.commands;
+    const commandComps = _.map(commands, (command, i) => {
       return <CommandsItemComponent command={command} key={i} isSelected={i === index}/>;
     });
 
     return (
       <ul className="menu-commands">
-        {commands}
+        {commandComps}
       </ul>
     );
   }

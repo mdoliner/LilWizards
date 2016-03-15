@@ -185,9 +185,9 @@ var COMPUTER_ACTIONS = ['up', 'down', 'left', 'right', 'jump', 0, 1, 2];
 
 Player.prototype.checkComputerActions = function () {
   this.actionTimer = this.actionTimer - 1 || Math.floor(Math.random() * 30) + 45;
-  var actionIndex = Math.floor(Math.random() * COMPUTER_ACTIONS.length);
 
   if (this.actionTimer < 2) {
+    var actionIndex = Math.floor(Math.random() * COMPUTER_ACTIONS.length);
     while (this.heldButtons[COMPUTER_ACTIONS[actionIndex]]) {
       this.heldButtons[COMPUTER_ACTIONS[actionIndex]] = false;
       actionIndex = Math.floor(Math.random() * COMPUTER_ACTIONS.length);
@@ -201,7 +201,7 @@ Player.prototype.checkComputerActions = function () {
 
   for (var i = 0; i < COMPUTER_ACTIONS.length; i++) {
     var action = COMPUTER_ACTIONS[i];
-    this.cycleAction(action, this.heldButtons[action], !!action.length);
+    this.cycleAction(action, this.heldButtons[action], !action.length);
     if (this.heldButtons[action]) {
       this.moveWizard(0 - (action === 'left') + (action === 'right'));
     }

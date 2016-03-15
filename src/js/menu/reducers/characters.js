@@ -42,6 +42,10 @@ export default function charactersReducer(state = initialState, action) {
       return state.setIn([player, 'ready'], false);
     }
 
+    case 'CLEAR_READY': {
+      return state.map(player => player.set('ready', false));
+    }
+
     default: {
       return state;
     }

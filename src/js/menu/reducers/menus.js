@@ -32,7 +32,22 @@ export default function menusReducer(state = initialState, action) {
     }
 
     case 'BACK': {
+      if (state.size === 1) return state;
       return state.pop();
+    }
+
+    case 'REMOVE_MENU': {
+      if (state.getIn([-1, 'subMenus']).size) {
+        return state.updateIn([-1, 'subMenus'], subMenu => {
+          return subMenu.map(curr => menusReducer(curr, action));
+        });
+      }
+
+      if (parameter.menu) {
+        return state.getIn([-1, 'layerName']) === parameter.menu ? state.pop() : state;
+      } else {
+        return state.pop();
+      }
     }
 
     default: {

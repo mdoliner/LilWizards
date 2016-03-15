@@ -1,7 +1,7 @@
 /**
  * Created by Justin on 2016-03-02.
  */
-import { goTo, playerReady } from '../actions/menu';
+import { goTo, playerReady, clearReady, removeMenu } from '../actions/menu';
 import _ from 'lodash';
 
 const playerSlotMenu = {
@@ -43,6 +43,8 @@ const playerSlotMenu = {
           dispatch(goTo({ player, location: 'playerReady' }));
 
           if (!getState().characters.filter((char) => !char.get('ready')).size) {
+            dispatch(clearReady());
+            dispatch(removeMenu({ menu: 'playerReady' }));
             dispatch(goTo({ location: 'levels' }));
           }
         }

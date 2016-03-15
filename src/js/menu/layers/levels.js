@@ -3,6 +3,7 @@
  */
 'use strict';
 import { startGame } from '../actions/game';
+import { removeMenu } from '../actions/menu';
 
 const levelsMenu = {
   type: 'basic',
@@ -16,6 +17,7 @@ const levelsMenu = {
   action({ command }) {
     return (dispatch) => {
       const levelName = command.level;
+      dispatch(removeMenu({ menu: 'levels' }));
       dispatch(startGame({ levelName }));
     };
   },

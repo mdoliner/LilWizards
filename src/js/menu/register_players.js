@@ -27,6 +27,7 @@ store.subscribe(() => {
     listenToAllPlayers();
   } else if (inputListener && state.game.get('phase') !== 'menu') {
     clearInterval(inputListener);
+    inputListener = null;
   }
 });
 

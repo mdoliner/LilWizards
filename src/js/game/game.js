@@ -324,7 +324,7 @@ Game.prototype.isOver = function () {
   if (this.gameEnding) {return;}
 
   for (var i = 0; i < this.wizards.length; i++) {
-    if (this.wizards[i].kills >= Settings.WinKills) {
+    if (this.wizards[i].kills >= Settings.get('WinKills')) {
       this.endGame(this.wizards[i]);
       return true;
     }
@@ -350,7 +350,7 @@ Game.prototype.endGame = function (winner) {
       endSize: 400,
       moveType: 'linear',
       duration: duration,
-    })
+    });
   }.bind(this), 1000 / 60);
   setTimeout(function () {
     this.gameEnded = true;

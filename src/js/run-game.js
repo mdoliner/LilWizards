@@ -70,5 +70,4 @@ export default function runGame(selectedLevel, nlevel, players) {
 
   var gameView = new GameView(bgctx, fgctx, game, players);
   gameView.startGame();
-  bgm.play();
 }

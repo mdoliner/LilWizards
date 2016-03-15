@@ -36,3 +36,11 @@ export function playerReady(parameter) {
 export function playerUnready(parameter) {
   return { type: 'PLAYER_UNREADY', parameter };
 }
+
+export function clearReady(parameter) {
+  return { type: 'CLEAR_READY', parameter };
+}
+
+export function removeMenu(parameter) {
+  return { type: 'REMOVE_MENU', parameter };
+}

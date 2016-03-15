@@ -5,8 +5,8 @@
 import $ from 'jquery';
 import { GlobalSL } from '../utilities/sound_library';
 import Wizard from '../base/wizard';
-import TopMenu from '../menu/menu-top';
-import CharacterMenu from '../menu/menu-character';
+import store from '../menu';
+import { finishGame } from '../menu/actions/game';
 
 function GameView(bgctx, fgctx, game, players) {
   this.game = game;
@@ -62,8 +62,8 @@ GameView.prototype.remove = function () {
     }
   }
 
-  $('.main-menu').removeClass('hidden');
-  console.error('Implement me.');
+  $('#menu').removeClass('hidden');
+  store.dispatch(finishGame());
 };
 
 GameView.prototype.checkPlayerActions = function () {
