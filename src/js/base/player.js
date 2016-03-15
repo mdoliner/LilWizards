@@ -140,10 +140,10 @@ Player.prototype.cycleAction = function (action, cond, isSpell) {
 };
 
 Player.prototype.moveWizard = function (amount) {
-  if (amount < 0) {
+  if (amount < -0.2) {
     this.wizard.accelX(amount * Wizard.BASEBOOST);
     this.wizard.faceDir('left');
-  } else if (amount > 0) {
+  } else if (amount > 0.2) {
     this.wizard.accelX(amount * Wizard.BASEBOOST);
     this.wizard.faceDir('right');
   }
@@ -152,8 +152,8 @@ Player.prototype.moveWizard = function (amount) {
 Player.prototype.checkGamepadActions = function () {
   var i = this.controllerIndex;
   var leftX = Gamepad.moved(i, 'LEFT_X');
-  this.cycleAction('left', Gamepad.pressed(i, 'PAD_LEFT') || leftX < -0.2);
-  this.cycleAction('right', Gamepad.pressed(i, 'PAD_RIGHT') || leftX > 0.2);
+  this.cycleAction('left', Gamepad.pressed(i, 'PAD_LEFT') || leftX < -0.5);
+  this.cycleAction('right', Gamepad.pressed(i, 'PAD_RIGHT') || leftX > 0.5);
   this.moveWizard(leftX);
 
   var leftY = Gamepad.moved(i, 'LEFT_Y');
