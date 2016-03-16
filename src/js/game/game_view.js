@@ -8,6 +8,8 @@ import Wizard from '../base/wizard';
 import store from '../menu';
 import { finishGame } from '../menu/actions/game';
 
+const cycles = window.cycles = { avgDraw: 1, drawTimes: 1, avgStep: 1, stepTimes: 1 };
+
 function GameView(bgctx, fgctx, game, players) {
   this.game = game;
   this.fgctx = fgctx;
@@ -35,7 +37,9 @@ function GameView(bgctx, fgctx, game, players) {
 }
 
 GameView.prototype.startGame = function () {
-  var gameStep = function () {
+  this.gameInterval = setInterval(() => {
+    cycles.stepTimes++;
+    const now = performance.now();
     this.checkPlayerActions();
     this.wizardActions();
     this.game.step();
@@ -43,9 +47,16 @@ GameView.prototype.startGame = function () {
     if (this.game.gameEnded) {
       this.remove();
     }
-  }.bind(this);
-  this.gameInterval = setInterval(gameStep, 1000 / 120);
-  this.drawInterval = setInterval(this.game.draw.bind(this.game, this.fgctx, this.bgctx), 1000 / 60);
+
+    cycles.avgStep = (cycles.avgStep * (cycles.stepTimes - 1) + performance.now() - now) / cycles.stepTimes;
+  }, 1000 / 120);
+
+  this.drawInterval = setInterval(() => {
+    cycles.drawTimes++;
+    const now = performance.now();
+    this.game.draw(this.fgctx, this.bgctx);
+    cycles.avgDraw = (cycles.avgDraw * (cycles.drawTimes - 1) + performance.now() - now) / cycles.drawTimes;
+  }, 1000 / 60);
 };
 
 GameView.prototype.remove = function () {
