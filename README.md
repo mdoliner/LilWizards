@@ -25,7 +25,7 @@ Play with up to three friends/enemies for maximum fun or enter the game by yours
 
 To play without downloading, go to [www.lilwizards.com](http://www.lilwizards.com/).
 
-Otherwise, to play lag-free download the [zip](https://github.com/mdoliner/LilWizards/archive/master.zip) on the right and open game.html in your browser.
+Otherwise, to play with minimal load times, download the [zip](https://github.com/mdoliner/LilWizards/archive/master.zip) on the right and open game.html in your favorite browser.
 
 To get controllers setup, download the necessary drivers for your controllers and simply refresh the game. Tap any button for the browser to recognize your controller.
 
